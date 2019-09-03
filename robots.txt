@@ -1,1 +1,2 @@
 User-agent: *
+Sitemap: https://monkback.github.io/sitemap.xml
