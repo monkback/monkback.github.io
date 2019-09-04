@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="monkback">
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://monkback.github.io/posts/nio2/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           NIO(2) | Records
+       
+  </title>
+  <meta name="title" content="NIO(2) | Records">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/monkback.github.io"
+    },
+    "articleSection" : "posts",
+    "name" : "NIO(2)",
+    "headline" : "NIO(2)",
+    "description" : "###传统的BIO### 我们先使用一个传统的client\/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定",
+    "inLanguage" : "zh-cn",
+    "author" : "monkback",
+    "creator" : "monkback",
+    "publisher": "monkback",
+    "accountablePerson" : "monkback",
+    "copyrightHolder" : "monkback",
+    "copyrightYear" : "2019",
+    "datePublished": "2019-09-03 18:10:06 \x2b0800 CST",
+    "dateModified" : "2019-09-03 18:10:06 \x2b0800 CST",
+    "url" : "https:\/\/monkback.github.io\/posts\/nio2\/",
+    "wordCount" : "902",
+    "keywords" : [ "NIO","entry", "Records"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://monkback.github.io">Records</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://monkback.github.io">Records</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">NIO(2)</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://monkback.github.io" rel="author">monkback</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2019-09-03 itemprop="datePublished">September 3, 2019</time>
+                </span>
+                in
+                
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <p>###传统的BIO###
+我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监听相关的端口，Socket负责发起连接操作；这就是一次典型的tcp三次握手。传统的ServerSocket会阻塞在其accept方法上，直到一个客户端发起了连接，然后accept方法返回一个socket，这个socket就负责和我们客户端进行通信。
+本例中，书上采用了每返回一个socket（代表每收到一个客户端的连接），就创建并启动一个线程，去做这些具体的通信操作。这样的坏处很明显，当客户端连接增多时，创建大量的线程，这显然是极大的耗费性能的，不满足我们的高并发需求。很容易，我们就想到了一个解决方案——线程池</p>
+
+<p>###伪异步I/O###
+一个看起来可以解决上面问题的方案——线程池，确实在现实中，无脑上线程池是一个能解决很多问题的方案。即我们在服务端放一个线程池，里面有一定数量的线程，来一个客户端的连接，我们就拿出一个线程去和客户端进行通信。这样看起来就已经很美好了，我们下面来分析一下线程池的弊端，或者这么说，线程池并没有解决本质上处理连接时的阻塞问题。
+####弊端：
+1、首先，当对socket输入流进行读取操作时，它会一直阻塞，直到有数据可读或者可用数据读完或者抛异常后才会终止；这意味着如果发送方发送请求消息比较慢、或者网络传输比较慢的时候，读取输入流一方的线程将一直被阻塞；（类似于I/O模型中，需要等待操作系统将数据拷贝至内核缓冲区中）。值得注意的是，输入是针对客户端和服务端双方的，大家都既是输入又是输出。
+2、当调用outputstream的write方法时写输出流时，它也将被阻塞，直到<strong>所有要发送的字节流被写入完毕，或者发生异常</strong>，这里我们需要认识到以前学过的TCP拥塞控制，这就是知识的相关性。
+所以，我们的线程池只是治标不治本，并不能完全解决底层的同步阻塞问题。</p>
+
+<p>###NIO编程###
+Non-blocking I/O，NIO是Java提供的一个包，里面封装了一些新的概念，让我们可以直接使用，从而无需关心底层I/O的细节。和它相对应的就是之前的java.io包，</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>monkback </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://monkback.github.io/posts/nio2/>https://monkback.github.io/posts/nio2/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://monkback.github.io/tags/nio/">
+                    #NIO</a></span>
+            
+            <span class="tag"><a href="https://monkback.github.io/tags/entry/">
+                    #entry</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://monkback.github.io">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2017 - 2019</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://monkback.github.io">monkback</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
