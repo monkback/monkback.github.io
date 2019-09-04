@@ -12,7 +12,16 @@
     
     
     <item>
-      <title>NIO(2)</title>
+      <title>NIO-1</title>
+      <link>https://monkback.github.io/posts/nio1/</link>
+      <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/posts/nio1/</guid>
+      <description>netty是一个用于客户端和服务器通信的高性能网络通信框架，涉及到跨机器之间的通信，必然离不开I/O，所以我们就从Java 的I/O演变之路开</description>
+    </item>
+    
+    <item>
+      <title>NIO-2</title>
       <link>https://monkback.github.io/posts/nio2/</link>
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
