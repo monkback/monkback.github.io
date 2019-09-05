@@ -12,20 +12,11 @@
     
     
     <item>
-      <title>entry</title>
-      <link>https://monkback.github.io/tags/entry/</link>
+      <title>Java NIO</title>
+      <link>https://monkback.github.io/tags/java-nio/</link>
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
-      <guid>https://monkback.github.io/tags/entry/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>NIO</title>
-      <link>https://monkback.github.io/tags/nio/</link>
-      <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
-      
-      <guid>https://monkback.github.io/tags/nio/</guid>
+      <guid>https://monkback.github.io/tags/java-nio/</guid>
       <description></description>
     </item>
     
