@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spring on Records</title>
+    <link>https://monkback.github.io/tags/spring/</link>
+    <description>Recent content in Spring on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 16 Sep 2019 16:35:04 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spring 4.x 阅读笔记(一)</title>
+      <link>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Mon, 16 Sep 2019 16:35:04 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>读《Spring 4.x 》一书记录 第一章 概述 提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programmi</description>
+    </item>
+    
+  </channel>
+</rss>

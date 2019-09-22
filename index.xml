@@ -5,8 +5,159 @@
     <description>Recent content in Records on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 03 Sep 2019 18:10:06 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 16 Sep 2019 16:35:04 +0800</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Spring 4.x 阅读笔记(一)</title>
+      <link>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Mon, 16 Sep 2019 16:35:04 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>&lt;p&gt;&lt;center&gt;&lt;big&gt;&lt;strong&gt;读《Spring 4.x 》一书记录&lt;/strong&gt;&lt;/big&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;第一章 概述&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维模式：IOC为了解耦，使得类与类之间的依赖不再通过代码（配置），而AOP用来处理一些面向对象的语言中不太好处理的情况——多个类的横向代码复用（我把继承认为是纵向的复用）。&lt;/p&gt;
+
+&lt;p&gt;在这两大思想的基础上，往外延伸了很多内容，包括数据访问、MVC、事务管理、缓存、web容器、RPC等一系列内容，后面还有Spring Cloud等服务发现、服务治理相关，这些都值得深入学习。
+&lt;br&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/br&gt;
+&lt;strong&gt;第二章 通过一个入门实例介绍Spring Web应用的开发过程&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;持久层，负责数据的访问以及操作，即相应的Dao类。Spring本身支持多种ORM框架，最简单的我们可以用Spring JDBC，自己写sql，然后执行相关操作。&lt;/p&gt;
+
+&lt;p&gt;先建立好相关的实体类，也叫领域对象，它们往往和数据库中的一张表的相关字段一一对应，但对于一个稍微复杂的应用可能就不完全是数据库中的表了。这个类一般需要支持序列化，即会在网络上传输。&lt;/p&gt;
+
+&lt;p&gt;Spring中在Dao类上增加@Repository注解，标识定义了一个Bean实体（后面我们会知道，还有@Controller等注解），然后在局部变量jdbcTemplate上增加@Autowired注解，将jdbcTemplate这个Bean自动注入到Dao类中，这里便体现了Spring的Dependency Injection。
+当然，下面两种方式均支持：1、直接在局部变量上增加注解；2、单独写一个set方法，在方法级别上增加注解&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Autowired
+private JdbcTemplate jdbcTemplate;
+
+@Autowired
+public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面使用了注解的方式来定义Bean，在老一些版本的Spring中，使用XML配置方式来定义Bean，显然注解的方式更加简单。另外，jdbcTemplate对传统的JDBC API进行了封装。&lt;/p&gt;
+
+&lt;p&gt;相关的配置文件内容如下：扫描指定包下所有类，这样这些类中定义的相关Spring注解(@Repository、@Autowired)才能生效；配置好MySQL相应的连接，定义连接源 Bean；将dataSource注入到
+jdbcTemplate中(这里就是一种XML方式的注入)，而jdbcTemplate这个Bean是通过注解的方式注入到了Dao类中，这就是注解配置和XML配置的结合。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 --&amp;gt;
+    &amp;lt;context:component-scan base-package=&amp;quot;com.smart.dao&amp;quot;/&amp;gt;
+&amp;lt;!-- 配置数据源 --&amp;gt;
+    &amp;lt;bean id=&amp;quot;dataSource&amp;quot; class=&amp;quot;org.apache.commons.dbcp.BasicDataSource&amp;quot;
+          destroy-method=&amp;quot;close&amp;quot;
+          p:driverClassName=&amp;quot;com.mysql.jdbc.Driver&amp;quot;
+          p:url=&amp;quot;xxx&amp;quot;
+          p:username=&amp;quot;xxx&amp;quot;
+          p:password=&amp;quot;xxx&amp;quot; /&amp;gt;
+
+&amp;lt;!-- 配置Jdbc模板  --&amp;gt;
+&amp;lt;bean id=&amp;quot;jdbcTemplate&amp;quot; class=&amp;quot;org.springframework.jdbc.core.JdbcTemplate&amp;quot;
+    p:dataSource-ref=&amp;quot;dataSource&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;业务层，和Dao类类似，Spring在Service类上增加@Service注解，标识这是一个服务Bean，接着注入Dao层的Bean，同理，如下两种方式二选一即可。还可以在方法上增加@Transactional注解，标识让该
+方法运行在事务环境中(当然还需要额外的配置)。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Autowired
+private UserDao userDao;
+
+@Autowired
+public void setUserDao(UserDao userDao) {
+    this.userDao = userDao;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;针对service层的相关配置如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- 配置事务管理器 --&amp;gt;
+&amp;lt;bean id=&amp;quot;transactionManager&amp;quot;
+    class=&amp;quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&amp;quot;
+    p:dataSource-ref=&amp;quot;dataSource&amp;quot; /&amp;gt;
+
+&amp;lt;!-- 通过AOP配置提供事务增强，让service包下所有Bean的所有标有Transactional注解的方法拥有事务 --&amp;gt;
+&amp;lt;aop:config proxy-target-class=&amp;quot;true&amp;quot;&amp;gt;
+    &amp;lt;aop:pointcut id=&amp;quot;serviceMethod&amp;quot;
+        expression=&amp;quot;(execution(* com.smart.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))&amp;quot; /&amp;gt;
+    &amp;lt;aop:advisor pointcut-ref=&amp;quot;serviceMethod&amp;quot; advice-ref=&amp;quot;txAdvice&amp;quot; /&amp;gt;
+&amp;lt;/aop:config&amp;gt;
+&amp;lt;tx:advice id=&amp;quot;txAdvice&amp;quot; transaction-manager=&amp;quot;transactionManager&amp;quot;&amp;gt;
+    &amp;lt;tx:attributes&amp;gt;
+        &amp;lt;tx:method name=&amp;quot;*&amp;quot; /&amp;gt;
+    &amp;lt;/tx:attributes&amp;gt;
+&amp;lt;/tx:advice&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;展现层的复杂之处在于web.xml中的相关配置，以便在web容器启动时能够自动启动Spring容器，包括以下几个点：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;context-param里指定Spring配置文件的路径&lt;/li&gt;
+&lt;li&gt;负责启动Spring容器的监听器，可以获取Spring配置文件的地址；这个监听器会在web容器启动时自动运行，并根据上面的Spring配置
+文件参数，来启动Spring容器&lt;/li&gt;
+&lt;li&gt;配置Spring MVC的相关信息。通过一个servlet来获取URL请求，并根据请求进行不同处理。指定servlet-name servlet-mapping&lt;/li&gt;
+&lt;li&gt;根据上一步声明的servlet名，Spring MVC还需要一个&lt;servlet 名&gt;-servlet.xml的配置文件，里面内容如下
+
+&lt;ul&gt;
+&lt;li&gt;扫描web包，应用Spring的注解 context:component-scan base-package=&amp;ldquo;com.smart.web&amp;rdquo;/&lt;/li&gt;
+&lt;li&gt;配置视图解析器，将ModelAndView及字符串解析为具体的页面&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;针对Controller层的代码，Spring习惯在类上增加@controller注解，标识这个类是一个Spring MVC的控制器，这个控制器拥有不同
+的方法来处理不同的HTTP请求，这一点是通过@RequestMappping注解来指定路径，这个方法可以返回一个ModelAndView(既包含视图信息，
+又包括视图渲染所需的模型数据信息)，也可以仅返回数据&lt;/p&gt;
+
+&lt;p&gt;这里还有一部分前端的知识，就不梳理了
+&lt;br&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/br&gt;
+&lt;strong&gt;第三章 Spring Boot的开发流程&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;总体上Spring Boot封装了Spring开发中的很多繁琐的配置工作，简化了Spring应用的开发流程。它主要借助了Groovy语言来搞定
+复杂的配置内容，主要优点有：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;相对于传统的Spring项目，更加简洁，封装的内容更多&lt;/li&gt;
+&lt;li&gt;内嵌了Jetty和Tomcat容器，无需部署一个war包到web容器中，可以直接运行&lt;/li&gt;
+&lt;li&gt;提供了基于Maven的pom配置模板来简化工程的配置&lt;/li&gt;
+&lt;li&gt;提供了性能指标，应用健康程度检查&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Spring Boot是由一系列启动器组成的，我们可以根据自己项目的需要，组合不同的启动器，来快速搭建项目的基础运行框架。&lt;/p&gt;
+
+&lt;p&gt;一般上，我们可以在自己的pom文件中用parent节点来继承Spring Boot的默认配置(这是Spring Boot提供的pom跟配置)；
+然后根据应用需要再添加不同类型的启动器依赖；最后配置一个Spring Boot运行插件，方便IDEA中使用。&lt;/p&gt;
+
+&lt;p&gt;Spring框架提供了几种可选的数据库操作方式，比如：Spring内置轻量级的jdbcTemplate，也可以使用第三方的持久化框架，比如
+Hibernate或MyBaits。Spring Boot为这两种操作数据库的方式分别提供了各自的启动器：spring-boot-starter-jdbc和
+spring-boot-starter-jpa。&lt;/p&gt;
+
+&lt;p&gt;导入了相关的依赖包以后，为了让Spring Boot能够自动装配数据源的连接，需要创建一个properties文件，存放数据库的连接信息。
+Dao层的代码和第二章一样，不同的是，现在无须在Spring配置文件中装配Bean了，不用定义扫描包等，boot已经帮我们做了这些工作。&lt;/p&gt;
+
+&lt;p&gt;Service层代码也和之前一致，但在支持事务时，boot中需要我们在启动类Application上增加@EnableTransactionManagement注解，
+来启用注解事务管理，也比之前繁琐的配置简单了不少；当然，用户也可以自定义事务管理器，在Application类下添加自定义事务管理器方法
+txManager()，如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  @Bean
+  public PlatformTransactionManager txManager(DataSource dataSource) {
+      return new DataSourceTransactionManager(dataSource);
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Spring Boot默认还提供了对应用本身、数据库连接、Redis、ES、MQ等服务的健康状态的检测功能，这里就不细说了。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>About</title>
@@ -14,16 +165,16 @@
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
       <guid>https://monkback.github.io/about/</guid>
-      <description>&lt;p&gt;Otherwise fk yourself&lt;/p&gt;
+      <description>&lt;p&gt;&lt;center&gt;&lt;strong&gt;Otherwise fk yourself&lt;/strong&gt;&lt;/center&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>NIO-1</title>
-      <link>https://monkback.github.io/posts/nio1/</link>
+      <link>https://monkback.github.io/2019/nio-1/</link>
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
-      <guid>https://monkback.github.io/posts/nio1/</guid>
+      <guid>https://monkback.github.io/2019/nio-1/</guid>
       <description>
 
 &lt;p&gt;netty是一个用于客户端和服务器通信的高性能网络通信框架，涉及到跨机器之间的通信，必然离不开I/O，所以我们就从Java 的I/O演变之路开始讨论吧。&lt;br /&gt;
@@ -98,10 +249,10 @@
     
     <item>
       <title>NIO-2</title>
-      <link>https://monkback.github.io/posts/nio2/</link>
+      <link>https://monkback.github.io/2019/nio-2/</link>
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
-      <guid>https://monkback.github.io/posts/nio2/</guid>
+      <guid>https://monkback.github.io/2019/nio-2/</guid>
       <description>&lt;p&gt;###传统的BIO###
 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监听相关的端口，Socket负责发起连接操作；这就是一次典型的tcp三次握手。传统的ServerSocket会阻塞在其accept方法上，直到一个客户端发起了连接，然后accept方法返回一个socket，这个socket就负责和我们客户端进行通信。
 本例中，书上采用了每返回一个socket（代表每收到一个客户端的连接），就创建并启动一个线程，去做这些具体的通信操作。这样的坏处很明显，当客户端连接增多时，创建大量的线程，这显然是极大的耗费性能的，不满足我们的高并发需求。很容易，我们就想到了一个解决方案——线程池&lt;/p&gt;

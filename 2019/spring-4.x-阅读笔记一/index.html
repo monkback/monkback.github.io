@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="monkback">
+  
+  
+  
+  <link rel="prev" href="https://monkback.github.io/2019/nio-1/" />
+  
+  <link rel="canonical" href="https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Spring 4.x 阅读笔记(一) | Records
+       
+  </title>
+  <meta name="title" content="Spring 4.x 阅读笔记(一) | Records">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/monkback.github.io"
+    },
+    "articleSection" : "posts",
+    "name" : "Spring 4.x 阅读笔记(一)",
+    "headline" : "Spring 4.x 阅读笔记(一)",
+    "description" : "读《Spring 4.x 》一书记录 第一章 概述 提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programmi",
+    "inLanguage" : "zh-cn",
+    "author" : "monkback",
+    "creator" : "monkback",
+    "publisher": "monkback",
+    "accountablePerson" : "monkback",
+    "copyrightHolder" : "monkback",
+    "copyrightYear" : "2019",
+    "datePublished": "2019-09-16 16:35:04 \x2b0800 CST",
+    "dateModified" : "2019-09-16 16:35:04 \x2b0800 CST",
+    "url" : "https:\/\/monkback.github.io\/2019\/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80\/",
+    "wordCount" : "2777",
+    "keywords" : [ "Spring", "Records"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://monkback.github.io">Records</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://monkback.github.io">Records</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Spring 4.x 阅读笔记(一)</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://monkback.github.io" rel="author">monkback</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2019-09-16 itemprop="datePublished">September 16, 2019</time>
+                </span>
+                in
+                
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <p><center><big><strong>读《Spring 4.x 》一书记录</strong></big></center></p>
+
+<p><strong>第一章 概述</strong></p>
+
+<p>提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维模式：IOC为了解耦，使得类与类之间的依赖不再通过代码（配置），而AOP用来处理一些面向对象的语言中不太好处理的情况——多个类的横向代码复用（我把继承认为是纵向的复用）。</p>
+
+<p>在这两大思想的基础上，往外延伸了很多内容，包括数据访问、MVC、事务管理、缓存、web容器、RPC等一系列内容，后面还有Spring Cloud等服务发现、服务治理相关，这些都值得深入学习。
+<br><br/></p>
+
+<hr />
+
+<p><br></br>
+<strong>第二章 通过一个入门实例介绍Spring Web应用的开发过程</strong></p>
+
+<p>持久层，负责数据的访问以及操作，即相应的Dao类。Spring本身支持多种ORM框架，最简单的我们可以用Spring JDBC，自己写sql，然后执行相关操作。</p>
+
+<p>先建立好相关的实体类，也叫领域对象，它们往往和数据库中的一张表的相关字段一一对应，但对于一个稍微复杂的应用可能就不完全是数据库中的表了。这个类一般需要支持序列化，即会在网络上传输。</p>
+
+<p>Spring中在Dao类上增加@Repository注解，标识定义了一个Bean实体（后面我们会知道，还有@Controller等注解），然后在局部变量jdbcTemplate上增加@Autowired注解，将jdbcTemplate这个Bean自动注入到Dao类中，这里便体现了Spring的Dependency Injection。
+当然，下面两种方式均支持：1、直接在局部变量上增加注解；2、单独写一个set方法，在方法级别上增加注解</p>
+
+<pre><code>@Autowired
+private JdbcTemplate jdbcTemplate;
+
+@Autowired
+public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+}
+</code></pre>
+
+<p>上面使用了注解的方式来定义Bean，在老一些版本的Spring中，使用XML配置方式来定义Bean，显然注解的方式更加简单。另外，jdbcTemplate对传统的JDBC API进行了封装。</p>
+
+<p>相关的配置文件内容如下：扫描指定包下所有类，这样这些类中定义的相关Spring注解(@Repository、@Autowired)才能生效；配置好MySQL相应的连接，定义连接源 Bean；将dataSource注入到
+jdbcTemplate中(这里就是一种XML方式的注入)，而jdbcTemplate这个Bean是通过注解的方式注入到了Dao类中，这就是注解配置和XML配置的结合。</p>
+
+<pre><code>&lt;!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 --&gt;
+    &lt;context:component-scan base-package=&quot;com.smart.dao&quot;/&gt;
+&lt;!-- 配置数据源 --&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;
+          destroy-method=&quot;close&quot;
+          p:driverClassName=&quot;com.mysql.jdbc.Driver&quot;
+          p:url=&quot;xxx&quot;
+          p:username=&quot;xxx&quot;
+          p:password=&quot;xxx&quot; /&gt;
+
+&lt;!-- 配置Jdbc模板  --&gt;
+&lt;bean id=&quot;jdbcTemplate&quot; class=&quot;org.springframework.jdbc.core.JdbcTemplate&quot;
+    p:dataSource-ref=&quot;dataSource&quot; /&gt;
+</code></pre>
+
+<p>业务层，和Dao类类似，Spring在Service类上增加@Service注解，标识这是一个服务Bean，接着注入Dao层的Bean，同理，如下两种方式二选一即可。还可以在方法上增加@Transactional注解，标识让该
+方法运行在事务环境中(当然还需要额外的配置)。</p>
+
+<pre><code>@Autowired
+private UserDao userDao;
+
+@Autowired
+public void setUserDao(UserDao userDao) {
+    this.userDao = userDao;
+}
+</code></pre>
+
+<p>针对service层的相关配置如下</p>
+
+<pre><code>&lt;!-- 配置事务管理器 --&gt;
+&lt;bean id=&quot;transactionManager&quot;
+    class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;
+    p:dataSource-ref=&quot;dataSource&quot; /&gt;
+
+&lt;!-- 通过AOP配置提供事务增强，让service包下所有Bean的所有标有Transactional注解的方法拥有事务 --&gt;
+&lt;aop:config proxy-target-class=&quot;true&quot;&gt;
+    &lt;aop:pointcut id=&quot;serviceMethod&quot;
+        expression=&quot;(execution(* com.smart.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))&quot; /&gt;
+    &lt;aop:advisor pointcut-ref=&quot;serviceMethod&quot; advice-ref=&quot;txAdvice&quot; /&gt;
+&lt;/aop:config&gt;
+&lt;tx:advice id=&quot;txAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;
+    &lt;tx:attributes&gt;
+        &lt;tx:method name=&quot;*&quot; /&gt;
+    &lt;/tx:attributes&gt;
+&lt;/tx:advice&gt;
+</code></pre>
+
+<p>展现层的复杂之处在于web.xml中的相关配置，以便在web容器启动时能够自动启动Spring容器，包括以下几个点：</p>
+
+<ul>
+<li>context-param里指定Spring配置文件的路径</li>
+<li>负责启动Spring容器的监听器，可以获取Spring配置文件的地址；这个监听器会在web容器启动时自动运行，并根据上面的Spring配置
+文件参数，来启动Spring容器</li>
+<li>配置Spring MVC的相关信息。通过一个servlet来获取URL请求，并根据请求进行不同处理。指定servlet-name servlet-mapping</li>
+<li>根据上一步声明的servlet名，Spring MVC还需要一个<servlet 名>-servlet.xml的配置文件，里面内容如下
+
+<ul>
+<li>扫描web包，应用Spring的注解 context:component-scan base-package=&ldquo;com.smart.web&rdquo;/</li>
+<li>配置视图解析器，将ModelAndView及字符串解析为具体的页面</li>
+</ul></li>
+</ul>
+
+<p>针对Controller层的代码，Spring习惯在类上增加@controller注解，标识这个类是一个Spring MVC的控制器，这个控制器拥有不同
+的方法来处理不同的HTTP请求，这一点是通过@RequestMappping注解来指定路径，这个方法可以返回一个ModelAndView(既包含视图信息，
+又包括视图渲染所需的模型数据信息)，也可以仅返回数据</p>
+
+<p>这里还有一部分前端的知识，就不梳理了
+<br></br></p>
+
+<hr />
+
+<p><br></br>
+<strong>第三章 Spring Boot的开发流程</strong></p>
+
+<p>总体上Spring Boot封装了Spring开发中的很多繁琐的配置工作，简化了Spring应用的开发流程。它主要借助了Groovy语言来搞定
+复杂的配置内容，主要优点有：</p>
+
+<ul>
+<li>相对于传统的Spring项目，更加简洁，封装的内容更多</li>
+<li>内嵌了Jetty和Tomcat容器，无需部署一个war包到web容器中，可以直接运行</li>
+<li>提供了基于Maven的pom配置模板来简化工程的配置</li>
+<li>提供了性能指标，应用健康程度检查</li>
+</ul>
+
+<p>Spring Boot是由一系列启动器组成的，我们可以根据自己项目的需要，组合不同的启动器，来快速搭建项目的基础运行框架。</p>
+
+<p>一般上，我们可以在自己的pom文件中用parent节点来继承Spring Boot的默认配置(这是Spring Boot提供的pom跟配置)；
+然后根据应用需要再添加不同类型的启动器依赖；最后配置一个Spring Boot运行插件，方便IDEA中使用。</p>
+
+<p>Spring框架提供了几种可选的数据库操作方式，比如：Spring内置轻量级的jdbcTemplate，也可以使用第三方的持久化框架，比如
+Hibernate或MyBaits。Spring Boot为这两种操作数据库的方式分别提供了各自的启动器：spring-boot-starter-jdbc和
+spring-boot-starter-jpa。</p>
+
+<p>导入了相关的依赖包以后，为了让Spring Boot能够自动装配数据源的连接，需要创建一个properties文件，存放数据库的连接信息。
+Dao层的代码和第二章一样，不同的是，现在无须在Spring配置文件中装配Bean了，不用定义扫描包等，boot已经帮我们做了这些工作。</p>
+
+<p>Service层代码也和之前一致，但在支持事务时，boot中需要我们在启动类Application上增加@EnableTransactionManagement注解，
+来启用注解事务管理，也比之前繁琐的配置简单了不少；当然，用户也可以自定义事务管理器，在Application类下添加自定义事务管理器方法
+txManager()，如下</p>
+
+<pre><code>  @Bean
+  public PlatformTransactionManager txManager(DataSource dataSource) {
+      return new DataSourceTransactionManager(dataSource);
+  }
+</code></pre>
+
+<p>Spring Boot默认还提供了对应用本身、数据库连接、Redis、ES、MQ等服务的健康状态的检测功能，这里就不细说了。</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>monkback </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://monkback.github.io/tags/spring/">
+                    #Spring</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://monkback.github.io">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://monkback.github.io/2019/nio-1/" class="prev" rel="prev" title="NIO-1"><i class="iconfont icon-left"></i>&nbsp;NIO-1</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2017 - 2019</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://monkback.github.io">monkback</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
