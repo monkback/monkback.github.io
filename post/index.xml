@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Spring on Records</title>
-    <link>https://monkback.github.io/tags/spring/</link>
-    <description>Recent content in Spring on Records</description>
+    <title>Posts on Records</title>
+    <link>https://monkback.github.io/post/</link>
+    <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 22 Sep 2019 17:04:23 +0800</lastBuildDate>
     
-	<atom:link href="https://monkback.github.io/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -27,6 +27,24 @@
       
       <guid>https://monkback.github.io/post/spring4read/</guid>
       <description>第一章 概述 提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维</description>
+    </item>
+    
+    <item>
+      <title>NIO-1</title>
+      <link>https://monkback.github.io/post/nio1/</link>
+      <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/nio1/</guid>
+      <description>netty是一个用于客户端和服务器通信的高性能网络通信框架，涉及到跨机器之间的通信，必然离不开I/O，所以我们就从Java 的I/O演变之路开</description>
+    </item>
+    
+    <item>
+      <title>NIO-2</title>
+      <link>https://monkback.github.io/post/nio2/</link>
+      <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/nio2/</guid>
+      <description>###传统的BIO### 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定</description>
     </item>
     
   </channel>

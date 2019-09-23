@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 16 Sep 2019 16:35:04 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Sep 2019 17:04:23 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring 4.x 阅读笔记(二)</title>
+      <link>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+      <pubDate>Sun, 22 Sep 2019 17:04:23 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+      <description>读《Spring 4.x 》一书记录 第四章 IOC Inverse Of Control：某一接口具体实现类的选择控制权从 调用类 中移除，转交给第三方，即Spring容器(利用</description>
+    </item>
     
     <item>
       <title>Spring 4.x 阅读笔记(一)</title>

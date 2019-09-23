@@ -1,102 +1,58 @@
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<?xml-stylesheet type="text/xsl" href="https://monkback.github.io/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
-    <url>
-      <loc>https://monkback.github.io/posts/</loc>
-      
-      <lastmod>2019-09-16T16:35:04+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/post/</loc>
+    <lastmod>2019-09-22T17:04:23+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/</loc>
-      
-      <lastmod>2019-09-16T16:35:04+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/</loc>
+    <lastmod>2019-09-22T17:04:23+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/tags/spring/</loc>
-      
-      <lastmod>2019-09-16T16:35:04+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/tags/spring/</loc>
+    <lastmod>2019-09-22T17:04:23+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/2019/spring-4.x-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E4%B8%80/</loc>
-      
-      <lastmod>2019-09-16T16:35:04+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/post/spring4read1/</loc>
+    <lastmod>2019-09-22T17:04:23+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/tags/</loc>
-      
-      <lastmod>2019-09-16T16:35:04+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/tags/</loc>
+    <lastmod>2019-09-22T17:04:23+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/about/</loc>
-      
-      <lastmod>2019-09-03T18:10:06+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/post/spring4read/</loc>
+    <lastmod>2019-09-16T16:35:04+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/tags/java-nio/</loc>
-      
-      <lastmod>2019-09-03T18:10:06+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/about/</loc>
+    <lastmod>2019-09-03T18:10:06+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/2019/nio-1/</loc>
-      
-      <lastmod>2019-09-03T18:10:06+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/tags/java-nio/</loc>
+    <lastmod>2019-09-03T18:10:06+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/2019/nio-2/</loc>
-      
-      <lastmod>2019-09-03T18:10:06+08:00</lastmod>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/post/nio1/</loc>
+    <lastmod>2019-09-03T18:10:06+08:00</lastmod>
+  </url>
   
-    <url>
-      <loc>https://monkback.github.io/categories/</loc>
-      
-      
-      
-      
-    </url>
+  <url>
+    <loc>https://monkback.github.io/post/nio2/</loc>
+    <lastmod>2019-09-03T18:10:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://monkback.github.io/categories/</loc>
+  </url>
   
 </urlset>
