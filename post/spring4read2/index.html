@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Spring 4.x 阅读笔记(三) - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="第五章 在IOC容器中装配Bean Spring启动时读取应用程序提供的Bean配置信息，并在Spring容器中生成一份相应的Bean配置注册表" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/spring4read2/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Spring 4.x 阅读笔记(三)" />
+<meta property="og:description" content="第五章 在IOC容器中装配Bean Spring启动时读取应用程序提供的Bean配置信息，并在Spring容器中生成一份相应的Bean配置注册表" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/spring4read2/" />
+<meta property="article:published_time" content="2019-09-26T23:15:06+08:00" />
+<meta property="article:modified_time" content="2019-09-26T23:15:06+08:00" />
+<meta itemprop="name" content="Spring 4.x 阅读笔记(三)">
+<meta itemprop="description" content="第五章 在IOC容器中装配Bean Spring启动时读取应用程序提供的Bean配置信息，并在Spring容器中生成一份相应的Bean配置注册表">
+
+
+<meta itemprop="datePublished" content="2019-09-26T23:15:06&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-26T23:15:06&#43;08:00" />
+<meta itemprop="wordCount" content="6252">
+
+
+
+<meta itemprop="keywords" content="Spring," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring 4.x 阅读笔记(三)"/>
+<meta name="twitter:description" content="第五章 在IOC容器中装配Bean Spring启动时读取应用程序提供的Bean配置信息，并在Spring容器中生成一份相应的Bean配置注册表"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Spring 4.x 阅读笔记(三)</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-09-26" class="post-time">
+          2019-09-26
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p><strong>第五章 在IOC容器中装配Bean</strong></p>
+
+<p>Spring启动时读取应用程序提供的Bean配置信息，并在Spring容器中生成一份相应的Bean配置注册表，然后根据这张注册表实例化Bean，
+装配好Bean之间的依赖关系，为上层应用提供准备就绪的环境。</p>
+
+<p>Bean配置信息是Bean的元数据信息，它由以下四个方面组成：</p>
+
+<ul>
+<li>Bean的实现类</li>
+<li>Bean的属性信息，如数据源的连接数、用户名、POJO类的私有域等</li>
+<li>Bean的依赖关系，其实就是某种Java类里的注入，引用了其他类对象</li>
+<li>Bean的行为配置，如生命周期范围以及生命周期各个过程的回调函数(第四章的各种类型接口，利用Spring提供的扩展点来自定义Bean
+的创建过程)</li>
+</ul>
+
+<p>Bean的元数据信息在Spring容器内部是由一个个BeanDefinition形成的Bean注册表，Spring支持了多种形式的Bean配置方式
+(主要讲基于XML的方式)：</p>
+
+<ul>
+<li>基于XML的配置</li>
+<li>基于注解的配置</li>
+<li>基于Java类的配置</li>
+<li>基于Groovy动态语言的配置</li>
+</ul>
+
+<p><strong><big>Bean基本配置</big></strong></p>
+
+<p>下面的内容就是Bean的基本配置，几乎所有时候，我们都使用id来getBean，同一个容器中id是不允许重复的，但是name可以。</p>
+
+<pre><code> &lt;bean id=&quot;car&quot; name=&quot;#car1&quot; class=&quot;com.smart.simple.Car&quot;&gt;&lt;/bean&gt;
+  &lt;bean id=&quot;boss&quot; class=&quot;com.smart.simple.Boss&quot;&gt;&lt;/bean&gt;
+</code></pre>
+
+<p><strong><big>依赖注入</big></strong></p>
+
+<p>Spring支持两种注入方式：属性注入(最常用)和构造函数注入</p>
+
+<p>属性注入要求我们的Bean类提供一个默认构造函数(不带参数)，并为需要注入的属性提供对应的setter方法。Spring首先调用Bean的默认构造函数
+来<strong>实例化</strong>Bean对象，实例化完成后各个各个属性的值都还为null或者相应的默认值；然后通过反射的方式调用setter方法注入属性值。</p>
+
+<p>构造函数注入是另一种常用的注入方式，它保证一些必要属性在Bean的实例化的时候就得到设置，确保Bean在实例化后就可以使用。如下</p>
+
+<pre><code>&lt;bean id=&quot;car1&quot; class=&quot;com.smart.ditype.Car&quot;&gt;
+    &lt;constructor-arg type=&quot;java.lang.String&quot;&gt;
+        &lt;value&gt;红旗CA72&lt;/value&gt;
+    &lt;/constructor-arg&gt;
+    &lt;constructor-arg type=&quot;double&quot;&gt;
+        &lt;value&gt;20000&lt;/value&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p>看起来我们只能通过构造函数的入参类型和索引信息间接确定构造函数的配置项和入参之间的关系，因为
+<strong>Java反射机制并不会记住构造函数的入参名</strong></p>
+
+<p><strong><big>注入参数</big></strong></p>
+
+<p>在Spring配置文件中，我们可以将String、int等字面值注入Bean中，还可以将集合、Map等类型的数据注入到Bean中，还可以通过
+&lt;ref bean = &ldquo;xxx&rdquo;&gt;的方式注入配置文件中其它定义的Bean。</p>
+
+<p><strong><big>方法注入</big></strong></p>
+
+<p>lookup方法注入：一般在希望通过一个singleton Bean获取一个prototype Bean时使用。</p>
+
+<p>方法替换：可以通过&lt;replace-method&gt;使用某个Bean的方法替换另一个Bean的方法。</p>
+
+<p><strong><big>Bean作用域</big></strong></p>
+
+<p>每一个Bean的作用域将对其生命周期和创建方式产生影响，下面是Spring支持的作用域类型，其中后面三种作用域只适用于WebApplicationContext环境</p>
+
+<pre><code>类型            说明 
+ singleton       在Spring IOC容器中仅存在这个Bean的一个实例 | 
+ prototype       每次从容器中调用getBean()方法时，都返回一个新实例 | 
+ request         每次HTTP请求都会创建一个新的Bean | 
+ session         同一个HTTP session共享一个Bean，不同的session使用不同的Bean | 
+ globalSession   同一个全局session共享一个Bean，一般应用于Porlet应用环境 |
+</code></pre>
+
+<p>除了上面预定义的五种作用域以外，Spring也允许用户通过相应的接口自定义作用域，只需通过相应的接口实现即可，但是一般没有必要</p>
+
+<p>singleton：一般情况下，无状态或者状态不可变的类适合用单例模式，大部分实例都适用于单例模式，这也是Spring容器中Bean的默认作用域，singleton的Bean在同一Spring IOC容器中只有一个实例。
+在默认情况下，Spring的ApplicationContext<strong>容器在启动时</strong>，自动<strong>实例化</strong>所有singleton的Bean并缓存于容器中，如果不希望在容器启动时提前实例化singleton的Bean，可以通过lazy-init控制。
+lazy-init = &ldquo;true&rdquo;的Bean在某些情况下依然会提前实例化：如果该Bean被其他需要提前实例化的Bean所引用，那么Spring将忽略延迟实例化的设置。</p>
+
+<p>prototype：在默认情况下，Spring容器在启动时<strong>不实例化prototype的Bean</strong>。此外，Spring容器将prototype的Bean交给调用者后，就不再管理它的生命周期。</p>
+
+<p>另外三种作用域：在使用这些作用域之前，必须在web容器中进行一些额外的配置</p>
+
+<ul>
+<li>低版本的web容器中(Servlet2.3之前)，用户可以使用HTTP请求过滤器进行配置</li>
+<li>高版本的web容器中，可以利用HTTP请求监听器(RequestContextListener)进行配置。在第四章介绍WebApplicationContext初始化时，已经通过ContextLoadListener将web容器和Spring容器进行
+了整合，现在又多了一个新的RequestContextListener。在整合Spring容器时，我们使用了ContextLoadListener，它实现了ServletContextListener监听器接口，ServletContextListener
+只负责监听<strong>web容器启动和关闭</strong>的事件。而RequestContextListener实现了ServletRequestListener监听器接口，该监听器监听了HTTP请求，web服务器接收的每一次请求都会通知该监听器。</li>
+</ul>
+
+<p>Spring容器启动和关闭操作由web容器的启动和关闭事件触发，但如果Spring容器中的Bean需要request、session、globalSession作用域的支持，Spring容器就必须获得web容器的HTTP请求事件，以HTTP
+请求事件“”“&rdquo;驱动”&rdquo;Bean作用域的控制逻辑。</p>
+
+<p>request：request作用域的Bean对应一个HTTP请求的生命周期，请求处理完毕后，这个Bean就会被销毁。</p>
+
+<p>session：Bean的作用域横跨整个session，session中的所有HTTP请求都共享同一个Bean，当session结束时，实例才会被销毁。</p>
+
+<p>globalSession：仅在Porlet的web应用中使用。</p>
+
+<p><strong><big>使用注解定义Bean</big></strong></p>
+
+<p>不管是XML还是注解，其实质都是表达Bean定义的载体，都是为Spring容器提供Bean定义的信息。需要注意一些注解的使用方式</p>
+
+<p><strong><big>基于Java类的配置</big></strong></p>
+
+<p>将一个POJO类增加@configuration注解，即标注为定义Bean的配置类，就可以为Spring容器提供Bean的定义信息，每个标注了@Bean的类方法就相当于提供了一个Bean的定义信息。需要注意的是：
+@Configuration注解类本身已经标注了@Component注解，所以任何标注了@Configuratiion注解的类，本身也相当于标注了@Component，即他们可以像普通的Bean一样被注入到其他Bean中。
+<br><br/></p>
+
+<hr />
+
+<p><br></br>
+<strong>第六章 Spring容器高级主题</strong></p>
+
+<p>Spring的AbstractApplicationContext是ApplicationContext的抽象实现类，该抽象类的refresh()方法定义了Spring容器在加载配置文件后的各项处理过程，这些过程刻画了Spring容器启动时
+所执行的各项操作和内部逻辑，如下：</p>
+
+<ul>
+<li>ConfigurableListableBeanFactory beanFactory = this.obtainFreshBeanFactory();   //1、初始化BeanFactory</li>
+<li>invokeBeanFactoryPostProcessors()     //2、调用工厂后处理器</li>
+<li>registerBeanPostProcessors()          //3、注册Bean后处理器</li>
+<li>initMessageSource()                   //4、初始化消息源</li>
+<li>initApplicationEventMulticaster()     //5、初始化应用上下文事件广播器</li>
+<li>onRefresh()                           //6、初始化其他特殊类型的Bean，由具体子类实现</li>
+<li>registerListeners()                   //7、注册事件监听器</li>
+<li>finishBeanFactoryInitialization()     //8、初始化所有单实例的Bean，使用懒加载模式的除外</li>
+<li>finishRefresh()                       //9、完成刷新并发布容器刷新事件</li>
+</ul>
+
+<p>(1) 初始化BeanFactory：根据配置文件实例化BeanFactory，在obtainFreshBeanFactory()方法中，首先调用refreshBeanFactory()方法刷新BeanFactory，然后调用getBeanFactory()
+方法获取BeanFactory，这两个方法都是由具体子类来实现的，在这一步中，Spring将配置文件的信息装入容器的Bean定义注册表(BeanDefinitionRegistry)中，但此时Bean还未初始化。</p>
+
+<p>(2) 调用工厂后处理器：根据反射机制从BeanDefinitionRegistry中找到所有实现了BeanFactoryPostProcessor接口的Bean，并调用其postProcessBeanFactory()接口方法。</p>
+
+<p>(3) 注册Bean后处理器：根据反射机制从BeanDefinitionRegistry中找到所有实现了BeanPostProcessor接口的Bean，并将他们注册到容器Bean后处理器的注册表中。</p>
+
+<p>(4) 初始化消息源：初始化容器的国际化消息源。</p>
+
+<p>(5) 初始化应用上下文事件广播器：用户可以在配置文件中自定义一个事件广播器，只要实现了ApplicationEventMulticaster接口即可，Spring会通过反射机制将其注册成容器的事件广播器，没有则使用默认的。</p>
+
+<p>(6) 初始化其他特殊类型的Bean：这是一个钩子方法，子类可以通过这个方法，来执行一些特殊的操作。</p>
+
+<p>(7) 注册事件监听器：Spring根据反射机制，从BeanDefinitionRegistry中找出所有实现了ApplicationListener接口的Bean，将它们注册为容器的事件监听器，实际操作就是将它们添加到事件广播器
+所提供的事件监听器注册表中。</p>
+
+<p>(8) 注册所有单实例的Bean：初始化Bean后，将他们放入Spring容器的缓存池中。</p>
+
+<p>(9) 发布容器刷新事件：创建上下文刷新事件，事件广播器负责将这些事件广播到每个注册的事件监听器中(委托给了ApplicationEventMulticaster)。</p>
+
+<p>相应的，我们来看Spring容器从加载配置文件到创建出一个完整的Bean的流程：</p>
+
+<p>(1) ResourceLoader从存储介质中加载Spring配置信息，并使用Resource表示这个配置文件资源</p>
+
+<p>(2) BeanDefinitionReader读取Resource所指向的配置文件资源，然后解析配置文件。配置文件中的每一个&lt;bean&gt;都被解析成一个BeanDefinition对象，并保存到BeanDefinitionRegistry中</p>
+
+<p>(3) 容器扫描BeanDefinitionRegistry中的BeanDefinition，利用反射机制识别出Bean工厂后处理器(实现了BeanFactoryPostProcessor接口的Bean)，然后调用这些Bean工厂后处理器对BeanDefinitionRegistry
+中的BeanDefinition进行加工处理，主要包括以下两项工作：
++ 对使用占位符的&lt;bean&gt;元素标签进行解析，得到最终的配置值。这意味着对一些半成品的BeanDefinition对象进行加工处理，得到成品的BeanDefinition对象。
++ 对BeanDefinitionRegistry中的BeanDefinition进行扫描，利用反射机制找出所有属性编辑器的Bean(实现了PropertyEditor接口的Bean)，并自动将它们注册到Spring容器的<strong>属性编辑器注册表(PropertyEditorRegistry)</strong>中。</p>
+
+<p>(4) Spring容器从BeanDefinitionRegistry中取出加工后的BeanDefinition，并调用instantiationStrategy着手进行<strong>Bean实例化</strong>的工作。这个实例化操作并不会参与Bean属性的设置工作，
+因此返回的Bean也是一个半成品的。</p>
+
+<p>(5) 在实例化Bean时，Spring容器使用BeanWrapper对Bean进行封装。BeanWrapper提供了很多以反射机制操作Bean的方法，它将结合该Bean的BeanDefinition以及容器中的属性编辑器，完成Bean的属性注入工作。</p>
+
+<p>(6) 利用容器中注册的Bean后处理器(实现了BeanPostProcessor接口的Bean)，对已经完成属性设置工作的Bean进行后续加工，直接装配出一个就绪的Bean。</p>
+
+<p>一个BeanWrapperImpl实例内部封装了两类组件：被封装的待处理的Bean，以及一套用于设置Bean属性的属性编辑器。要顺利的填充Bean属性，除了目标Bean实例和属性编辑器以外，还需要获取Bean对应的BeanDefinition，
+它可以从Spring容器的BeanDefinitionRegistry中直接获取。Spring主控程序从BeanDefinition中获取Bean属性的具体信息PropertyValue，并使用属性编辑器对PropertyValue进行转换以得到具体
+的属性值。BeanWrapperImpl内部使用Spring的BeanUtils工具类对Bean进行反射操作，设置属性。</p>
+
+<p>属性编辑器的主要功能就是将外部设置的值转换为JVM内部的对应类型。</p>
+
+<p>Spring容器事件其实本质上就是一个观察者模式的封装，<strong>事件源</strong>产生<strong>事件</strong>，<strong>事件监听器</strong>监听这些事件以触发不同的响应操作，<strong>事件广播器</strong>将这些事件通知给<strong>事件监听器注册表</strong>中的
+事件监听器，可以看一个案例：这个例子包括一个模拟的邮件发送器MailSender(事件源)，它在发送邮件时，会产生一个MailSendEvent事件，容器中注册了监听该事件的事件监听器MailSendListener。
+我们来看一下MailSendEvent的代码：</p>
+
+<pre><code>package com.smart.event;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.event.ApplicationContextEvent;
+
+public class MailSendEvent extends ApplicationContextEvent {
+    private String to;
+
+    public MailSendEvent(ApplicationContext source, String to) {
+        super(source);
+        this.to = to;
+    }
+    public String getTo() {
+
+        return this.to;
+    }
+}
+</code></pre>
+
+<p>它扩展了ApplicationContextEvent，事件对象除了一个source以外，还有一个目的地属性to，事件监听器MailSendListener负责监听MailSendEvent事件，代码如下：</p>
+
+<pre><code>package com.smart.event;
+
+import org.springframework.context.ApplicationListener;
+
+public class MailSendListener implements ApplicationListener&lt;MailSendEvent&gt;{
+
+    public void onApplicationEvent(MailSendEvent event) {
+            MailSendEvent mse = (MailSendEvent) event;
+            System.out.println(&quot;MailSendListener:向&quot; + mse.getTo() + &quot;发送完一封邮件&quot;);
+    }
+}
+</code></pre>
+
+<p>监听器直接实现了ApplicationListener接口，在方法中对MailSendEvent事件进行处理，MailSender要拥有发布事件的能力，必须实现ApplicationContextAware接口，代码如下：</p>
+
+<pre><code>package com.smart.event;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+public class MailSender implements ApplicationContextAware {
+
+    private ApplicationContext ctx ;
+
+    //ApplicationContextAware的接口方法，以便容器启动时注入容器实例
+    public void setApplicationContext(ApplicationContext ctx)
+            throws BeansException {
+        this.ctx = ctx;
+
+    }   
+    public void sendMail(String to){
+        System.out.println(&quot;MailSender:模拟发送邮件...&quot;);
+        MailSendEvent mse = new MailSendEvent(this.ctx,to);
+        //向容器中所有事件事件监听器发送事件
+        ctx.publishEvent(mse);
+    }
+}
+</code></pre>
+
+<p>在sendMail方法中，首先模拟发送邮件，然后产生一个MailSendEvent事件，并通过容器句柄ctx向容器中的所有事件监听器发送事件。在Spring配置文件中，仅需进行如下配置：</p>
+
+<pre><code>     &lt;bean class=&quot;com.smart.event.MailSendListener&quot;/&gt;
+     &lt;bean id=&quot;mailSender&quot; class=&quot;com.smart.event.MailSender&quot;/&gt;
+</code></pre>
+
+<p>下面的代码便可以启动容器，并调用mailSender Bean来发送邮件：</p>
+
+<pre><code>package com.smart.event;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class ApplicatonEventTest {
+
+    public static void main(String[] args) {
+        String resourceFile = &quot;com/smart/event/beans.xml&quot;;
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(resourceFile);  
+        MailSender mailSender = ctx.getBean(MailSender.class);
+        mailSender.sendMail(&quot;test mail.&quot;);
+        System.out.println(&quot;done.&quot;);
+    }
+}
+</code></pre>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/spring/">Spring</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/spring4read1/">
+            <span class="next-text nav-default">Spring 4.x 阅读笔记(二)</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

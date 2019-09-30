@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 22 Sep 2019 17:04:23 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Sep 2019 23:15:06 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring 4.x 阅读笔记(三)</title>
+      <link>https://monkback.github.io/post/spring4read2/</link>
+      <pubDate>Thu, 26 Sep 2019 23:15:06 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring4read2/</guid>
+      <description>第五章 在IOC容器中装配Bean Spring启动时读取应用程序提供的Bean配置信息，并在Spring容器中生成一份相应的Bean配置注册表</description>
+    </item>
     
     <item>
       <title>Spring 4.x 阅读笔记(二)</title>
