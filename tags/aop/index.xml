@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AOP on Records</title>
+    <link>https://monkback.github.io/tags/aop/</link>
+    <description>Recent content in AOP on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 03 Oct 2019 13:22:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/aop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spring 4.x 阅读笔记(四)</title>
+      <link>https://monkback.github.io/post/spring4read3/</link>
+      <pubDate>Thu, 03 Oct 2019 13:22:59 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring4read3/</guid>
+      <description>第七章 Spring AOP基础 Aspect Oriented Programming，我们无法通过抽象父类的方式来消除一些重复的横切代码，AOP是通过横向抽取机制来进行抽象的。AO</description>
+    </item>
+    
+  </channel>
+</rss>
