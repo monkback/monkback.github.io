@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Spring 4.x 阅读笔记(一) - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="第一章 概述 提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/spring/spring4read/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Spring 4.x 阅读笔记(一)" />
+<meta property="og:description" content="第一章 概述 提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/spring/spring4read/" />
+<meta property="article:published_time" content="2019-09-16T16:35:04+08:00" />
+<meta property="article:modified_time" content="2019-09-16T16:35:04+08:00" />
+<meta itemprop="name" content="Spring 4.x 阅读笔记(一)">
+<meta itemprop="description" content="第一章 概述 提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维">
+
+
+<meta itemprop="datePublished" content="2019-09-16T16:35:04&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-16T16:35:04&#43;08:00" />
+<meta itemprop="wordCount" content="2763">
+
+
+
+<meta itemprop="keywords" content="Spring," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring 4.x 阅读笔记(一)"/>
+<meta name="twitter:description" content="第一章 概述 提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Spring 4.x 阅读笔记(一)</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-09-16" class="post-time">
+          2019-09-16
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p><strong>第一章 概述</strong></p>
+
+<p>提起Spring这个框架，我们都会说到Inverse of Control和Aspect Oriented Programming，我所理解的这是两种思维模式：IOC为了解耦，使得类与类之间的依赖不再通过代码（配置），而AOP用来处理一些面向对象的语言中不太好处理的情况——多个类的横向代码复用（我把继承认为是纵向的复用）。</p>
+
+<p>在这两大思想的基础上，往外延伸了很多内容，包括数据访问、MVC、事务管理、缓存、web容器、RPC等一系列内容，后面还有Spring Cloud等服务发现、服务治理相关，这些都值得深入学习。
+<br><br/></p>
+
+<hr />
+
+<p><br></br>
+<strong>第二章 通过一个入门实例介绍Spring Web应用的开发过程</strong></p>
+
+<p>持久层，负责数据的访问以及操作，即相应的Dao类。Spring本身支持多种ORM框架，最简单的我们可以用Spring JDBC，自己写sql，然后执行相关操作。</p>
+
+<p>先建立好相关的实体类，也叫领域对象，它们往往和数据库中的一张表的相关字段一一对应，但对于一个稍微复杂的应用可能就不完全是数据库中的表了。这个类一般需要支持序列化，即会在网络上传输。</p>
+
+<p>Spring中在Dao类上增加@Repository注解，标识定义了一个Bean实体（后面我们会知道，还有@Controller等注解），然后在局部变量jdbcTemplate上增加@Autowired注解，将jdbcTemplate这个Bean自动注入到Dao类中，这里便体现了Spring的Dependency Injection。
+当然，下面两种方式均支持：1、直接在局部变量上增加注解；2、单独写一个set方法，在方法级别上增加注解</p>
+
+<pre><code>@Autowired
+private JdbcTemplate jdbcTemplate;
+
+@Autowired
+public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+}
+</code></pre>
+
+<p>上面使用了注解的方式来定义Bean，在老一些版本的Spring中，使用XML配置方式来定义Bean，显然注解的方式更加简单。另外，jdbcTemplate对传统的JDBC API进行了封装。</p>
+
+<p>相关的配置文件内容如下：扫描指定包下所有类，这样这些类中定义的相关Spring注解(@Repository、@Autowired)才能生效；配置好MySQL相应的连接，定义连接源 Bean；将dataSource注入到
+jdbcTemplate中(这里就是一种XML方式的注入)，而jdbcTemplate这个Bean是通过注解的方式注入到了Dao类中，这就是注解配置和XML配置的结合。</p>
+
+<pre><code>&lt;!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 --&gt;
+    &lt;context:component-scan base-package=&quot;com.smart.dao&quot;/&gt;
+&lt;!-- 配置数据源 --&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;
+          destroy-method=&quot;close&quot;
+          p:driverClassName=&quot;com.mysql.jdbc.Driver&quot;
+          p:url=&quot;xxx&quot;
+          p:username=&quot;xxx&quot;
+          p:password=&quot;xxx&quot; /&gt;
+
+&lt;!-- 配置Jdbc模板  --&gt;
+&lt;bean id=&quot;jdbcTemplate&quot; class=&quot;org.springframework.jdbc.core.JdbcTemplate&quot;
+    p:dataSource-ref=&quot;dataSource&quot; /&gt;
+</code></pre>
+
+<p>业务层，和Dao类类似，Spring在Service类上增加@Service注解，标识这是一个服务Bean，接着注入Dao层的Bean，同理，如下两种方式二选一即可。还可以在方法上增加@Transactional注解，标识让该
+方法运行在事务环境中(当然还需要额外的配置)。</p>
+
+<pre><code>@Autowired
+private UserDao userDao;
+
+@Autowired
+public void setUserDao(UserDao userDao) {
+    this.userDao = userDao;
+}
+</code></pre>
+
+<p>针对service层的相关配置如下</p>
+
+<pre><code>&lt;!-- 配置事务管理器 --&gt;
+&lt;bean id=&quot;transactionManager&quot;
+    class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;
+    p:dataSource-ref=&quot;dataSource&quot; /&gt;
+
+&lt;!-- 通过AOP配置提供事务增强，让service包下所有Bean的所有标有Transactional注解的方法拥有事务 --&gt;
+&lt;aop:config proxy-target-class=&quot;true&quot;&gt;
+    &lt;aop:pointcut id=&quot;serviceMethod&quot;
+        expression=&quot;(execution(* com.smart.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))&quot; /&gt;
+    &lt;aop:advisor pointcut-ref=&quot;serviceMethod&quot; advice-ref=&quot;txAdvice&quot; /&gt;
+&lt;/aop:config&gt;
+&lt;tx:advice id=&quot;txAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;
+    &lt;tx:attributes&gt;
+        &lt;tx:method name=&quot;*&quot; /&gt;
+    &lt;/tx:attributes&gt;
+&lt;/tx:advice&gt;
+</code></pre>
+
+<p>展现层的复杂之处在于web.xml中的相关配置，以便在web容器启动时能够自动启动Spring容器，包括以下几个点：</p>
+
+<ul>
+<li>context-param里指定Spring配置文件的路径</li>
+<li>负责启动Spring容器的监听器，可以获取Spring配置文件的地址；这个监听器会在web容器启动时自动运行，并根据上面的Spring配置
+文件参数，来启动Spring容器</li>
+<li>配置Spring MVC的相关信息。通过一个servlet来获取URL请求，并根据请求进行不同处理。指定servlet-name servlet-mapping</li>
+<li>根据上一步声明的servlet名，Spring MVC还需要一个<servlet 名>-servlet.xml的配置文件，里面内容如下
+
+<ul>
+<li>扫描web包，应用Spring的注解 context:component-scan base-package=&ldquo;com.smart.web&rdquo;/</li>
+<li>配置视图解析器，将ModelAndView及字符串解析为具体的页面</li>
+</ul></li>
+</ul>
+
+<p>针对Controller层的代码，Spring习惯在类上增加@controller注解，标识这个类是一个Spring MVC的控制器，这个控制器拥有不同
+的方法来处理不同的HTTP请求，这一点是通过@RequestMappping注解来指定路径，这个方法可以返回一个ModelAndView(既包含视图信息，
+又包括视图渲染所需的模型数据信息)，也可以仅返回数据</p>
+
+<p>这里还有一部分前端的知识，就不梳理了
+<br></br></p>
+
+<hr />
+
+<p><br></br>
+<strong>第三章 Spring Boot的开发流程</strong></p>
+
+<p>总体上Spring Boot封装了Spring开发中的很多繁琐的配置工作，简化了Spring应用的开发流程。它主要借助了Groovy语言来搞定
+复杂的配置内容，主要优点有：</p>
+
+<ul>
+<li>相对于传统的Spring项目，更加简洁，封装的内容更多</li>
+<li>内嵌了Jetty和Tomcat容器，无需部署一个war包到web容器中，可以直接运行</li>
+<li>提供了基于Maven的pom配置模板来简化工程的配置</li>
+<li>提供了性能指标，应用健康程度检查</li>
+</ul>
+
+<p>Spring Boot是由一系列启动器组成的，我们可以根据自己项目的需要，组合不同的启动器，来快速搭建项目的基础运行框架。</p>
+
+<p>一般上，我们可以在自己的pom文件中用parent节点来继承Spring Boot的默认配置(这是Spring Boot提供的pom跟配置)；
+然后根据应用需要再添加不同类型的启动器依赖；最后配置一个Spring Boot运行插件，方便IDEA中使用。</p>
+
+<p>Spring框架提供了几种可选的数据库操作方式，比如：Spring内置轻量级的jdbcTemplate，也可以使用第三方的持久化框架，比如
+Hibernate或MyBaits。Spring Boot为这两种操作数据库的方式分别提供了各自的启动器：spring-boot-starter-jdbc和
+spring-boot-starter-jpa。</p>
+
+<p>导入了相关的依赖包以后，为了让Spring Boot能够自动装配数据源的连接，需要创建一个properties文件，存放数据库的连接信息。
+Dao层的代码和第二章一样，不同的是，现在无须在Spring配置文件中装配Bean了，不用定义扫描包等，boot已经帮我们做了这些工作。</p>
+
+<p>Service层代码也和之前一致，但在支持事务时，boot中需要我们在启动类Application上增加@EnableTransactionManagement注解，
+来启用注解事务管理，也比之前繁琐的配置简单了不少；当然，用户也可以自定义事务管理器，在Application类下添加自定义事务管理器方法
+txManager()，如下</p>
+
+<pre><code>  @Bean
+  public PlatformTransactionManager txManager(DataSource dataSource) {
+      return new DataSourceTransactionManager(dataSource);
+  }
+</code></pre>
+
+<p>Spring Boot默认还提供了对应用本身、数据库连接、Redis、ES、MQ等服务的健康状态的检测功能，这里就不细说了。</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/spring/">Spring</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/spring/spring4read1/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Spring 4.x 阅读笔记(二)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/nio1/">
+            <span class="next-text nav-default">NIO-1</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

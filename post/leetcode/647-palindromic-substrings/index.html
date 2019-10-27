@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>算法题目 - Records</title>
+  <title>647 Palindromic Substrings - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+  <meta name="description" content="647-Palindromic Substrings 题目：Given a string, your task is to count how many palindromic substrings in this string. The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters. Example 1: Input: &amp;ldquo;abc&amp;rdquo; Output: 3 Explanation: Three palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;b&amp;rdquo;, &amp;ldquo;c&amp;rdquo;. Example 2: Input: &amp;ldquo;aaa&amp;rdquo; Output: 6 Explanation: Six palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;," />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
+<link rel="canonical" href="https://monkback.github.io/post/leetcode/647-palindromic-substrings/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="算法题目" />
-<meta property="og:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+<meta property="og:title" content="647 Palindromic Substrings" />
+<meta property="og:description" content="647-Palindromic Substrings 题目：Given a string, your task is to count how many palindromic substrings in this string. The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters. Example 1: Input: &ldquo;abc&rdquo; Output: 3 Explanation: Three palindromic strings: &ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;. Example 2: Input: &ldquo;aaa&rdquo; Output: 6 Explanation: Six palindromic strings: &ldquo;a&rdquo;, &ldquo;a&rdquo;, &ldquo;a&rdquo;," />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
-<meta property="article:published_time" content="2019-10-22T20:19:40+08:00" />
-<meta property="article:modified_time" content="2019-10-22T20:19:40+08:00" />
-<meta itemprop="name" content="算法题目">
-<meta itemprop="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,">
+<meta property="og:url" content="https://monkback.github.io/post/leetcode/647-palindromic-substrings/" />
+<meta property="article:published_time" content="2019-10-24T17:35:13+08:00" />
+<meta property="article:modified_time" content="2019-10-24T17:35:13+08:00" />
+<meta itemprop="name" content="647 Palindromic Substrings">
+<meta itemprop="description" content="647-Palindromic Substrings 题目：Given a string, your task is to count how many palindromic substrings in this string. The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters. Example 1: Input: &ldquo;abc&rdquo; Output: 3 Explanation: Three palindromic strings: &ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;. Example 2: Input: &ldquo;aaa&rdquo; Output: 6 Explanation: Six palindromic strings: &ldquo;a&rdquo;, &ldquo;a&rdquo;, &ldquo;a&rdquo;,">
 
 
-<meta itemprop="datePublished" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="dateModified" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="wordCount" content="1407">
+<meta itemprop="datePublished" content="2019-10-24T17:35:13&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-24T17:35:13&#43;08:00" />
+<meta itemprop="wordCount" content="1351">
 
 
 
 <meta itemprop="keywords" content="Leetcode," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="算法题目"/>
-<meta name="twitter:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,"/>
+<meta name="twitter:title" content="647 Palindromic Substrings"/>
+<meta name="twitter:description" content="647-Palindromic Substrings 题目：Given a string, your task is to count how many palindromic substrings in this string. The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters. Example 1: Input: &ldquo;abc&rdquo; Output: 3 Explanation: Three palindromic strings: &ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;. Example 2: Input: &ldquo;aaa&rdquo; Output: 6 Explanation: Six palindromic strings: &ldquo;a&rdquo;, &ldquo;a&rdquo;, &ldquo;a&rdquo;,"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">算法题目</h1>
+      <h1 class="post-title">647 Palindromic Substrings</h1>
       
       <div class="post-meta">
-        <time datetime="2019-10-22" class="post-time">
-          2019-10-22
+        <time datetime="2019-10-24" class="post-time">
+          2019-10-24
         </time>
         
         
@@ -243,102 +243,109 @@
     <div class="post-content">
       
 
-<h4 id="739-dailytemperatures">739-dailyTemperatures</h4>
+<h4 id="647-palindromic-substrings">647-Palindromic Substrings</h4>
 
-<p>题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.</p>
+<p>题目：Given a string, your task is to count how many palindromic substrings in this string.</p>
 
-<p>For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].</p>
+<p>The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters.</p>
 
-<p>Note:
-     The length of temperatures will be in the range [1, 30000].</p>
+<p>Example 1:   Input: &ldquo;abc&rdquo;   Output: 3  Explanation: Three palindromic strings: &ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;.</p>
 
-<p>Each temperature will be an integer in the range [30, 100].</p>
+<p>Example 2:   Input: &ldquo;aaa&rdquo;   Output: 6  Explanation: Six palindromic strings: &ldquo;a&rdquo;, &ldquo;a&rdquo;, &ldquo;a&rdquo;, &ldquo;aa&rdquo;, &ldquo;aa&rdquo;, &ldquo;aaa&rdquo;.</p>
 
-<p>Related Topics Hash Table Stack</p>
+<p>题目本身还是比较容易理解的，求一个字符串的回文子串的个数，这里一个单独的字符算回文。我其实知道最直接的思路肯定是不符合时间
+复杂度要求的，但还是可以写一下，对每一个子串(substring)，判断其是否是回文，是就加一。</p>
 
-<p>题目本身很容易理解，找到当前数字右边第一个比它大的数，求一个距离。最先想到的就是一个暴力求解，两次for循环可以搞定，但时间复杂度是O(n^2)。</p>
+<p>方法一：</p>
 
-<p>解法一：</p>
-
-<pre><code>public int[] dailyTemperatures(int[] T) {
-
-    int[] result = new int[T.length];
-    for (int i = 0; i &lt; T.length; i++) {
-        int count = 0;
-        for (int j = i + 1; j &lt; T.length; j++) {
-            if (T[j] &gt; T[i]) {
-                count = j - i;
-                break;
+<pre><code>public int countSubstrings(String s) {
+    int count = 0;
+    int len = s.length();
+    for (int i = 0; i &lt; len; i++) {
+        for (int j = i; j &lt; len; j++) {
+            if (judge(s, i, j)) {
+                count++;
             }
         }
-        result[i] = count;
+    }
+    return count;
+}
+
+private boolean judge(String s, int start, int end) {
+    while (start &lt; end) {
+        if (s.charAt(start++) != s.charAt(end--)) {
+            return false;
+        }
+    }
+    return true;
+}
+</code></pre>
+
+<p>注意这个最基本解法的时间复杂度是O(n^3)，两次for循环求子串，一次循环判断这个串是否回文，值得注意的也就是判断一个字符串
+是否回文的smart写法——s.charAt(start++) != s.charAt(end&ndash;)。</p>
+
+<p>提交这个解法的结果是：可以看到耗时太长</p>
+
+<p>执行耗时:114 ms,击败了8.26% 的Java用户    内存消耗:34.3 MB,击败了100.00% 的Java用户</p>
+
+<p>方法二：看了一些解答后，可以利用回文串的一个特性，即当在回文串两端各加入两个相同的字符的时候，形成的新字符仍旧是回文串。注意一下，回文串可以是一个单个的字符，也可以是两个字符，划分奇偶性。
+用递归的方式，遍历字符串，以字符串的每一个字符当作回文串的中间位置，然后依次向两边扩展，若两个字符相等，count加一，然后各自向两边扩展，比较下一对。本质上是一个双指针，从中间向两边移动。
+需要注意的就是回文串的中间位置可能是一个字符(如aba)，则中间位置是b；也可能是一个位置(如aa)，则中间位置是两个a之间的的位置。因此本质上遍历字符串的时候，我们是以<strong>当前字符串</strong>或者
+<strong>当前字符串旁边的位置</strong>为回文串的中间位置，来做加法的。</p>
+
+<pre><code>public int countSubstrings(String s) {
+    int count = 0;
+    for (int i = 0; i &lt; s.length(); i++) {
+        count += count(s, i, i);
+        count += count(s, i, i + 1);
+    }
+    return count;
+}
+
+private int count(String s, int left, int right) {
+    int result = 0;
+    while (left &gt;= 0 &amp;&amp; right &lt; s.length() &amp;&amp; s.charAt(left--) == s.charAt(right++)) {
+        result++;
     }
     return result;
 }
 </code></pre>
 
-<p>这个解法用LeetCode插件提交的结果是：</p>
+<p>这个双指针法也是网上比较通用的一种方法，主要利用的是回文串的特性，来做到O(n^2)的时间复杂度，但是这道题求的是回文子串的个数，其实是可以有相同的。</p>
 
-<p>执行耗时:221 ms,击败了12.97% 的Java用户     内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
+<p>解法二的执行结果：</p>
 
-<p>解法二：使用一个栈。栈中存放的是当前数字在数组中的index。遍历数组：如果栈为空或者当前数字小于栈顶索引对应的数字，则将当前索引入栈；否则，栈顶元素弹出，表明此索引对应的数字遇到了一个更大的，
-当前索引和栈顶元素的差值即是栈顶元素的天数。例如数组[73, 74, 75, 71, 69, 72, 76, 73]：假设for (int i = 0; i &lt; T.length; i++)
-首先i = 0，栈为空，0入栈；</p>
+<p>执行耗时:1 ms,击败了99.97% 的Java用户         内存消耗:34.2 MB,击败了100.00% 的Java用户</p>
 
-<p>第二轮i = 1，发现74 &gt; 73，将0弹出，i和栈顶元素0差值为1，result[栈顶元素0] = 1；栈已空，将1入栈；</p>
+<p>方法三：有很多人也使用了动态规划的思想来做这道题，即使整体上不如双指针法高效：使用dp[i][j]来定义字符串[i, j]是否是回文。
+i从n-1开始，j从i开始到n，这里需要思考<strong>为什么是这样的遍历顺序</strong>，看s[i]是否等于s[j]。这个时候需要留意的就是i和j的位置
+关系了：</p>
 
-<p>第三轮i = 2，发现75 &gt; 当前栈顶元素1对应的数字74，将1弹出，i和栈顶元素1的差值为1，result[栈顶元素1] = 1；栈已空，将2入栈；</p>
+<ul>
+<li>如果i == j，则dp[i][j]肯定是true；</li>
+<li>如果i和j相邻，则dp[i][j]还是true；</li>
+<li>如果i和j中间相隔一个字符，则dp[i][j]还是true；</li>
 
-<p>第三轮i = 3，发现71 &lt; 当前栈顶元素2对应的数字75，将3入栈，此时栈元素为3,2</p>
+<li><p>如果i和j中间的字符多于一个，则dp[i][j]就取决于dp[i + 1][j - 1]的值了</p>
 
-<p>第四轮i = 4，发现69 &lt; 当前栈顶元素3对应的数字71，将4入栈，此时栈元素为4,3,2</p>
-
-<p>第五轮i = 5，发现72 &gt; 当前栈顶元素4对应的数字69，将4弹出，i和栈顶元素4的差值为1，result[栈顶元素4] = 1；此时栈元素还有3,2
-   继续判断，发现72 &gt; 当前栈顶元素3对应的数字71，将3弹出，i和栈顶元素3的差值为2，result[栈顶元素3] = 2；此时栈元素还有2
-   继续判断，发现72 &lt; 当前栈顶元素2对应的数字75，将5入栈，此时栈元素为5,2</p>
-
-<p>第六轮i = 6，发现76 &gt; 当前栈顶元素5对应的数字72，将5弹出，i和栈顶元素5的差值为1，result[栈顶元素5] = 1；此时栈元素还有2
-   继续判断，发现76 &gt; 当前栈顶元素2对应的数字75，将2弹出，i和栈顶元素2的差值为4，result[栈顶元素2] = 4；此时栈已空，将6入栈</p>
-
-<p>第七轮i = 7，发现73 &lt; 当前栈顶元素6对应的数字76，将7入栈，此时栈元素为7,6</p>
-
-<p>遍历结束，此时已经求出result[]中的结果，没有的则默认为0。代码如下：</p>
-
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    if (stack.empty() || T[i] &lt; T[stack.peek()]) {
-        stack.push(i);
-    } else {
-        while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-            Integer index = stack.pop();
-            result[index] = i - index;
+<p>public int countSubstrings(String s) {
+    int count = 0;
+    int len = s.length();
+    boolean [][] dp = new boolean[len][len];
+    for (int i = len - 1; i &gt;= 0; i&ndash;) {
+        for (int j = i; j &lt; len; j++) {
+            dp[i][j] = (s.charAt(i) == s.charAt(j)) &amp;&amp; (j - i &lt;= 2 || dp[i + 1][j - 1]);
+            if (dp[i][j]) {
+                count++;
+            }
         }
-        stack.push(i);
     }
+    return count;
 }
-</code></pre>
+方法三的执行结果：并不如双指针来得高效。</p></li>
+</ul>
 
-<p>简化一下就是下面的代码：</p>
-
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-        Integer index = stack.pop();
-        result[index] = i - index;
-    }
-    stack.push(i);
-}
-</code></pre>
-
-<p>解法二的运行结果是：</p>
-
-<p>执行耗时:52 ms,击败了49.58% 的Java用户    内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
-<p>对于Java程序来说，把stack替换成ArrayDeque，会使得效率更高，任何使用stack的地方都可以考虑ArrayDeque是否可以替代，具体差异我还没有仔细研究过，替换后的运行结果是：</p>
-
-<p>执行耗时:42 ms,击败了63.21% 的Java用户    内存消耗:42.3 MB,击败了94.92% 的Java用户</p>
+<p>执行耗时:6 ms,击败了37.80% 的Java用户         内存消耗:35.9 MB,击败了50.63% 的Java用户</p>
 
     </div>
 
@@ -358,7 +365,7 @@ for (int i = 0; i &lt; T.length; i++) {
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/leetcode/647-palindromic-substrings/">
+          <a class="prev" href="/post/leetcode/621-task-cheduler/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -368,12 +375,12 @@ for (int i = 0; i &lt; T.length; i++) {
 </svg>
 
             </i>
-            <span class="prev-text nav-default">647 Palindromic Substrings</span>
+            <span class="prev-text nav-default">621 Task Cheduler</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/paxos/">
-            <span class="next-text nav-default">对paxos的一些理解</span>
+          <a class="next" href="/post/leetcode/739-dailytemperatures/">
+            <span class="next-text nav-default">算法题目</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">

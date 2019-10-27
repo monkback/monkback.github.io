@@ -6,10 +6,28 @@
     <description>Recent content in Leetcode on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 22 Oct 2019 20:19:40 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 26 Oct 2019 17:19:45 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>621 Task Cheduler</title>
+      <link>https://monkback.github.io/post/leetcode/621-task-cheduler/</link>
+      <pubDate>Sat, 26 Oct 2019 17:19:45 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/leetcode/621-task-cheduler/</guid>
+      <description>621-Task Scheduler 题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks. Tasks could be done without original order.Each task could be done in one interval. For each interval, CPU could finish one task or just be idle. However, there is a non-negative cooling interval n that means between two</description>
+    </item>
+    
+    <item>
+      <title>647 Palindromic Substrings</title>
+      <link>https://monkback.github.io/post/leetcode/647-palindromic-substrings/</link>
+      <pubDate>Thu, 24 Oct 2019 17:35:13 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/leetcode/647-palindromic-substrings/</guid>
+      <description>647-Palindromic Substrings 题目：Given a string, your task is to count how many palindromic substrings in this string. The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters. Example 1: Input: &amp;ldquo;abc&amp;rdquo; Output: 3 Explanation: Three palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;b&amp;rdquo;, &amp;ldquo;c&amp;rdquo;. Example 2: Input: &amp;ldquo;aaa&amp;rdquo; Output: 6 Explanation: Six palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;,</description>
+    </item>
     
     <item>
       <title>算法题目</title>
@@ -17,7 +35,7 @@
       <pubDate>Tue, 22 Oct 2019 20:19:40 +0800</pubDate>
       
       <guid>https://monkback.github.io/post/leetcode/739-dailytemperatures/</guid>
-      <description>[TOC] 739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72,</description>
+      <description>739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,</description>
     </item>
     
   </channel>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>算法题目 - Records</title>
+  <title>621 Task Cheduler - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+  <meta name="description" content="621-Task Scheduler 题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks. Tasks could be done without original order.Each task could be done in one interval. For each interval, CPU could finish one task or just be idle. However, there is a non-negative cooling interval n that means between two" />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
+<link rel="canonical" href="https://monkback.github.io/post/leetcode/621-task-cheduler/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="算法题目" />
-<meta property="og:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+<meta property="og:title" content="621 Task Cheduler" />
+<meta property="og:description" content="621-Task Scheduler 题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks. Tasks could be done without original order.Each task could be done in one interval. For each interval, CPU could finish one task or just be idle. However, there is a non-negative cooling interval n that means between two" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
-<meta property="article:published_time" content="2019-10-22T20:19:40+08:00" />
-<meta property="article:modified_time" content="2019-10-22T20:19:40+08:00" />
-<meta itemprop="name" content="算法题目">
-<meta itemprop="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,">
+<meta property="og:url" content="https://monkback.github.io/post/leetcode/621-task-cheduler/" />
+<meta property="article:published_time" content="2019-10-26T17:19:45+08:00" />
+<meta property="article:modified_time" content="2019-10-26T17:19:45+08:00" />
+<meta itemprop="name" content="621 Task Cheduler">
+<meta itemprop="description" content="621-Task Scheduler 题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks. Tasks could be done without original order.Each task could be done in one interval. For each interval, CPU could finish one task or just be idle. However, there is a non-negative cooling interval n that means between two">
 
 
-<meta itemprop="datePublished" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="dateModified" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="wordCount" content="1407">
+<meta itemprop="datePublished" content="2019-10-26T17:19:45&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-26T17:19:45&#43;08:00" />
+<meta itemprop="wordCount" content="831">
 
 
 
 <meta itemprop="keywords" content="Leetcode," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="算法题目"/>
-<meta name="twitter:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,"/>
+<meta name="twitter:title" content="621 Task Cheduler"/>
+<meta name="twitter:description" content="621-Task Scheduler 题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks. Tasks could be done without original order.Each task could be done in one interval. For each interval, CPU could finish one task or just be idle. However, there is a non-negative cooling interval n that means between two"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">算法题目</h1>
+      <h1 class="post-title">621 Task Cheduler</h1>
       
       <div class="post-meta">
-        <time datetime="2019-10-22" class="post-time">
-          2019-10-22
+        <time datetime="2019-10-26" class="post-time">
+          2019-10-26
         </time>
         
         
@@ -243,102 +243,76 @@
     <div class="post-content">
       
 
-<h4 id="739-dailytemperatures">739-dailyTemperatures</h4>
+<h4 id="621-task-scheduler">621-Task Scheduler</h4>
 
-<p>题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.</p>
+<p>题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where
+different letters represent different tasks. Tasks could be done without original order.Each task
+could be done in one interval. For each interval, CPU could finish one task or just be idle.</p>
 
-<p>For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].</p>
+<p>However, there is a non-negative cooling interval n that means between two same tasks, there must
+be at least n intervals that CPU are doing different tasks or just be idle.</p>
 
-<p>Note:
-     The length of temperatures will be in the range [1, 30000].</p>
+<p>You need to return the least number of intervals the CPU will take to finish all the given tasks.</p>
 
-<p>Each temperature will be an integer in the range [30, 100].</p>
+<p>Example:</p>
 
-<p>Related Topics Hash Table Stack</p>
+<p>Input: tasks = [&ldquo;A&rdquo;,&ldquo;A&rdquo;,&ldquo;A&rdquo;,&ldquo;B&rdquo;,&ldquo;B&rdquo;,&ldquo;B&rdquo;], n = 2
+   Output: 8
+   Explanation: A -&gt; B -&gt; idle -&gt; A -&gt; B -&gt; idle -&gt; A -&gt; B.</p>
 
-<p>题目本身很容易理解，找到当前数字右边第一个比它大的数，求一个距离。最先想到的就是一个暴力求解，两次for循环可以搞定，但时间复杂度是O(n^2)。</p>
+<p>Note:</p>
 
-<p>解法一：</p>
+<p>The number of tasks is in the range [1, 10000].
+   The integer n is in the range [0, 100].</p>
 
-<pre><code>public int[] dailyTemperatures(int[] T) {
+<p>Related Topics Array Greedy Queue</p>
 
-    int[] result = new int[T.length];
-    for (int i = 0; i &lt; T.length; i++) {
-        int count = 0;
-        for (int j = i + 1; j &lt; T.length; j++) {
-            if (T[j] &gt; T[i]) {
-                count = j - i;
-                break;
-            }
+<p>很遗憾，这道题没想出来怎么搞。唯一想到的一点就是需要用某个数据结构(例如map)统计数组中每个类型出现的次数，找到出现最多的那个
+元素，让CPU第一个执行这个任务(这是非常明确的)。后续就没想到怎么办了，查询了网上的答案，发现了一种比较好的思维</p>
+
+<p>方法一：统计空闲槽的个数。总的执行时间就等于任务数 + 所需的空闲槽数目。比如，tasks = [&ldquo;A&rdquo;,&ldquo;A&rdquo;,&ldquo;A&rdquo;,&ldquo;B&rdquo;,&ldquo;B&rdquo;,
+&ldquo;B&rdquo;,&ldquo;C&rdquo;], n = 2。A出现的的次数最多。那么花费时间最少的执行顺序一定是这样的A##A##A，其中#代表你需要在两个A之间插入的
+其他类别任务或者空闲槽。那么我们就知道了，最多需要的空闲槽数目是n*(最多的次数 - 1)。最多的次数 - 1即是轮数(除最后一轮以外)。</p>
+
+<p>实际上，所需的空闲槽数等于最多需要的减去 <strong>其他task</strong> 在<strong>除去最后一轮</strong>以外的轮次中所占用的槽数。来看下面的代码：</p>
+
+<pre><code>public int leastInterval(char[] tasks, int n) {
+    int[] count = new int[26];
+    for (char task : tasks) {
+        count[task - 'A']++;
+    }
+    Arrays.sort(count);
+    int idleCount = n * (count[25] - 1);
+    for (int i = count.length - 2; i &gt; 0 &amp;&amp; count[i] &gt; 0; i--) {
+        //此处求min是因为可能有多个任务的count值同时为最大，需要去除最后一轮
+        idleCount -= Math.min(count[25] - 1, count[i]);
+    }
+    return idleCount &gt; 0 ? idleCount + tasks.length : tasks.length;
+}
+</code></pre>
+
+<p>另一种思路：不用统计空闲槽数目，因为除了最后一轮以外，其余每一轮所需的时间肯定是(n + 1)，那么这些轮所需的总时间数为
+(n + 1) * (最多的次数 - 1)。最后一轮只有数量等于最多的次数的那些task才需要被调度，因此只需要统计出数量为最多的次数的
+task数目，加上前面的总时间即可。如下代码：</p>
+
+<pre><code>public int leastInterval(char[] tasks, int n) {
+    int[] count = new int[26];
+    for (char task : tasks) {
+        count[task - 'A']++;
+    }
+    Arrays.sort(count);
+    int maxValue = count[25];
+    int val = 0;
+    for(int i = 25; i &gt;= 0; i--) {
+        if(count[i] == count[25]) {
+            val++;
         }
-        result[i] = count;
     }
-    return result;
+    return Math.max(tasks.length, val + (n + 1) * (maxValue - 1));
 }
 </code></pre>
 
-<p>这个解法用LeetCode插件提交的结果是：</p>
-
-<p>执行耗时:221 ms,击败了12.97% 的Java用户     内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
-<p>解法二：使用一个栈。栈中存放的是当前数字在数组中的index。遍历数组：如果栈为空或者当前数字小于栈顶索引对应的数字，则将当前索引入栈；否则，栈顶元素弹出，表明此索引对应的数字遇到了一个更大的，
-当前索引和栈顶元素的差值即是栈顶元素的天数。例如数组[73, 74, 75, 71, 69, 72, 76, 73]：假设for (int i = 0; i &lt; T.length; i++)
-首先i = 0，栈为空，0入栈；</p>
-
-<p>第二轮i = 1，发现74 &gt; 73，将0弹出，i和栈顶元素0差值为1，result[栈顶元素0] = 1；栈已空，将1入栈；</p>
-
-<p>第三轮i = 2，发现75 &gt; 当前栈顶元素1对应的数字74，将1弹出，i和栈顶元素1的差值为1，result[栈顶元素1] = 1；栈已空，将2入栈；</p>
-
-<p>第三轮i = 3，发现71 &lt; 当前栈顶元素2对应的数字75，将3入栈，此时栈元素为3,2</p>
-
-<p>第四轮i = 4，发现69 &lt; 当前栈顶元素3对应的数字71，将4入栈，此时栈元素为4,3,2</p>
-
-<p>第五轮i = 5，发现72 &gt; 当前栈顶元素4对应的数字69，将4弹出，i和栈顶元素4的差值为1，result[栈顶元素4] = 1；此时栈元素还有3,2
-   继续判断，发现72 &gt; 当前栈顶元素3对应的数字71，将3弹出，i和栈顶元素3的差值为2，result[栈顶元素3] = 2；此时栈元素还有2
-   继续判断，发现72 &lt; 当前栈顶元素2对应的数字75，将5入栈，此时栈元素为5,2</p>
-
-<p>第六轮i = 6，发现76 &gt; 当前栈顶元素5对应的数字72，将5弹出，i和栈顶元素5的差值为1，result[栈顶元素5] = 1；此时栈元素还有2
-   继续判断，发现76 &gt; 当前栈顶元素2对应的数字75，将2弹出，i和栈顶元素2的差值为4，result[栈顶元素2] = 4；此时栈已空，将6入栈</p>
-
-<p>第七轮i = 7，发现73 &lt; 当前栈顶元素6对应的数字76，将7入栈，此时栈元素为7,6</p>
-
-<p>遍历结束，此时已经求出result[]中的结果，没有的则默认为0。代码如下：</p>
-
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    if (stack.empty() || T[i] &lt; T[stack.peek()]) {
-        stack.push(i);
-    } else {
-        while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-            Integer index = stack.pop();
-            result[index] = i - index;
-        }
-        stack.push(i);
-    }
-}
-</code></pre>
-
-<p>简化一下就是下面的代码：</p>
-
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-        Integer index = stack.pop();
-        result[index] = i - index;
-    }
-    stack.push(i);
-}
-</code></pre>
-
-<p>解法二的运行结果是：</p>
-
-<p>执行耗时:52 ms,击败了49.58% 的Java用户    内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
-<p>对于Java程序来说，把stack替换成ArrayDeque，会使得效率更高，任何使用stack的地方都可以考虑ArrayDeque是否可以替代，具体差异我还没有仔细研究过，替换后的运行结果是：</p>
-
-<p>执行耗时:42 ms,击败了63.21% 的Java用户    内存消耗:42.3 MB,击败了94.92% 的Java用户</p>
+<p>此处值得思考的是，最后一步为什么求的是max。</p>
 
     </div>
 
@@ -358,22 +332,9 @@ for (int i = 0; i &lt; T.length; i++) {
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/leetcode/647-palindromic-substrings/">
-            
-            <i class="iconfont">
-              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
-</svg>
-
-            </i>
-            <span class="prev-text nav-default">647 Palindromic Substrings</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
         
-          <a class="next" href="/post/paxos/">
-            <span class="next-text nav-default">对paxos的一些理解</span>
+          <a class="next" href="/post/leetcode/647-palindromic-substrings/">
+            <span class="next-text nav-default">647 Palindromic Substrings</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">
