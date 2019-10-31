@@ -6,10 +6,21 @@
     <description>Recent content on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 26 Oct 2019 17:19:45 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 31 Oct 2019 20:03:31 +0800</lastBuildDate>
     
         <atom:link href="https://monkback.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>一次关于CompletionService的使用</title>
+      <link>https://monkback.github.io/post/completionservice/</link>
+      <pubDate>Thu, 31 Oct 2019 20:03:31 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/completionservice/</guid>
+      
+        <description>背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段</description>
+      
+    </item>
     
     <item>
       <title>621 Task Cheduler</title>
