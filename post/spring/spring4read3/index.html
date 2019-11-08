@@ -68,7 +68,7 @@
 
 <meta itemprop="datePublished" content="2019-10-03T13:22:59&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-03T13:22:59&#43;08:00" />
-<meta itemprop="wordCount" content="2251">
+<meta itemprop="wordCount" content="2769">
 
 
 
@@ -336,7 +336,47 @@ MethodBeforeAdvice、AfterReturningAdvice、DynamicIntroductionAdvice。</p>
 <p><strong>前置增强</strong></p>
 
 <p>BeforeAdvice代表前置增强，因为Spring只支持方法级别的增强，所以MethodBeforeAdvice是目前可用的前置增强，表示在目标方法
-执行前实施增强，BeforeAdvice留作将来扩展使用</p>
+执行前实施增强，BeforeAdvice留作将来扩展使用。可以看一个前置增强的例子，如下代码：</p>
+
+<p>先看下Waiter接口：</p>
+
+<pre><code>public interface Waiter {
+   void greetTo(String name);
+   void serveTo(String name);
+}
+</code></pre>
+
+<p>再看一个具体的Waiter的实现：</p>
+
+<pre><code>public class NaiveWaiter implements Waiter {
+
+    public void greetTo(String name) {
+        System.out.println(&quot;greet to &quot;+name+&quot;...&quot;);
+    }
+    public void serveTo(String name){
+        System.out.println(&quot;serving &quot;+name+&quot;...&quot;);
+    }
+}
+</code></pre>
+
+<p>假设我们现在要对NaiveWaiter类中的方法实施前置增强，确保在方法调用前做一些其他事情，那么我们看看怎么做，首先新写一个类，实现
+MethodBeforeAdvice接口，如下：</p>
+
+<pre><code>import java.lang.reflect.Method;
+
+import org.springframework.aop.MethodBeforeAdvice;
+
+public class GreetingBeforeAdvice implements MethodBeforeAdvice {
+    public void before(Method method, Object[] args, Object obj) throws Throwable {
+        String clientName = (String)args[0];
+        System.out.println(&quot;How are you！Mr.&quot;+clientName+&quot;.&quot;);
+    }
+}
+</code></pre>
+
+<p>可以看到，MethodBeforeAdvice接口只提供了一个方法，before(Method method, Object[] args, Object obj)，其中，method代表目标类中需要被实施前置增强的方法(所以你大可以在这个方法内部，
+增加个判断method是不是你想要增强的方法，如果不这样做，那么会默认对目标类中的所有方法实施这个前置增强)；args代表方法的入参，obj代表目标类对象。在before方法内部定义你想要实施的前置增强逻辑，
+我们看一下这个自定义的前置增强类GreetingBeforeAdvice怎么用到目标类中去的，大体上，也有两种方案，第一是基于代码，第二种基于配置：</p>
 
     </div>
 
