@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>739 Daily Temperatures - Records</title>
+  <title>一次关于CompletionService的使用 - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+  <meta name="description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段" />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
+<link rel="canonical" href="https://monkback.github.io/post/work/completionservice/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="739 Daily Temperatures" />
-<meta property="og:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+<meta property="og:title" content="一次关于CompletionService的使用" />
+<meta property="og:description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
-<meta property="article:published_time" content="2019-10-22T20:19:40+08:00" />
-<meta property="article:modified_time" content="2019-10-22T20:19:40+08:00" />
-<meta itemprop="name" content="739 Daily Temperatures">
-<meta itemprop="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,">
+<meta property="og:url" content="https://monkback.github.io/post/work/completionservice/" />
+<meta property="article:published_time" content="2019-10-31T20:03:31+08:00" />
+<meta property="article:modified_time" content="2019-10-31T20:03:31+08:00" />
+<meta itemprop="name" content="一次关于CompletionService的使用">
+<meta itemprop="description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段">
 
 
-<meta itemprop="datePublished" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="dateModified" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="wordCount" content="1407">
+<meta itemprop="datePublished" content="2019-10-31T20:03:31&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-31T20:03:31&#43;08:00" />
+<meta itemprop="wordCount" content="1508">
 
 
 
-<meta itemprop="keywords" content="Leetcode," />
+<meta itemprop="keywords" content="工作,并发“," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="739 Daily Temperatures"/>
-<meta name="twitter:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,"/>
+<meta name="twitter:title" content="一次关于CompletionService的使用"/>
+<meta name="twitter:description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">739 Daily Temperatures</h1>
+      <h1 class="post-title">一次关于CompletionService的使用</h1>
       
       <div class="post-meta">
-        <time datetime="2019-10-22" class="post-time">
-          2019-10-22
+        <time datetime="2019-10-31" class="post-time">
+          2019-10-31
         </time>
         
         
@@ -241,104 +241,64 @@
 
     
     <div class="post-content">
-      
+      <p><strong>背景</strong></p>
 
-<h4 id="739-dailytemperatures">739-dailyTemperatures</h4>
+<p>最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段代码需要维护在服务端中，服务端本身在公司的
+RPC框架下，就是被多个客户端并发调用的。现在的情况就是，服务端线程A和线程B分别在处理客户端A和B发送过来的请求，同时，线程A又开启了多个线程去并发查询各自的数据，B也一样。</p>
 
-<p>题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.</p>
+<p>我考虑用一个公共的线程池，将查询数据的过程封装成各种任务，然后提交到线程池中，获取返回的各个future。最基本的想法就是在你的接口内部维护一个list或者类似的容器，主线程将提交的任务
+的结果都保存在list中。提交完所有的任务后，再遍历list里的各个future，去get结果，这种做法的最大坏处就是你只能按照任务提交的顺序去依次get，很可能你阻塞在get的时候，其他任务结果
+已经返回了，但你不得不等待着；当然这种你也需要为不同的任务设置不同的超时时间，不能一直阻塞，从而影响最终结果的返回。</p>
 
-<p>For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].</p>
+<p>不过我之前在《Java 并发编程实战》中看到过CompletionService，知道这个东西可以用于提交一组任务，本质上还是委托给了一个线程池，然后在其take()或者poll方法中，取返回结果。所以
+我当时毫不犹豫的选择了这个，从此开启了挖坑之旅。伪代码大致如下(实际封装的比这个复杂)：</p>
 
-<p>Note:
-     The length of temperatures will be in the range [1, 30000].</p>
-
-<p>Each temperature will be an integer in the range [30, 100].</p>
-
-<p>Related Topics Hash Table Stack</p>
-
-<p>题目本身很容易理解，找到当前数字右边第一个比它大的数，求一个距离。最先想到的就是一个暴力求解，两次for循环可以搞定，但时间复杂度是O(n^2)。</p>
-
-<p>解法一：</p>
-
-<pre><code>public int[] dailyTemperatures(int[] T) {
-
-    int[] result = new int[T.length];
-    for (int i = 0; i &lt; T.length; i++) {
-        int count = 0;
-        for (int j = i + 1; j &lt; T.length; j++) {
-            if (T[j] &gt; T[i]) {
-                count = j - i;
-                break;
-            }
-        }
-        result[i] = count;
-    }
-    return result;
+<pre><code>for(int i = 0; i &lt; n; i++) {
+    completionService.submit(callable);
 }
-</code></pre>
 
-<p>这个解法用LeetCode插件提交的结果是：</p>
-
-<p>执行耗时:221 ms,击败了12.97% 的Java用户     内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
-<p>解法二：使用一个栈。栈中存放的是当前数字在数组中的index。遍历数组：如果栈为空或者当前数字小于栈顶索引对应的数字，则将当前索引入栈；否则，栈顶元素弹出，表明此索引对应的数字遇到了一个更大的，
-当前索引和栈顶元素的差值即是栈顶元素的天数。例如数组[73, 74, 75, 71, 69, 72, 76, 73]：假设for (int i = 0; i &lt; T.length; i++)
-首先i = 0，栈为空，0入栈；</p>
-
-<p>第二轮i = 1，发现74 &gt; 73，将0弹出，i和栈顶元素0差值为1，result[栈顶元素0] = 1；栈已空，将1入栈；</p>
-
-<p>第三轮i = 2，发现75 &gt; 当前栈顶元素1对应的数字74，将1弹出，i和栈顶元素1的差值为1，result[栈顶元素1] = 1；栈已空，将2入栈；</p>
-
-<p>第三轮i = 3，发现71 &lt; 当前栈顶元素2对应的数字75，将3入栈，此时栈元素为3,2</p>
-
-<p>第四轮i = 4，发现69 &lt; 当前栈顶元素3对应的数字71，将4入栈，此时栈元素为4,3,2</p>
-
-<p>第五轮i = 5，发现72 &gt; 当前栈顶元素4对应的数字69，将4弹出，i和栈顶元素4的差值为1，result[栈顶元素4] = 1；此时栈元素还有3,2
-   继续判断，发现72 &gt; 当前栈顶元素3对应的数字71，将3弹出，i和栈顶元素3的差值为2，result[栈顶元素3] = 2；此时栈元素还有2
-   继续判断，发现72 &lt; 当前栈顶元素2对应的数字75，将5入栈，此时栈元素为5,2</p>
-
-<p>第六轮i = 6，发现76 &gt; 当前栈顶元素5对应的数字72，将5弹出，i和栈顶元素5的差值为1，result[栈顶元素5] = 1；此时栈元素还有2
-   继续判断，发现76 &gt; 当前栈顶元素2对应的数字75，将2弹出，i和栈顶元素2的差值为4，result[栈顶元素2] = 4；此时栈已空，将6入栈</p>
-
-<p>第七轮i = 7，发现73 &lt; 当前栈顶元素6对应的数字76，将7入栈，此时栈元素为7,6</p>
-
-<p>遍历结束，此时已经求出result[]中的结果，没有的则默认为0。代码如下：</p>
-
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    if (stack.empty() || T[i] &lt; T[stack.peek()]) {
-        stack.push(i);
-    } else {
-        while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-            Integer index = stack.pop();
-            result[index] = i - index;
-        }
-        stack.push(i);
+for(int i = 0; i &lt; n; i++) {
+    Future&lt;Result&gt; poll = completionService.poll(100, TimeUnit.MILLISECONDS);
+    if (poll != null) {
+        return poll.get();
     }
 }
 </code></pre>
 
-<p>简化一下就是下面的代码：</p>
+<p>completionService是这样构造的</p>
 
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-        Integer index = stack.pop();
-        result[index] = i - index;
-    }
-    stack.push(i);
-}
+<pre><code>private static java.util.concurrent.ExecutorService executor = new ThreadPoolExecutor(32, 64,
+        30, TimeUnit.MINUTES, new ArrayBlockingQueue&lt;&gt;(1000), new ThreadRenameFactory(&quot;FeatureGet&quot;));
+
+private CompletionService&lt;Result&gt; completionService = new ExecutorCompletionService&lt;&gt;(executor);
 </code></pre>
 
-<p>解法二的运行结果是：</p>
+<p>注意，我们肯定是要对所有请求都复用一个线程池的，这个线程池做的工作就是从各个不同的数据源查询相关的数据，进行相关的逻辑处理，然后返回。要注意的是，我们这现在是一个RPC服务，实现类
+本身在服务启动的时候，只会产生一个proxy实例，后面所有的调用方请求都是通过这同一个实例来调用的。</p>
 
-<p>执行耗时:52 ms,击败了49.58% 的Java用户    内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
+<p><strong>RPC实现类</strong></p>
 
-<p>对于Java程序来说，把stack替换成ArrayDeque，会使得效率更高，任何使用stack的地方都可以考虑ArrayDeque是否可以替代，具体差异我还没有仔细研究过，替换后的运行结果是：</p>
+<p>这儿就是问题的关键了，可以看到上面的代码。executor和completionService我都是定义为了这个实现类的成员变量(不管
+静态or非静态的)，刚刚提到实现类的proxy实例只有一个，那么内存中也只有一个completionService对象，调用方A的请求和
+调用方B的请求都使用这个对象。它们各自起的查询线程返回的结果都保存在了同一个completionService内部维护的一个LinkedBlockingQueue
+中。如果因为某种原因(底层db查询耗时长，我poll等100ms就不等了)，第一个请求的结果没有全部返回，第二次请求就可能拿到
+第一次请求的结果，从而导致结果的乱序。</p>
 
-<p>执行耗时:42 ms,击败了63.21% 的Java用户    内存消耗:42.3 MB,击败了94.92% 的Java用户</p>
+<p><strong>关键</strong></p>
+
+<p>只要意识到RPC实现类的proxy实例只有一个，那么这里应该做的就是executor不变，设置为类的成员变量(此处是否为static都
+可以)，completionService必须在方法内部定义，即每个处理调用方请求的线程都拥有一个自己的completionService，才能
+保证数据的正确性。</p>
+
+<p><strong>CompletionService</strong></p>
+
+<p>关于这个接口，其实在JDK 1.5就已经出现了，它内部维护了一个队列来保存已完成任务的结果future，因此不同的线程只要使用
+不同的completionService对象是没有问题的。注意在实际使用的时候，往往用poll方法而不是take方法取数据，防止一直阻塞。</p>
+
+<p><strong>CompletableFuture</strong></p>
+
+<p>CompletableFuture在Java 8中才出现，但是其功能非常强大，上面的功能完全可以用CompletableFuture.allOf来实现，
+关于CompletableFuture的API内容挺多的，但是其功能都很有意思，可以下次在项目中用一下其中的功能。</p>
 
     </div>
 
@@ -351,14 +311,14 @@ for (int i = 0; i &lt; T.length; i++) {
 
     <footer class="post-footer">
       <div class="post-tags">
-          <a href="https://monkback.github.io/tags/leetcode/">Leetcode</a>
+          <a href="https://monkback.github.io/tags/%E5%B7%A5%E4%BD%9C/">工作</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/leetcode/647-palindromic-substrings/">
+          <a class="prev" href="/post/leetcode/560-subarray-sum-equals-k/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -368,12 +328,12 @@ for (int i = 0; i &lt; T.length; i++) {
 </svg>
 
             </i>
-            <span class="prev-text nav-default">647 Palindromic Substrings</span>
+            <span class="prev-text nav-default">560 Subarray Sum Equals K</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/work/paxos/">
-            <span class="next-text nav-default">对paxos的一些理解</span>
+          <a class="next" href="/post/leetcode/621-task-cheduler/">
+            <span class="next-text nav-default">621 Task Cheduler</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">

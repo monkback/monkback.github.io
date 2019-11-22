@@ -13,10 +13,10 @@
     
     <item>
       <title>对paxos的一些理解</title>
-      <link>https://monkback.github.io/post/paxos/</link>
+      <link>https://monkback.github.io/post/work/paxos/</link>
       <pubDate>Mon, 14 Oct 2019 10:38:40 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/paxos/</guid>
+      <guid>https://monkback.github.io/post/work/paxos/</guid>
       <description>由于最近需要在组内做一个分享，而且Spring那块我还没搞完，就打算选paxos的一些问题来梳理理解一下，这也就是技术分享的最大好处，需要你</description>
     </item>
     

@@ -6,10 +6,32 @@
     <description>Recent content on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 01 Nov 2019 18:12:07 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 21 Nov 2019 20:22:13 +0800</lastBuildDate>
     
         <atom:link href="https://monkback.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>遇到的FastJson的一个问题</title>
+      <link>https://monkback.github.io/post/work/fastjson/</link>
+      <pubDate>Thu, 21 Nov 2019 20:22:13 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/work/fastjson/</guid>
+      
+        <description>最近在项目中遇到了一个问题，在打印日志的时候，使用了一个统一封装的框架，将一个对象A打出来。结果确发现在日志里打出来的这个对象有一些本来不应</description>
+      
+    </item>
+    
+    <item>
+      <title>Spring 4.x 阅读笔记(数据访问篇)</title>
+      <link>https://monkback.github.io/post/spring/springdao/</link>
+      <pubDate>Sun, 10 Nov 2019 17:04:12 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring/springdao/</guid>
+      
+        <description></description>
+      
+    </item>
     
     <item>
       <title>560 Subarray Sum Equals K</title>
@@ -24,10 +46,10 @@
     
     <item>
       <title>一次关于CompletionService的使用</title>
-      <link>https://monkback.github.io/post/completionservice/</link>
+      <link>https://monkback.github.io/post/work/completionservice/</link>
       <pubDate>Thu, 31 Oct 2019 20:03:31 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/completionservice/</guid>
+      <guid>https://monkback.github.io/post/work/completionservice/</guid>
       
         <description>背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段</description>
       
@@ -68,12 +90,23 @@
     
     <item>
       <title>对paxos的一些理解</title>
-      <link>https://monkback.github.io/post/paxos/</link>
+      <link>https://monkback.github.io/post/work/paxos/</link>
       <pubDate>Mon, 14 Oct 2019 10:38:40 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/paxos/</guid>
+      <guid>https://monkback.github.io/post/work/paxos/</guid>
       
         <description>由于最近需要在组内做一个分享，而且Spring那块我还没搞完，就打算选paxos的一些问题来梳理理解一下，这也就是技术分享的最大好处，需要你</description>
+      
+    </item>
+    
+    <item>
+      <title>Spring 4.x 阅读笔记(五)</title>
+      <link>https://monkback.github.io/post/spring/spring4read4/</link>
+      <pubDate>Thu, 03 Oct 2019 13:22:59 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring/spring4read4/</guid>
+      
+        <description>第八章 基于AspectJ和Schema的AOP 基于注解的方式比上一章继承扩展各种类和接口要方便多了，首推的是这种方式。</description>
       
     </item>
     
