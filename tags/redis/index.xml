@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redis on Records</title>
+    <link>https://monkback.github.io/tags/redis/</link>
+    <description>Recent content in Redis on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 25 Dec 2019 15:38:33 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Redis 分布式锁的可重入</title>
+      <link>https://monkback.github.io/post/redis/redis-reentrant-lock/</link>
+      <pubDate>Wed, 25 Dec 2019 15:38:33 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/redis/redis-reentrant-lock/</guid>
+      <description>最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>739 Daily Temperatures - Records</title>
+  <title>Redis 分布式锁的可重入 - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+  <meta name="description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位" />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
+<link rel="canonical" href="https://monkback.github.io/post/redis/redis-reentrant-lock/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="739 Daily Temperatures" />
-<meta property="og:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
+<meta property="og:title" content="Redis 分布式锁的可重入" />
+<meta property="og:description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/leetcode/739-dailytemperatures/" />
-<meta property="article:published_time" content="2019-10-22T20:19:40+08:00" />
-<meta property="article:modified_time" content="2019-10-22T20:19:40+08:00" />
-<meta itemprop="name" content="739 Daily Temperatures">
-<meta itemprop="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,">
+<meta property="og:url" content="https://monkback.github.io/post/redis/redis-reentrant-lock/" />
+<meta property="article:published_time" content="2019-12-25T15:38:33+08:00" />
+<meta property="article:modified_time" content="2019-12-25T15:38:33+08:00" />
+<meta itemprop="name" content="Redis 分布式锁的可重入">
+<meta itemprop="description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位">
 
 
-<meta itemprop="datePublished" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="dateModified" content="2019-10-22T20:19:40&#43;08:00" />
-<meta itemprop="wordCount" content="1407">
+<meta itemprop="datePublished" content="2019-12-25T15:38:33&#43;08:00" />
+<meta itemprop="dateModified" content="2019-12-25T15:38:33&#43;08:00" />
+<meta itemprop="wordCount" content="714">
 
 
 
-<meta itemprop="keywords" content="Leetcode," />
+<meta itemprop="keywords" content="工作,Redis," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="739 Daily Temperatures"/>
-<meta name="twitter:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,"/>
+<meta name="twitter:title" content="Redis 分布式锁的可重入"/>
+<meta name="twitter:description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">739 Daily Temperatures</h1>
+      <h1 class="post-title">Redis 分布式锁的可重入</h1>
       
       <div class="post-meta">
-        <time datetime="2019-10-22" class="post-time">
-          2019-10-22
+        <time datetime="2019-12-25" class="post-time">
+          2019-12-25
         </time>
         
         
@@ -241,104 +241,126 @@
 
     
     <div class="post-content">
-      
+      <p>最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上
+就是用命令setnx ex来占据一个坑位。在Java里面体现出来可能是这样一行代码</p>
 
-<h4 id="739-dailytemperatures">739-dailyTemperatures</h4>
+<pre><code>jedis.set(lockKey, lockValue, &quot;NX&quot;, &quot;PX&quot;, expireTime);
+</code></pre>
 
-<p>题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.</p>
+<p>但是这样在加锁方式是不支持线程重入的，即同一个线程在持有锁的情况下再次请求加锁，此时是会失败
+的。需要在set外层加一个包装，使其支持可重入。既然需要同一个线程再次持有，那么往往都需要引入
+一个ThreadLocal&lt;&gt;。我先实现一个简单版的，在ThreadLocal里保存当前线程的线程id。如下代码</p>
 
-<p>For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].</p>
+<pre><code>package deregister;
 
-<p>Note:
-     The length of temperatures will be in the range [1, 30000].</p>
+import redis.clients.jedis.Jedis;
 
-<p>Each temperature will be an integer in the range [30, 100].</p>
+public class ReentrantLockRedis {
 
-<p>Related Topics Hash Table Stack</p>
+    private ThreadLocal&lt;Long&gt; threadId = new ThreadLocal&lt;&gt;();
+    private Jedis jedis;
 
-<p>题目本身很容易理解，找到当前数字右边第一个比它大的数，求一个距离。最先想到的就是一个暴力求解，两次for循环可以搞定，但时间复杂度是O(n^2)。</p>
+    public ReentrantLockRedis(Jedis jedis) {
+        this.jedis = jedis;
+    }
 
-<p>解法一：</p>
-
-<pre><code>public int[] dailyTemperatures(int[] T) {
-
-    int[] result = new int[T.length];
-    for (int i = 0; i &lt; T.length; i++) {
-        int count = 0;
-        for (int j = i + 1; j &lt; T.length; j++) {
-            if (T[j] &gt; T[i]) {
-                count = j - i;
-                break;
-            }
+    public boolean lock(String key) {
+        Long id = threadId.get();
+        if (id == null) {
+            threadId.set(Thread.currentThread().getId());
+            return jedis.set(key, &quot;&quot;, &quot;NX&quot;, &quot;PX&quot;, 30) != null;
         }
-        result[i] = count;
+        return Thread.currentThread().getId() == id;
     }
-    return result;
-}
-</code></pre>
 
-<p>这个解法用LeetCode插件提交的结果是：</p>
-
-<p>执行耗时:221 ms,击败了12.97% 的Java用户     内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
-<p>解法二：使用一个栈。栈中存放的是当前数字在数组中的index。遍历数组：如果栈为空或者当前数字小于栈顶索引对应的数字，则将当前索引入栈；否则，栈顶元素弹出，表明此索引对应的数字遇到了一个更大的，
-当前索引和栈顶元素的差值即是栈顶元素的天数。例如数组[73, 74, 75, 71, 69, 72, 76, 73]：假设for (int i = 0; i &lt; T.length; i++)
-首先i = 0，栈为空，0入栈；</p>
-
-<p>第二轮i = 1，发现74 &gt; 73，将0弹出，i和栈顶元素0差值为1，result[栈顶元素0] = 1；栈已空，将1入栈；</p>
-
-<p>第三轮i = 2，发现75 &gt; 当前栈顶元素1对应的数字74，将1弹出，i和栈顶元素1的差值为1，result[栈顶元素1] = 1；栈已空，将2入栈；</p>
-
-<p>第三轮i = 3，发现71 &lt; 当前栈顶元素2对应的数字75，将3入栈，此时栈元素为3,2</p>
-
-<p>第四轮i = 4，发现69 &lt; 当前栈顶元素3对应的数字71，将4入栈，此时栈元素为4,3,2</p>
-
-<p>第五轮i = 5，发现72 &gt; 当前栈顶元素4对应的数字69，将4弹出，i和栈顶元素4的差值为1，result[栈顶元素4] = 1；此时栈元素还有3,2
-   继续判断，发现72 &gt; 当前栈顶元素3对应的数字71，将3弹出，i和栈顶元素3的差值为2，result[栈顶元素3] = 2；此时栈元素还有2
-   继续判断，发现72 &lt; 当前栈顶元素2对应的数字75，将5入栈，此时栈元素为5,2</p>
-
-<p>第六轮i = 6，发现76 &gt; 当前栈顶元素5对应的数字72，将5弹出，i和栈顶元素5的差值为1，result[栈顶元素5] = 1；此时栈元素还有2
-   继续判断，发现76 &gt; 当前栈顶元素2对应的数字75，将2弹出，i和栈顶元素2的差值为4，result[栈顶元素2] = 4；此时栈已空，将6入栈</p>
-
-<p>第七轮i = 7，发现73 &lt; 当前栈顶元素6对应的数字76，将7入栈，此时栈元素为7,6</p>
-
-<p>遍历结束，此时已经求出result[]中的结果，没有的则默认为0。代码如下：</p>
-
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    if (stack.empty() || T[i] &lt; T[stack.peek()]) {
-        stack.push(i);
-    } else {
-        while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-            Integer index = stack.pop();
-            result[index] = i - index;
+    public boolean unlock(String key) {
+        Long id = threadId.get();
+        if (id != null) {
+            threadId.remove();
+            Long count = jedis.del(key);
+            return count == 1;
         }
-        stack.push(i);
+        return false;
     }
+
 }
 </code></pre>
 
-<p>简化一下就是下面的代码：</p>
+<p>上述代码其实就能实现分布式锁的可重入。下面我们来看一下稍微复杂一点的，他在ThreadLocal里面
+保存一个Map，即每个线程都持有一个自己的Map；Map的key就是Redis的key，value是这个key被
+获取的次数。代码如下，其实也挺容易理解的。不过这本书的作者不建议在Redis操作的外层封装，来支持
+线程重入，应该在业务角度考虑，是否有其他替代方案。原话为</p>
 
-<pre><code>int[] result = new int[T.length];
-Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-for (int i = 0; i &lt; T.length; i++) {
-    while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
-        Integer index = stack.pop();
-        result[index] = i - index;
+<blockquote>
+<p>它加重了客户端的复杂性，在编写业务方法时注意在逻辑结构上进行调整完全可以不使用可重入锁</p>
+</blockquote>
+
+<pre><code>package deregister;
+
+import redis.clients.jedis.Jedis;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ReentrantLockRedisMore {
+
+    private ThreadLocal&lt;Map&lt;String, Integer&gt;&gt; lockers = new ThreadLocal&lt;&gt;();
+    private Jedis jedis;
+
+    public ReentrantLockRedisMore(Jedis jedis) {
+        this.jedis = jedis;
     }
-    stack.push(i);
+
+    public Map&lt;String, Integer&gt; currentLockers() {
+        Map&lt;String, Integer&gt; map = lockers.get();
+        if (map != null) {
+            return map;
+        }
+        lockers.set(new HashMap&lt;&gt;());
+        return lockers.get();
+    }
+
+    public boolean _lock(String key) {
+        return jedis.set(key, &quot;&quot;, &quot;NX&quot;, &quot;PX&quot;, 30) != null;
+    }
+
+    public void _unlock(String key) {
+        jedis.del(key);
+    }
+
+    public boolean lock(String key) {
+        Map&lt;String, Integer&gt; lockers = currentLockers();
+        Integer count = lockers.get(key);
+        if (count != null) {
+            lockers.put(key, count + 1);
+            return true;
+        }
+        boolean _ok = _lock(key);
+        if (!_ok) {
+            return false;
+        }
+        lockers.put(key, 1);
+        return true;
+    }
+
+    private boolean unlock(String key) {
+        Map&lt;String, Integer&gt; lockers = currentLockers();
+        Integer count = lockers.get(key);
+        if (count == null) {
+            return false;
+        }
+        count--;
+        if (count &gt; 0) {
+            lockers.put(key, count);
+        } else {
+            lockers.remove(key);
+            _unlock(key);
+        }
+        return true;
+    }
+
 }
 </code></pre>
-
-<p>解法二的运行结果是：</p>
-
-<p>执行耗时:52 ms,击败了49.58% 的Java用户    内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
-<p>对于Java程序来说，把stack替换成ArrayDeque，会使得效率更高，任何使用stack的地方都可以考虑ArrayDeque是否可以替代，具体差异我还没有仔细研究过，替换后的运行结果是：</p>
-
-<p>执行耗时:42 ms,击败了63.21% 的Java用户    内存消耗:42.3 MB,击败了94.92% 的Java用户</p>
 
     </div>
 
@@ -351,29 +373,17 @@ for (int i = 0; i &lt; T.length; i++) {
 
     <footer class="post-footer">
       <div class="post-tags">
-          <a href="https://monkback.github.io/tags/leetcode/">Leetcode</a>
+          <a href="https://monkback.github.io/tags/%E5%B7%A5%E4%BD%9C/">工作</a>
+          <a href="https://monkback.github.io/tags/redis/">Redis</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/leetcode/647-palindromic-substrings/">
-            
-            <i class="iconfont">
-              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
-</svg>
-
-            </i>
-            <span class="prev-text nav-default">647 Palindromic Substrings</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
         
-          <a class="next" href="/post/work/paxos/">
-            <span class="next-text nav-default">对paxos的一些理解</span>
+          <a class="next" href="/post/work/fastjson/">
+            <span class="next-text nav-default">遇到的FastJson的一个问题</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">
