@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Archive - Records</title>
+  <title>NIO-2 - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,6 +23,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
+  <meta name="description" content="###传统的BIO### 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定" />
+
 
 
 
@@ -32,8 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/" />
-<link href="%7balternate%20%7bRSS%20application/rss&#43;xml%20%20index%20alternate%20%20false%20false%20true%20false%20false%200%7d%20/post/index.xml%20https://monkback.github.io/post/index.xml%7d" rel="alternate" type="application/rss+xml" title="Records" />
+<link rel="canonical" href="https://monkback.github.io/post/net/nio2/" />
 
 
 
@@ -55,18 +56,26 @@
 
 
 
-<meta property="og:title" content="Posts" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://monkback.github.io/post/" />
+<meta property="og:title" content="NIO-2" />
+<meta property="og:description" content="###传统的BIO### 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/net/nio2/" />
+<meta property="article:published_time" content="2019-09-03T18:10:06+08:00" />
+<meta property="article:modified_time" content="2019-09-03T18:10:06+08:00" />
+<meta itemprop="name" content="NIO-2">
+<meta itemprop="description" content="###传统的BIO### 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定">
 
-<meta property="og:updated_time" content="2020-01-14T10:52:08+08:00" />
-<meta itemprop="name" content="Posts">
-<meta itemprop="description" content="">
 
+<meta itemprop="datePublished" content="2019-09-03T18:10:06&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-03T18:10:06&#43;08:00" />
+<meta itemprop="wordCount" content="902">
+
+
+
+<meta itemprop="keywords" content="Java NIO," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="NIO-2"/>
+<meta name="twitter:description" content="###传统的BIO### 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -149,7 +158,7 @@
   <ul id="menu" class="menu">
     
     
-        <li class="menu-item active">
+        <li class="menu-item">
         
           
           
@@ -207,180 +216,101 @@
     <main id="main" class="main bg-llight">
       <div class="content-wrapper">
         <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">NIO-2</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-09-03" class="post-time">
+          2019-09-03
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>###传统的BIO###
+我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监听相关的端口，Socket负责发起连接操作；这就是一次典型的tcp三次握手。传统的ServerSocket会阻塞在其accept方法上，直到一个客户端发起了连接，然后accept方法返回一个socket，这个socket就负责和我们客户端进行通信。
+本例中，书上采用了每返回一个socket（代表每收到一个客户端的连接），就创建并启动一个线程，去做这些具体的通信操作。这样的坏处很明显，当客户端连接增多时，创建大量的线程，这显然是极大的耗费性能的，不满足我们的高并发需求。很容易，我们就想到了一个解决方案——线程池</p>
+
+<p>###伪异步I/O###
+一个看起来可以解决上面问题的方案——线程池，确实在现实中，无脑上线程池是一个能解决很多问题的方案。即我们在服务端放一个线程池，里面有一定数量的线程，来一个客户端的连接，我们就拿出一个线程去和客户端进行通信。这样看起来就已经很美好了，我们下面来分析一下线程池的弊端，或者这么说，线程池并没有解决本质上处理连接时的阻塞问题。
+####弊端：
+1、首先，当对socket输入流进行读取操作时，它会一直阻塞，直到有数据可读或者可用数据读完或者抛异常后才会终止；这意味着如果发送方发送请求消息比较慢、或者网络传输比较慢的时候，读取输入流一方的线程将一直被阻塞；（类似于I/O模型中，需要等待操作系统将数据拷贝至内核缓冲区中）。值得注意的是，输入是针对客户端和服务端双方的，大家都既是输入又是输出。
+2、当调用outputstream的write方法时写输出流时，它也将被阻塞，直到<strong>所有要发送的字节流被写入完毕，或者发生异常</strong>，这里我们需要认识到以前学过的TCP拥塞控制，这就是知识的相关性。
+所以，我们的线程池只是治标不治本，并不能完全解决底层的同步阻塞问题。</p>
+
+<p>###NIO编程###
+Non-blocking I/O，NIO是Java提供的一个包，里面封装了一些新的概念，让我们可以直接使用，从而无需关心底层I/O的细节。和它相对应的就是之前的java.io包，</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/java-nio/">Java NIO</a>
           
-<section id="archive" class="archive">
-    <div class="archive-title">
-      <span class="archive-post-counter">
-          18 posts In Total
-      </span>
-    </div>
-    
-      <div class="collection-title">
-        <h2 class="archive-year">2020</h2>
-      </div>
+        </div>
 
-    <div class="archive-post">
-      <time datetime="2020-01-14" class="archive-post-time">
-        2020-01-14
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/algorithm/listnode/" class="archive-post-link">
-          ListNode相关知识
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2020-01-11" class="archive-post-time">
-        2020-01-11
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/work/2019-2020/" class="archive-post-link">
-          2019 2020
-        </a>
-      </span>
-    </div>
-    
-      <div class="collection-title">
-        <h2 class="archive-year">2019</h2>
-      </div>
-
-    <div class="archive-post">
-      <time datetime="2019-12-25" class="archive-post-time">
-        2019-12-25
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/redis/redis-reentrant-lock/" class="archive-post-link">
-          Redis 分布式锁的可重入
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2019-11-21" class="archive-post-time">
-        2019-11-21
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/work/fastjson/" class="archive-post-link">
-          遇到的FastJson的一个问题
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2019-11-10" class="archive-post-time">
-        2019-11-10
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/spring/springdao/" class="archive-post-link">
-          Spring 4.x 阅读笔记(数据访问篇)
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2019-11-01" class="archive-post-time">
-        2019-11-01
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/algorithm/560-subarray-sum-equals-k/" class="archive-post-link">
-          560 Subarray Sum Equals K
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2019-10-31" class="archive-post-time">
-        2019-10-31
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/work/completionservice/" class="archive-post-link">
-          一次关于CompletionService的使用
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2019-10-26" class="archive-post-time">
-        2019-10-26
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/algorithm/621-task-cheduler/" class="archive-post-link">
-          621 Task Cheduler
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2019-10-24" class="archive-post-time">
-        2019-10-24
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/algorithm/647-palindromic-substrings/" class="archive-post-link">
-          647 Palindromic Substrings
-        </a>
-      </span>
-    </div>
-    
-
-    <div class="archive-post">
-      <time datetime="2019-10-22" class="archive-post-time">
-        2019-10-22
-      </time>
-      <span class="archive-post-title">
-        <a href="/post/algorithm/739-dailytemperatures/" class="archive-post-link">
-          739 Daily Temperatures
-        </a>
-      </span>
-    </div></section>
-
-
-
-
-
-
-  
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-  <nav class="pagination">
-    <ul>
       
-      <li  class="active" >
-        <a href="/post/">1</a>
-      </li>
-      
-      <li >
-        <a href="/post/page/2/">2</a>
-      </li>
-      
-    </ul>
-  </nav>
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/net/nio1/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">NIO-1</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
 
   
   
 
+  
+  
 
+  
 
+  
+  
 
+  
+
+  
+
+  
+
+    
+
+  
 
         </div>
       </div>

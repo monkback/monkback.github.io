@@ -6,10 +6,32 @@
     <description>Recent content on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Dec 2019 15:38:33 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jan 2020 10:52:08 +0800</lastBuildDate>
     
         <atom:link href="https://monkback.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ListNode相关知识</title>
+      <link>https://monkback.github.io/post/algorithm/listnode/</link>
+      <pubDate>Tue, 14 Jan 2020 10:52:08 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/listnode/</guid>
+      
+        <description>自己算法上的知识一直都很薄弱，好些题目都是靠之前的死记硬背下来的，过段时间就忘记解法了。所以最近在看极客时间上的一个专栏《数据结构与算法之美</description>
+      
+    </item>
+    
+    <item>
+      <title>2019 2020</title>
+      <link>https://monkback.github.io/post/work/2019-2020/</link>
+      <pubDate>Sat, 11 Jan 2020 10:43:13 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/work/2019-2020/</guid>
+      
+        <description></description>
+      
+    </item>
     
     <item>
       <title>Redis 分布式锁的可重入</title>
@@ -46,10 +68,10 @@
     
     <item>
       <title>560 Subarray Sum Equals K</title>
-      <link>https://monkback.github.io/post/leetcode/560-subarray-sum-equals-k/</link>
+      <link>https://monkback.github.io/post/algorithm/560-subarray-sum-equals-k/</link>
       <pubDate>Fri, 01 Nov 2019 18:12:07 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/leetcode/560-subarray-sum-equals-k/</guid>
+      <guid>https://monkback.github.io/post/algorithm/560-subarray-sum-equals-k/</guid>
       
         <description>560-Subarray Sum Equals K 题目：Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: Input:nums = [1,1,1], k = 2 Output: 2 The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the</description>
       
@@ -68,10 +90,10 @@
     
     <item>
       <title>621 Task Cheduler</title>
-      <link>https://monkback.github.io/post/leetcode/621-task-cheduler/</link>
+      <link>https://monkback.github.io/post/algorithm/621-task-cheduler/</link>
       <pubDate>Sat, 26 Oct 2019 17:19:45 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/leetcode/621-task-cheduler/</guid>
+      <guid>https://monkback.github.io/post/algorithm/621-task-cheduler/</guid>
       
         <description>621-Task Scheduler 题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks. Tasks could be done without original order.Each task could be done in one interval. For each interval, CPU could finish one task or just be idle. However, there is a non-negative cooling interval n that means between two</description>
       
@@ -79,10 +101,10 @@
     
     <item>
       <title>647 Palindromic Substrings</title>
-      <link>https://monkback.github.io/post/leetcode/647-palindromic-substrings/</link>
+      <link>https://monkback.github.io/post/algorithm/647-palindromic-substrings/</link>
       <pubDate>Thu, 24 Oct 2019 17:35:13 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/leetcode/647-palindromic-substrings/</guid>
+      <guid>https://monkback.github.io/post/algorithm/647-palindromic-substrings/</guid>
       
         <description>647-Palindromic Substrings 题目：Given a string, your task is to count how many palindromic substrings in this string. The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters. Example 1: Input: &amp;ldquo;abc&amp;rdquo; Output: 3 Explanation: Three palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;b&amp;rdquo;, &amp;ldquo;c&amp;rdquo;. Example 2: Input: &amp;ldquo;aaa&amp;rdquo; Output: 6 Explanation: Six palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;,</description>
       
@@ -90,10 +112,10 @@
     
     <item>
       <title>739 Daily Temperatures</title>
-      <link>https://monkback.github.io/post/leetcode/739-dailytemperatures/</link>
+      <link>https://monkback.github.io/post/algorithm/739-dailytemperatures/</link>
       <pubDate>Tue, 22 Oct 2019 20:19:40 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/leetcode/739-dailytemperatures/</guid>
+      <guid>https://monkback.github.io/post/algorithm/739-dailytemperatures/</guid>
       
         <description>739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,</description>
       
@@ -178,10 +200,10 @@
     
     <item>
       <title>NIO-1</title>
-      <link>https://monkback.github.io/post/nio1/</link>
+      <link>https://monkback.github.io/post/net/nio1/</link>
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/nio1/</guid>
+      <guid>https://monkback.github.io/post/net/nio1/</guid>
       
         <description>netty是一个用于客户端和服务器通信的高性能网络通信框架，涉及到跨机器之间的通信，必然离不开I/O，所以我们就从Java 的I/O演变之路开</description>
       
@@ -189,10 +211,10 @@
     
     <item>
       <title>NIO-2</title>
-      <link>https://monkback.github.io/post/nio2/</link>
+      <link>https://monkback.github.io/post/net/nio2/</link>
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/nio2/</guid>
+      <guid>https://monkback.github.io/post/net/nio2/</guid>
       
         <description>###传统的BIO### 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定</description>
       

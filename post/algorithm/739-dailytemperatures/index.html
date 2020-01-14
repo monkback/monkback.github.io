@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Spring 4.x 阅读笔记(数据访问篇) - Records</title>
+  <title>739 Daily Temperatures - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="" />
+  <meta name="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/spring/springdao/" />
+<link rel="canonical" href="https://monkback.github.io/post/algorithm/739-dailytemperatures/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="Spring 4.x 阅读笔记(数据访问篇)" />
-<meta property="og:description" content="" />
+<meta property="og:title" content="739 Daily Temperatures" />
+<meta property="og:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/spring/springdao/" />
-<meta property="article:published_time" content="2019-11-10T17:04:12+08:00" />
-<meta property="article:modified_time" content="2019-11-10T17:04:12+08:00" />
-<meta itemprop="name" content="Spring 4.x 阅读笔记(数据访问篇)">
-<meta itemprop="description" content="">
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/739-dailytemperatures/" />
+<meta property="article:published_time" content="2019-10-22T20:19:40+08:00" />
+<meta property="article:modified_time" content="2019-10-22T20:19:40+08:00" />
+<meta itemprop="name" content="739 Daily Temperatures">
+<meta itemprop="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,">
 
 
-<meta itemprop="datePublished" content="2019-11-10T17:04:12&#43;08:00" />
-<meta itemprop="dateModified" content="2019-11-10T17:04:12&#43;08:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="datePublished" content="2019-10-22T20:19:40&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-22T20:19:40&#43;08:00" />
+<meta itemprop="wordCount" content="1407">
 
 
 
-<meta itemprop="keywords" content="Spring," />
+<meta itemprop="keywords" content="Leetcode," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Spring 4.x 阅读笔记(数据访问篇)"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="739 Daily Temperatures"/>
+<meta name="twitter:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">Spring 4.x 阅读笔记(数据访问篇)</h1>
+      <h1 class="post-title">739 Daily Temperatures</h1>
       
       <div class="post-meta">
-        <time datetime="2019-11-10" class="post-time">
-          2019-11-10
+        <time datetime="2019-10-22" class="post-time">
+          2019-10-22
         </time>
         
         
@@ -242,6 +242,104 @@
     
     <div class="post-content">
       
+
+<h4 id="739-dailytemperatures">739-dailyTemperatures</h4>
+
+<p>题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.</p>
+
+<p>For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].</p>
+
+<p>Note:
+     The length of temperatures will be in the range [1, 30000].</p>
+
+<p>Each temperature will be an integer in the range [30, 100].</p>
+
+<p>Related Topics Hash Table Stack</p>
+
+<p>题目本身很容易理解，找到当前数字右边第一个比它大的数，求一个距离。最先想到的就是一个暴力求解，两次for循环可以搞定，但时间复杂度是O(n^2)。</p>
+
+<p>解法一：</p>
+
+<pre><code>public int[] dailyTemperatures(int[] T) {
+
+    int[] result = new int[T.length];
+    for (int i = 0; i &lt; T.length; i++) {
+        int count = 0;
+        for (int j = i + 1; j &lt; T.length; j++) {
+            if (T[j] &gt; T[i]) {
+                count = j - i;
+                break;
+            }
+        }
+        result[i] = count;
+    }
+    return result;
+}
+</code></pre>
+
+<p>这个解法用LeetCode插件提交的结果是：</p>
+
+<p>执行耗时:221 ms,击败了12.97% 的Java用户     内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
+
+<p>解法二：使用一个栈。栈中存放的是当前数字在数组中的index。遍历数组：如果栈为空或者当前数字小于栈顶索引对应的数字，则将当前索引入栈；否则，栈顶元素弹出，表明此索引对应的数字遇到了一个更大的，
+当前索引和栈顶元素的差值即是栈顶元素的天数。例如数组[73, 74, 75, 71, 69, 72, 76, 73]：假设for (int i = 0; i &lt; T.length; i++)
+首先i = 0，栈为空，0入栈；</p>
+
+<p>第二轮i = 1，发现74 &gt; 73，将0弹出，i和栈顶元素0差值为1，result[栈顶元素0] = 1；栈已空，将1入栈；</p>
+
+<p>第三轮i = 2，发现75 &gt; 当前栈顶元素1对应的数字74，将1弹出，i和栈顶元素1的差值为1，result[栈顶元素1] = 1；栈已空，将2入栈；</p>
+
+<p>第三轮i = 3，发现71 &lt; 当前栈顶元素2对应的数字75，将3入栈，此时栈元素为3,2</p>
+
+<p>第四轮i = 4，发现69 &lt; 当前栈顶元素3对应的数字71，将4入栈，此时栈元素为4,3,2</p>
+
+<p>第五轮i = 5，发现72 &gt; 当前栈顶元素4对应的数字69，将4弹出，i和栈顶元素4的差值为1，result[栈顶元素4] = 1；此时栈元素还有3,2
+   继续判断，发现72 &gt; 当前栈顶元素3对应的数字71，将3弹出，i和栈顶元素3的差值为2，result[栈顶元素3] = 2；此时栈元素还有2
+   继续判断，发现72 &lt; 当前栈顶元素2对应的数字75，将5入栈，此时栈元素为5,2</p>
+
+<p>第六轮i = 6，发现76 &gt; 当前栈顶元素5对应的数字72，将5弹出，i和栈顶元素5的差值为1，result[栈顶元素5] = 1；此时栈元素还有2
+   继续判断，发现76 &gt; 当前栈顶元素2对应的数字75，将2弹出，i和栈顶元素2的差值为4，result[栈顶元素2] = 4；此时栈已空，将6入栈</p>
+
+<p>第七轮i = 7，发现73 &lt; 当前栈顶元素6对应的数字76，将7入栈，此时栈元素为7,6</p>
+
+<p>遍历结束，此时已经求出result[]中的结果，没有的则默认为0。代码如下：</p>
+
+<pre><code>int[] result = new int[T.length];
+Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+for (int i = 0; i &lt; T.length; i++) {
+    if (stack.empty() || T[i] &lt; T[stack.peek()]) {
+        stack.push(i);
+    } else {
+        while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
+            Integer index = stack.pop();
+            result[index] = i - index;
+        }
+        stack.push(i);
+    }
+}
+</code></pre>
+
+<p>简化一下就是下面的代码：</p>
+
+<pre><code>int[] result = new int[T.length];
+Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+for (int i = 0; i &lt; T.length; i++) {
+    while (!stack.empty() &amp;&amp; T[i] &gt; T[stack.peek()]) {
+        Integer index = stack.pop();
+        result[index] = i - index;
+    }
+    stack.push(i);
+}
+</code></pre>
+
+<p>解法二的运行结果是：</p>
+
+<p>执行耗时:52 ms,击败了49.58% 的Java用户    内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
+
+<p>对于Java程序来说，把stack替换成ArrayDeque，会使得效率更高，任何使用stack的地方都可以考虑ArrayDeque是否可以替代，具体差异我还没有仔细研究过，替换后的运行结果是：</p>
+
+<p>执行耗时:42 ms,击败了63.21% 的Java用户    内存消耗:42.3 MB,击败了94.92% 的Java用户</p>
+
     </div>
 
     
@@ -253,14 +351,14 @@
 
     <footer class="post-footer">
       <div class="post-tags">
-          <a href="https://monkback.github.io/tags/spring/">Spring</a>
+          <a href="https://monkback.github.io/tags/leetcode/">Leetcode</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/work/fastjson/">
+          <a class="prev" href="/post/algorithm/647-palindromic-substrings/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -270,12 +368,12 @@
 </svg>
 
             </i>
-            <span class="prev-text nav-default">遇到的FastJson的一个问题</span>
+            <span class="prev-text nav-default">647 Palindromic Substrings</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/algorithm/560-subarray-sum-equals-k/">
-            <span class="next-text nav-default">560 Subarray Sum Equals K</span>
+          <a class="next" href="/post/work/paxos/">
+            <span class="next-text nav-default">对paxos的一些理解</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">
