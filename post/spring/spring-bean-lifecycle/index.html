@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Spring Bean LifeCycle - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/spring/spring-bean-lifecycle/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Spring Bean LifeCycle" />
+<meta property="og:description" content="这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/spring/spring-bean-lifecycle/" />
+<meta property="article:published_time" content="2020-03-25T16:58:14+08:00" />
+<meta property="article:modified_time" content="2020-03-25T16:58:14+08:00" />
+<meta itemprop="name" content="Spring Bean LifeCycle">
+<meta itemprop="description" content="这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，">
+
+
+<meta itemprop="datePublished" content="2020-03-25T16:58:14&#43;08:00" />
+<meta itemprop="dateModified" content="2020-03-25T16:58:14&#43;08:00" />
+<meta itemprop="wordCount" content="5296">
+
+
+
+<meta itemprop="keywords" content="Spring," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring Bean LifeCycle"/>
+<meta name="twitter:description" content="这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Spring Bean LifeCycle</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-03-25" class="post-time">
+          2020-03-25
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，不过ApplicationContext大体上也差不多，区别不太大。</p>
+
+<p>在分析Bean的生命周期前，我们先认识系统认识下面几个接口。</p>
+
+<ul>
+<li><strong>一、 Bean对象的初始化和销毁方法</strong></li>
+</ul>
+
+<p>在Spring中，提供了两种操作Bean对象的<strong>初始化（注意此时，对象已经被实例化出来了）</strong>和销毁方式：</p>
+
+<p>1、通过Bean标签中的init-method和destroy-method属性来设置初始化及销毁对象时的回调方法</p>
+
+<p>2、通过@PostConstruct和@PreDestroy注解来标识初始化方法以及销毁方法。（使用注解更常用）</p>
+
+<pre><code>public class User {
+
+    private int id;
+
+    public User(){
+        System.out.println(&quot;User 被实例化&quot;);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * 自定义的初始化方法
+     */
+    public void start(){
+        System.out.println(&quot;--自定义的初始化的方法--&quot;);
+    }
+
+    /**
+     * 自定义的初始化的方法
+     */
+    @PostConstruct
+    public void postConstruct(){
+        System.out.println(&quot;...postConstruct...&quot;);
+    }
+
+    /**
+     * 销毁前回调方法
+     */
+    @PreDestroy
+    public  void preDestory(){
+        System.out.println(&quot;--preDestory---&quot;);
+    }
+    /**
+     * 销毁前的回调方法
+     */
+    public void end(){
+        System.out.println(&quot;--end--&quot;);
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User [id=&quot; + id + &quot;]&quot;;
+    }
+}
+</code></pre>
+
+<p>Spring 配置文件中配置如下</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd&quot;&gt;
+
+    &lt;!-- 激活那些已经在spring容器里注册过的bean（无论是通过xml的方式还是通过package sanning的方式）上面的注解 --&gt;
+    **如果不添加此处，则你的PostConstruct和PreDestroy注解都无效**
+    &lt;context:annotation-config /&gt;
+
+    &lt;bean class=&quot;com.dpb.pojo.User&quot; id=&quot;user&quot; init-method=&quot;start&quot; destroy-method=&quot;end&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;波波烤鸭&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>测试：</p>
+
+<pre><code>@Test
+public void test1() {
+    ClassPathXmlApplicationContext ac = 
+            new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+    User user = ac.getBean(User.class);
+    System.out.println(user);
+    // 注册销毁
+    ac.registerShutdownHook();
+}
+</code></pre>
+
+<p>最后的输出为，可以看到，在getBean被调用的时候，User实体先被实例化，然后调用Bean自定义的初始化方法（注解优先）；容器销毁的时候先调用定义的销毁方法。</p>
+
+<pre><code>User 被实例化
+...postConstruct...
+--自定义的初始化的方法--
+User [id=0, name=波波烤鸭, beanName=null]
+--preDestory---
+--end--
+</code></pre>
+
+<ul>
+<li><strong>二、Spring之InitializingBean接口和DisposableBean接口</strong></li>
+</ul>
+
+<p>这两个接口的使用方式都要求 我们定义的Bean实现这两个接口，并实现具体的方法，因此会有耦合。</p>
+
+<p>InitializingBean接口的作用在于：允许一个Bean在它的所有必须属性被BeanFactory设置后，来执行初始化的工作，这个接口里面只有一个方法：</p>
+
+<pre><code>void afterPropertiesSet() throws Exception;
+</code></pre>
+
+<p>DisposableBean接口的作用是：允许在容器销毁该Bean的时候获得一次回调，内部也只有一个方法</p>
+
+<pre><code>void destroy() throws Exception;
+</code></pre>
+
+<p>代码如下</p>
+
+<pre><code>public class User implements InitializingBean,DisposableBean{
+
+    private int id;
+
+    private String name;
+
+    public User(){
+        System.out.println(&quot;User 被实例化&quot;);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        System.out.println(&quot;设置：&quot;+name);
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User [id=&quot; + id + &quot;, name=&quot; + name + &quot;, beanName=&quot; + beanName + &quot;]&quot;;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        // TODO Auto-generated method stub
+        System.out.println(&quot;destory ....&quot;);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println(&quot;afterPropertiesSet....&quot;);
+    }
+}
+</code></pre>
+
+<p>Spring配置文件如下：</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+    &lt;bean class=&quot;com.dpb.pojo.User&quot; id=&quot;user&quot; &gt;
+        &lt;property name=&quot;name&quot; value=&quot;波波烤鸭&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+&lt;/beans&gt;
+</code></pre>
+
+<p>测试代码：</p>
+
+<pre><code>@Test
+public void test1() {
+    ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+    User user = ac.getBean(User.class);
+    System.out.println(user);
+    ac.registerShutdownHook();
+}
+</code></pre>
+
+<p>最后输出为如下，可以看到，在Bean实例化后，相关的属性被设置后</p>
+
+<pre><code>User 被实例化
+设置：波波烤鸭
+afterPropertiesSet....
+User [id=0, name=波波烤鸭, beanName=null]
+destory ....
+</code></pre>
+
+<p><big>总结一：上述两者结合，其执行顺序为：</big></p>
+
+<p>(1)、调用默认构造函数实例化对象—&gt;</p>
+
+<p>(2)、设置相关的必须属性—&gt;</p>
+
+<p>(3)、调用PostConstruct注解的方法—&gt;</p>
+
+<p>(4)、调用InitializingBean的afterPropertiesSet方法—&gt;</p>
+
+<p>(5)、调用init-method属性对应的自定义初始化方法—&gt;</p>
+
+<p>(6)、初始化完成—&gt;</p>
+
+<p>(7)、调用PreDestroy注解的方法—&gt;</p>
+
+<p>(8)、调用DisposableBean的destroy方法—&gt;</p>
+
+<p>(9)、调用destroy-method属性对应的自定义销毁前回调方法</p>
+
+<ul>
+<li><p><strong>三、Spring之Aware系列接口</strong></p>
+
+<ul>
+<li>ApplicationContextAware</li>
+<li>BeanClassLoaderAware</li>
+<li>BeanFactoryAware</li>
+<li>BeanNameAware
+<br /></li>
+</ul></li>
+</ul>
+
+<p>可以让某些定义的Bean来实现Aware接口，这样这些Bean就可以访问Spring容器了，但和InitializingBean接口类似，会造成Bean
+和Spring框架的耦合。Aware系列的接口内部都有一个setXXX的方法，方法的形参是Aware接口前面的内容。</p>
+
+<p>这里我不再粘代码过来了，可以考虑让你的实体实现上面几个Aware接口，就能看见这些内容是什么时候被set到Bean中去的。
+setBeanName、setBeanFactory等发生在上面步骤的(2)之后，(3)之前，即实例化对象后并设置完一些必须的属性之后，讲这些
+内容放到Bean中去，然后调用PostConstruct注解修饰的方法。</p>
+
+<ul>
+<li><strong>四、Spring之InstantiationAwareBeanPostProcessor接口</strong></li>
+</ul>
+
+<p>这个接口是感知Bean实例化的，注意是实例化而不是初始化，它的父接口BeanPostProcessor的内部方法是感知初始化的，这是区别。
+除了继承了父接口的两个方法以外，该接口额外定义了以下三个方法：</p>
+
+<ul>
+<li><p>Object postProcessBeforeInstantiation(Class&lt;?&gt; beanClass, String beanName)</p>
+
+<p>// 这个方法往往被认为是Bean的生命周期开始时，<strong>最先执行</strong>的方法（在Bean实例化之前调用），此时Bean尚未实例化，可
+以返回任意类型的Object。由于此时目标对象尚未实例化，所以这个返回值可以用来代替原本应该生成的实例对象（例如创建一个代理
+对象）。如果该方法的返回值不为null，即用来代替原本应该生成的实例对象，则后续只有postProcessAfterInitialization
+方法会调用（注意此方法来自父接口，是初始化完毕后调用的方法），其他方法不再调用。否则按照正常流程走</p></li>
+
+<li><p>boolean postProcessAfterInstantiation(Object bean, String beanName)</p>
+
+<p>// 在目标对象实例化之后调用，此时Bean已经被实例化，但是该实例的属性尚未被设置，都是null。它的返回值是postProcess
+PropertyValues方法会不会调用的决定因素之一。如果该方法返回false且mbd.getDependencyCheck()返回true(表示不
+需要check)，则postProcessPropertyValues方法不会被调用；否则下面这个方法会执行。</p></li>
+
+<li><p>PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName)</p>
+
+<p>// 对属性值进行修改，当然该方法是否会执行取决于上一个方法返回的结果，可以通过如下代码拿到准备设置的属性值，并对其进行
+修改。</p>
+
+<pre><code> PropertyValue value = pvs.getPropertyValue(&quot;name&quot;);
+ System.out.println(&quot;修改前name的值是:&quot;+value.getValue());
+ value.setConvertedValue(&quot;bobo&quot;);
+</code></pre></li>
+</ul>
+
+<p>父接口中定义的两个方法如下（是在初始化前后执行的）：</p>
+
+<ul>
+<li><p>Object postProcessBeforeInitialization(Object bean, String beanName)</p>
+
+<p>// 在Bean自定义的<strong>初始化方法</strong>之前执行，在Bean实例化及属性注入后执行的，
+且在自定义的初始化方法之前执行(通过init-method指定)</p></li>
+
+<li><p>Object postProcessAfterInitialization(Object bean, String beanName)</p>
+
+<p>// 在Bean自定义的<strong>初始化方法</strong>执行完成之后执行</p></li>
+</ul>
+
+<p>你可以自定义一个MyInstantiationAwareBeanPostProcessor，实现这个接口的5个方法，代码不再粘贴，观察这几个方法的执行
+顺序，结合上面的执行顺序，结果如下：</p>
+
+<p>(0)、调用postProcessBeforeInstantiation方法，在Bean被实例化之前—&gt;</p>
+
+<p>(1)、调用默认构造函数<strong>实例化</strong>对象—&gt;</p>
+
+<p>(2)、调用postProcessAfterInstantiation方法，此时Bean已经被实例化，但是其属性尚未被设置—&gt;</p>
+
+<p>(3)、调用postProcessPropertyValues方法，设置其相关的属性，当然是否执行取决于上一个方法的返回结果—&gt;</p>
+
+<p>(4)、设置相关的必须属性—@Deprecated&gt;</p>
+
+<p>(5)、设置Aware接口相关的内容—&gt;</p>
+
+<p>(6)、调用postProcessBeforeInitialization方法，准备开始初始化—&gt;</p>
+
+<p>(7)、调用PostConstruct注解的方法—&gt;</p>
+
+<p>(8)、调用InitializingBean的afterPropertiesSet方法—&gt;</p>
+
+<p>(9)、调用init-method属性对应的自定义初始化方法—&gt;</p>
+
+<p>(10)、调用postProcessAfterInitialization，初始化完毕—&gt;</p>
+
+<p>(11)、初始化完成—&gt;</p>
+
+<p>(12)、调用PreDestroy注解的方法—&gt;</p>
+
+<p>(13)、调用DisposableBean的destroy方法—&gt;</p>
+
+<p>(14)、调用destroy-method属性对应的自定义销毁前回调方法</p>
+
+<ul>
+<li><strong>五、Spring之BeanFactoryPostProcessor接口</strong></li>
+</ul>
+
+<p>这个接口的名称已经指示我们它是和BeanFactory（即Spring容器）相关的，而不是Bean相关的。Spring允许通过这个接口在
+容器实例化<strong>任何Bean</strong>之前读取Bean的定义（即BeanDefinition），从而可以修改它。可以定义多个BeanFactoryPostProcessor
+，通过设置order属性来确定他们的执行顺序，该接口内部只有一个方法：</p>
+
+<pre><code>void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+</code></pre>
+
+<p>可以自定义类实现这个接口，可能的代码如下：</p>
+
+<pre><code>public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+
+    /**
+     * 本方法在Bean对象实例化之前执行，
+     * 通过beanFactory可以获取bean的定义信息，
+     * 并可以修改bean的定义信息。这点是和BeanPostProcessor最大区别
+     */
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+
+        System.out.println(&quot;&gt;&gt; BeanFactoryPostProcessor 开始执行了&quot;);
+        String[] names = beanFactory.getBeanDefinitionNames();
+        for (String name : names) {
+            if(&quot;user&quot;.equals(name)){
+
+                BeanDefinition beanDefinition = beanFactory.getBeanDefinition(name);
+                MutablePropertyValues propertyValues = beanDefinition.getPropertyValues();
+                // MutablePropertyValues如果设置了相关属性，可以修改，如果没有设置则可以添加相关属性信息
+                if(propertyValues.contains(&quot;name&quot;)){
+                    propertyValues.addPropertyValue(&quot;name&quot;, &quot;bobo&quot;);
+                    System.out.println(&quot;修改了属性信息&quot;);
+                }
+            }
+        }
+        System.out.println(&quot;&gt;&gt; BeanFactoryPostProcessor 执行结束&quot;);
+    }
+}
+</code></pre>
+
+<p>事实上，这个方法的执行顺序甚至在postProcessBeforeInstantiation方法之前，即之前的第(0)步以前，但是就定义来讲，这个
+方法不属于Bean的生命周期的一部分。因此该方法的执行顺序是在最前面的，当然你在这个方法里面增加或者修改了Bean的一些属性，
+<strong>仍然可以</strong>在后续的postProcessPropertyValues方法中继续修改。</p>
+
+<p>最后来一份总结吧：</p>
+
+<p>1、如果实现了BeanFactoryPostProcessor接口，那么在容器启动的时候，在所有的Bean实例化之前，但是BeanDefinition对象
+已经构造出来了，会执行postProcessBeanFactory方法，这个方法内部可以修改Bean中元数据的信息；</p>
+
+<p>2、如果实现了InstantiationAwareBeanPostProcessor接口，那么在实例化Bean之前会调用postProcessBeforeInstantiation
+方法，该方法如果不返回null则会跳过后续的一部分流程，直接调用<strong>postProcessAfterInitialization</strong>方法，此时就初始化完成。
+如果返回null，则正常调用构造函数实例化对象，然后调用postProcessAfterInstantiation，这个时候对象已经被实例化，但是
+属性并未设置，它的返回值决定了是否会调用postProcessPropertyValues方法，用来修改相关的属性，在<strong>初始化方法</strong>之前；</p>
+
+<p>3、设置完相关的属性之后（不管是在postProcessPropertyValues方法内部修改的，还是在配置中指定的属性），如果Bean实现
+了相关的Aware接口，那么相应的set方法会被执行；</p>
+
+<p>4、如果实现了BeanPostProcessor接口，那么接下来会调用postProcessBeforeInitialization方法，这是在初始化之前调用；</p>
+
+<p>5、如果Bean内部有使用PostConstruct注解修饰的方法，则该方法现在会被调用；</p>
+
+<p>6、如果Bean实现了InitializingBean接口，则现在开始执行afterPropertiesSet方法；</p>
+
+<p>7、如果指定了init-method属性，则开始执行指定的方法（自定义的初始化方法）；</p>
+
+<p>8、执行postProcessAfterInitialization方法，和第4个步骤对应，到此初始化过程结束；</p>
+
+<p>9、初始化完成后，对于单例的Bean，容器就将这个Bean放置缓存池中，下次使用这个Bean的时候将直接从容器缓存中取出，Spring
+继续对Bean后续的生命周期进行管理。如果Bean的作用域范围为prototype，则由调用者负责Bean后续的生命管理，Spring不再管
+理这个Bean的生命周期。</p>
+
+<p>10、当对象需要销毁时（或者说容器关闭时），最初调用的是Bean中被PreDestroy注解修饰的方法；</p>
+
+<p>11、如果Bean实现了DisposableBean接口，则执行destroy方法；</p>
+
+<p>12、如果在配置文件中指定了destroy-method属性，则执行指定的方法。</p>
+
+<p>以上为完整的执行顺序，但是记住第一步并不属于Bean的生命周期的一部分。</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/spring/">Spring</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/">
+            <span class="next-text nav-default">Spring容器与web容器</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

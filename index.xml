@@ -6,10 +6,43 @@
     <description>Recent content on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 14 Jan 2020 10:52:08 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2020 16:58:14 +0800</lastBuildDate>
     
         <atom:link href="https://monkback.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring Bean LifeCycle</title>
+      <link>https://monkback.github.io/post/spring/spring-bean-lifecycle/</link>
+      <pubDate>Wed, 25 Mar 2020 16:58:14 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring/spring-bean-lifecycle/</guid>
+      
+        <description>这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，</description>
+      
+    </item>
+    
+    <item>
+      <title>Spring容器与web容器</title>
+      <link>https://monkback.github.io/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/</link>
+      <pubDate>Tue, 17 Mar 2020 20:24:24 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/</guid>
+      
+        <description>最近回顾了一下去年看过的Spring相关的书籍，从《精通Spring 4.x 企业应用开发实战》这本书开始的，一上来我就又忘记了之前看过 的一个知识点</description>
+      
+    </item>
+    
+    <item>
+      <title>2020年看书规划</title>
+      <link>https://monkback.github.io/post/work/schedule/</link>
+      <pubDate>Sat, 29 Feb 2020 20:22:48 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/work/schedule/</guid>
+      
+        <description>拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看</description>
+      
+    </item>
     
     <item>
       <title>ListNode相关知识</title>
@@ -19,17 +52,6 @@
       <guid>https://monkback.github.io/post/algorithm/listnode/</guid>
       
         <description>自己算法上的知识一直都很薄弱，好些题目都是靠之前的死记硬背下来的，过段时间就忘记解法了。所以最近在看极客时间上的一个专栏《数据结构与算法之美</description>
-      
-    </item>
-    
-    <item>
-      <title>2019 2020</title>
-      <link>https://monkback.github.io/post/work/2019-2020/</link>
-      <pubDate>Sat, 11 Jan 2020 10:43:13 +0800</pubDate>
-      
-      <guid>https://monkback.github.io/post/work/2019-2020/</guid>
-      
-        <description></description>
       
     </item>
     
@@ -62,7 +84,7 @@
       
       <guid>https://monkback.github.io/post/spring/springdao/</guid>
       
-        <description></description>
+        <description>Spring事务管理方面，没有细看，欠缺。</description>
       
     </item>
     

@@ -68,7 +68,7 @@
 
 <meta itemprop="datePublished" content="2019-09-26T23:15:06&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-26T23:15:06&#43;08:00" />
-<meta itemprop="wordCount" content="6252">
+<meta itemprop="wordCount" content="6506">
 
 
 
@@ -331,10 +331,15 @@ lazy-init = &ldquo;true&rdquo;的Bean在某些情况下依然会提前实例化�
 
 <ul>
 <li>低版本的web容器中(Servlet2.3之前)，用户可以使用HTTP请求过滤器进行配置</li>
-<li>高版本的web容器中，可以利用HTTP请求监听器(RequestContextListener)进行配置。在第四章介绍WebApplicationContext初始化时，已经通过ContextLoadListener将web容器和Spring容器进行
-了整合，现在又多了一个新的RequestContextListener。在整合Spring容器时，我们使用了ContextLoadListener，它实现了ServletContextListener监听器接口，ServletContextListener
-只负责监听<strong>web容器启动和关闭</strong>的事件。而RequestContextListener实现了ServletRequestListener监听器接口，该监听器监听了HTTP请求，web服务器接收的每一次请求都会通知该监听器。</li>
+<li>高版本的web容器中，可以利用HTTP请求监听器(RequestContextListener)进行配置。在第四章介绍WebApplicationContext初始化时，已经通过
+ContextLoaderListener将web容器和Spring容器进行了整合，现在又多了一个新的RequestContextListener。在整合Spring容器时，我们使用了
+ContextLoaderListener，它实现了ServletContextListener监听器接口，ServletContextListener只负责监听<strong>web容器启动和关闭</strong>的事件。
+而RequestContextListener实现了ServletRequestListener监听器接口，该监听器监听了HTTP请求，web服务器接收的每一次请求都会通知该监听器。</li>
 </ul>
+
+<p>attention：Spring容器启动和关闭操作由web容器的启动和关闭操作事件触发（通过contextLoaderListener监听器），但是如果Spring容器中的Bean本身
+需要request、session、globalSession作用域的支持，Spring容器本身就需要获得<strong>web容器的HTTP请求事件</strong>，也就是通过配置RequestContextListener
+，Spring容器和web容器可以结合的更加紧密，既获取了web容器的启动关闭事件，又获取了web容器的HTTP请求事件。</p>
 
 <p>Spring容器启动和关闭操作由web容器的启动和关闭事件触发，但如果Spring容器中的Bean需要request、session、globalSession作用域的支持，Spring容器就必须获得web容器的HTTP请求事件，以HTTP
 请求事件“”“&rdquo;驱动”&rdquo;Bean作用域的控制逻辑。</p>
@@ -375,12 +380,15 @@ lazy-init = &ldquo;true&rdquo;的Bean在某些情况下依然会提前实例化�
 <li>finishRefresh()                       //9、完成刷新并发布容器刷新事件</li>
 </ul>
 
-<p>(1) 初始化BeanFactory：根据配置文件实例化BeanFactory，在obtainFreshBeanFactory()方法中，首先调用refreshBeanFactory()方法刷新BeanFactory，然后调用getBeanFactory()
-方法获取BeanFactory，这两个方法都是由具体子类来实现的，在这一步中，Spring将配置文件的信息装入容器的Bean定义注册表(BeanDefinitionRegistry)中，但此时Bean还未初始化。</p>
+<p>(1) 初始化BeanFactory：根据配置文件实例化BeanFactory，在obtainFreshBeanFactory()方法中，首先调用refreshBeanFactory()方法刷新
+BeanFactory，然后调用getBeanFactory()方法获取BeanFactory，这两个方法都是由具体子类来实现的，在这一步中，Spring将配置文件的信息装入容器的
+Bean定义注册表(BeanDefinitionRegistry)中，但此时Bean还未初始化。</p>
 
-<p>(2) 调用工厂后处理器：根据反射机制从BeanDefinitionRegistry中找到所有实现了BeanFactoryPostProcessor接口的Bean，并调用其postProcessBeanFactory()接口方法。</p>
+<p>(2) 调用工厂后处理器：根据反射机制从BeanDefinitionRegistry中找到所有实现了BeanFactoryPostProcessor接口的Bean，并调用其
+postProcessBeanFactory()接口方法。</p>
 
-<p>(3) 注册Bean后处理器：根据反射机制从BeanDefinitionRegistry中找到所有实现了BeanPostProcessor接口的Bean，并将他们注册到容器Bean后处理器的注册表中。</p>
+<p>(3) 注册Bean后处理器：根据反射机制从BeanDefinitionRegistry中找到所有实现了BeanPostProcessor接口的Bean，并将他们注册到容器Bean后处理器的注
+册表中。</p>
 
 <p>(4) 初始化消息源：初始化容器的国际化消息源。</p>
 
@@ -399,23 +407,27 @@ lazy-init = &ldquo;true&rdquo;的Bean在某些情况下依然会提前实例化�
 
 <p>(1) ResourceLoader从存储介质中加载Spring配置信息，并使用Resource表示这个配置文件资源</p>
 
-<p>(2) BeanDefinitionReader读取Resource所指向的配置文件资源，然后解析配置文件。配置文件中的每一个&lt;bean&gt;都被解析成一个BeanDefinition对象，并保存到BeanDefinitionRegistry中</p>
+<p>(2) BeanDefinitionReader读取Resource所指向的配置文件资源，然后解析配置文件。配置文件中的每一个&lt;bean&gt;都被解析成一个BeanDefinition对象，并
+保存到BeanDefinitionRegistry中</p>
 
-<p>(3) 容器扫描BeanDefinitionRegistry中的BeanDefinition，利用反射机制识别出Bean工厂后处理器(实现了BeanFactoryPostProcessor接口的Bean)，然后调用这些Bean工厂后处理器对BeanDefinitionRegistry
-中的BeanDefinition进行加工处理，主要包括以下两项工作：
+<p>(3) 容器扫描BeanDefinitionRegistry中的BeanDefinition，利用反射机制识别出Bean工厂后处理器(实现了BeanFactoryPostProcessor接口的Bean)，然
+后调用这些Bean工厂后处理器对BeanDefinitionRegistry中的BeanDefinition进行加工处理，主要包括以下两项工作：
 + 对使用占位符的&lt;bean&gt;元素标签进行解析，得到最终的配置值。这意味着对一些半成品的BeanDefinition对象进行加工处理，得到成品的BeanDefinition对象。
-+ 对BeanDefinitionRegistry中的BeanDefinition进行扫描，利用反射机制找出所有属性编辑器的Bean(实现了PropertyEditor接口的Bean)，并自动将它们注册到Spring容器的<strong>属性编辑器注册表(PropertyEditorRegistry)</strong>中。</p>
++ 对BeanDefinitionRegistry中的BeanDefinition进行扫描，利用反射机制找出所有属性编辑器的Bean(实现了PropertyEditor接口的Bean)，并自动将它们
+注册到Spring容器的<strong>属性编辑器注册表(PropertyEditorRegistry)</strong>中。</p>
 
-<p>(4) Spring容器从BeanDefinitionRegistry中取出加工后的BeanDefinition，并调用instantiationStrategy着手进行<strong>Bean实例化</strong>的工作。这个实例化操作并不会参与Bean属性的设置工作，
-因此返回的Bean也是一个半成品的。</p>
+<p>(4) Spring容器从BeanDefinitionRegistry中取出加工后的BeanDefinition，并调用instantiationStrategy着手进行<strong>Bean实例化</strong>的工作。这个实
+例化操作并不会参与Bean属性的设置工作，因此返回的Bean也是一个半成品的。</p>
 
-<p>(5) 在实例化Bean时，Spring容器使用BeanWrapper对Bean进行封装。BeanWrapper提供了很多以反射机制操作Bean的方法，它将结合该Bean的BeanDefinition以及容器中的属性编辑器，完成Bean的属性注入工作。</p>
+<p>(5) 在实例化Bean时，Spring容器使用BeanWrapper对Bean进行封装。BeanWrapper提供了很多以反射机制操作Bean的方法，它将结合该Bean的
+BeanDefinition以及容器中的属性编辑器，完成Bean的属性注入工作。</p>
 
 <p>(6) 利用容器中注册的Bean后处理器(实现了BeanPostProcessor接口的Bean)，对已经完成属性设置工作的Bean进行后续加工，直接装配出一个就绪的Bean。</p>
 
-<p>一个BeanWrapperImpl实例内部封装了两类组件：被封装的待处理的Bean，以及一套用于设置Bean属性的属性编辑器。要顺利的填充Bean属性，除了目标Bean实例和属性编辑器以外，还需要获取Bean对应的BeanDefinition，
-它可以从Spring容器的BeanDefinitionRegistry中直接获取。Spring主控程序从BeanDefinition中获取Bean属性的具体信息PropertyValue，并使用属性编辑器对PropertyValue进行转换以得到具体
-的属性值。BeanWrapperImpl内部使用Spring的BeanUtils工具类对Bean进行反射操作，设置属性。</p>
+<p>一个BeanWrapperImpl实例内部封装了两类组件：被封装的待处理的Bean，以及一套用于设置Bean属性的属性编辑器。要顺利的填充Bean属性，除了目标Bean实例
+和属性编辑器以外，还需要获取Bean对应的BeanDefinition，它可以从Spring容器的BeanDefinitionRegistry中直接获取。Spring主控程序从
+BeanDefinition中获取Bean属性的具体信息PropertyValue，并使用属性编辑器对PropertyValue进行转换以得到具体的属性值。BeanWrapperImpl内部使用
+Spring的BeanUtils工具类对Bean进行反射操作，设置属性。</p>
 
 <p>属性编辑器的主要功能就是将外部设置的值转换为JVM内部的对应类型。</p>
 

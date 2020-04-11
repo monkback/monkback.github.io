@@ -6,10 +6,28 @@
     <description>Recent content in Spring on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 10 Nov 2019 17:04:12 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2020 16:58:14 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring Bean LifeCycle</title>
+      <link>https://monkback.github.io/post/spring/spring-bean-lifecycle/</link>
+      <pubDate>Wed, 25 Mar 2020 16:58:14 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring/spring-bean-lifecycle/</guid>
+      <description>这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，</description>
+    </item>
+    
+    <item>
+      <title>Spring容器与web容器</title>
+      <link>https://monkback.github.io/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/</link>
+      <pubDate>Tue, 17 Mar 2020 20:24:24 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/</guid>
+      <description>最近回顾了一下去年看过的Spring相关的书籍，从《精通Spring 4.x 企业应用开发实战》这本书开始的，一上来我就又忘记了之前看过 的一个知识点</description>
+    </item>
     
     <item>
       <title>Spring 4.x 阅读笔记(数据访问篇)</title>
@@ -17,7 +35,7 @@
       <pubDate>Sun, 10 Nov 2019 17:04:12 +0800</pubDate>
       
       <guid>https://monkback.github.io/post/spring/springdao/</guid>
-      <description></description>
+      <description>Spring事务管理方面，没有细看，欠缺。</description>
     </item>
     
     <item>

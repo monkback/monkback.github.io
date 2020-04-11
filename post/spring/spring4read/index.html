@@ -68,7 +68,7 @@
 
 <meta itemprop="datePublished" content="2019-09-16T16:35:04&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-16T16:35:04&#43;08:00" />
-<meta itemprop="wordCount" content="2763">
+<meta itemprop="wordCount" content="2950">
 
 
 
@@ -324,21 +324,25 @@ public void setUserDao(UserDao userDao) {
 <p>展现层的复杂之处在于web.xml中的相关配置，以便在web容器启动时能够自动启动Spring容器，包括以下几个点：</p>
 
 <ul>
-<li>context-param里指定Spring配置文件的路径</li>
+<li>context-param里指定Spring容器配置文件的路径</li>
 <li>负责启动Spring容器的监听器，可以获取Spring配置文件的地址；这个监听器会在web容器启动时自动运行，并根据上面的Spring配置
 文件参数，来启动Spring容器</li>
 <li>配置Spring MVC的相关信息。通过一个servlet来获取URL请求，并根据请求进行不同处理。指定servlet-name servlet-mapping</li>
-<li>根据上一步声明的servlet名，Spring MVC还需要一个<servlet 名>-servlet.xml的配置文件，里面内容如下
+<li>根据上一步声明的servlet名，Spring MVC容器还需要一个<servlet 名>-servlet.xml的配置文件，里面内容如下
 
 <ul>
 <li>扫描web包，应用Spring的注解 context:component-scan base-package=&ldquo;com.smart.web&rdquo;/</li>
-<li>配置视图解析器，将ModelAndView及字符串解析为具体的页面</li>
+<li>配置视图解析器，将ModelAndView及字符串解析为具体的页面。这是一个Bean
+<br /></li>
 </ul></li>
 </ul>
 
+<p>web.xml中包含的其实就是Spring容器和SpringMVC容器各自的配置文件,在各自的配置文件中加载各自管理的Bean，对于SpringMVC容器来讲，就是管理controller和ViewResolver相关的Bean；Spring容器
+则管理剩下的所有Bean。</p>
+
 <p>针对Controller层的代码，Spring习惯在类上增加@controller注解，标识这个类是一个Spring MVC的控制器，这个控制器拥有不同
 的方法来处理不同的HTTP请求，这一点是通过@RequestMappping注解来指定路径，这个方法可以返回一个ModelAndView(既包含视图信息，
-又包括视图渲染所需的模型数据信息)，也可以仅返回数据</p>
+又包括视图渲染所需的模型数据信息)，也可以仅返回一个字符串，这个字符串往往会被配置的视图解析器加上相应的前后缀，转向一个jsp。</p>
 
 <p>这里还有一部分前端的知识，就不梳理了
 <br></br></p>

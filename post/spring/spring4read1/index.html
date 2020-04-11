@@ -68,7 +68,7 @@
 
 <meta itemprop="datePublished" content="2019-09-22T17:04:23&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-22T17:04:23&#43;08:00" />
-<meta itemprop="wordCount" content="7457">
+<meta itemprop="wordCount" content="7550">
 
 
 
@@ -265,7 +265,7 @@
 </ul>
 
 <p>类的装载工作就是由ClassLoader及其子类负责，在运行时查找和装入Class字节码文件。JVM在运行时会产生3个ClassLoader：
-根装载器、扩展类装载器(ExtClassLoader)和应用类装载器(AppClassLoader)。其中，只有根装载器不是ClassLoader的子类，它是c++写的，
+根装载器、扩展类装载器(ExtClassLoader)和应用类装载器(AppClassLoader)。其中，只有根装载器不是ClassLoader的子类，它是c++写的，在Java中无法访问到，
 根装载器负责装载JRE的核心类库；ExtClassLoader负责装载JRE扩展目录ext中的jar类包；AppClassLoader负责装载classpath路径下
 的类包。它们存在父子层级关系，并且 默认情况下使用AppClassLoader装载应用程序的类。</p>
 
@@ -373,7 +373,7 @@ DefaultSingletonBeanRegistry类中提供的。</p>
 </ul>
 
 <p>获取ApplicationContext的代码相比BeanFactory要简单许多，之前是通过XML配置文件的方式；Spring也支持基于 类注解 的配置方式，一个标注了@Configuration注解的POJO即可
-提供Spring所需的Bean配置信息。这也是Spring Boot常用的方式</p>
+提供Spring所需的Bean配置信息。这也是SpringBoot常用的方式</p>
 
 <pre><code>@Configuration
 public class Beans {
@@ -456,7 +456,8 @@ ServletContext的属性列表中，可以通过下面的代码从web容器中获
 &lt;/servlet-mapping&gt;
 </code></pre>
 
-<p>Spring分别提供了用于启动WebApplicationContext的Servlet和web容器监听器：二者内部都实现了启动WebApplicationContext实例的逻辑，可以自由选择并在web.xml中配置即可</p>
+<p>Spring分别提供了用于启动WebApplicationContext（Spring容器）的Servlet和web容器监听器：二者内部都实现了启动WebApplicationContext实例的逻
+辑，可以自由选择之一并在web.xml中配置即可，我们一般使用的都是contextLoaderListener（因为都用高本版web容器了），并配置好初始化Spring容器的配置文件路径</p>
 
 <ul>
 <li><p>org.springframework.web.context.ContextLoaderListener</p>
@@ -497,8 +498,8 @@ ServletContext的属性列表中，可以通过下面的代码从web容器中获
     &lt;/servlet&gt;
 </code></pre>
 
-<p>上面的两种方式默认都还是使用XML配置文件的方式来加载。如果要基于Java注解类的方式，则需要在context-param中指定contextClass上下文参数，就会使用参数指定的WebApplicationContext
-的实现类AnnotationConfigWebApplicationContext来初始化容器。contextConfigLocation参数默认指定的是XmlWebApplicationContext来启动容器。</p></li>
+<p>上面的两种方式默认都还是使用XML配置文件的方式来加载。<strong>如果要基于Java注解类的方式</strong>，则需要在context-param中指定contextClass上下文参数，就会使用参数指定的WebApplicationContext
+的实现类AnnotationConfigWebApplicationContext来初始化容器。<strong>contextConfigLocation参数默认指定的是XmlWebApplicationContext来启动容器</strong>。</p></li>
 </ul>
 
 <p><strong><big>BeanFactory中Bean的生命周期</big></strong></p>
