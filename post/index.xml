@@ -6,10 +6,46 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Mar 2020 16:58:14 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 Apr 2020 18:13:56 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>对象的初始化安全—论static和final</title>
+      <link>https://monkback.github.io/post/juc/object/</link>
+      <pubDate>Sun, 19 Apr 2020 18:13:56 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/object/</guid>
+      <description>我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null ，boolean变</description>
+    </item>
+    
+    <item>
+      <title>单例模式的几种实现方式</title>
+      <link>https://monkback.github.io/post/juc/singleton/</link>
+      <pubDate>Sun, 19 Apr 2020 13:48:54 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/singleton/</guid>
+      <description>先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }</description>
+    </item>
+    
+    <item>
+      <title>Utf 8</title>
+      <link>https://monkback.github.io/post/work/utf-8/</link>
+      <pubDate>Tue, 14 Apr 2020 17:29:06 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/work/utf-8/</guid>
+      <description>一个坑点，暂时作为记录： 在本地编辑好的文本文件，比如用notepad或者其他编辑器，或者你自己写一个Java、Python程序处理文本文件，</description>
+    </item>
+    
+    <item>
+      <title>Thread</title>
+      <link>https://monkback.github.io/post/juc/thread/</link>
+      <pubDate>Tue, 14 Apr 2020 15:44:55 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/thread/</guid>
+      <description>最近在看一本比较基础的书《Java 多线程编程核心技术》，发现里面有一个关于Thread类的知识点，是我以前没有注意过的，比较有意思， 记录如下</description>
+    </item>
     
     <item>
       <title>Spring Bean LifeCycle</title>

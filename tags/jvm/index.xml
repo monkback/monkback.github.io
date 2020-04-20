@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM on Records</title>
+    <link>https://monkback.github.io/tags/jvm/</link>
+    <description>Recent content in JVM on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 19 Apr 2020 18:13:56 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>对象的初始化安全—论static和final</title>
+      <link>https://monkback.github.io/post/juc/object/</link>
+      <pubDate>Sun, 19 Apr 2020 18:13:56 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/object/</guid>
+      <description>我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null ，boolean变</description>
+    </item>
+    
+  </channel>
+</rss>

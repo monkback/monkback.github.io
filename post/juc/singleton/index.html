@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>2020年看书规划 - Records</title>
+  <title>单例模式的几种实现方式 - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看" />
+  <meta name="description" content="先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }" />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/work/schedule/" />
+<link rel="canonical" href="https://monkback.github.io/post/juc/singleton/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="2020年看书规划" />
-<meta property="og:description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看" />
+<meta property="og:title" content="单例模式的几种实现方式" />
+<meta property="og:description" content="先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/work/schedule/" />
-<meta property="article:published_time" content="2020-02-29T20:22:48+08:00" />
-<meta property="article:modified_time" content="2020-02-29T20:22:48+08:00" />
-<meta itemprop="name" content="2020年看书规划">
-<meta itemprop="description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看">
+<meta property="og:url" content="https://monkback.github.io/post/juc/singleton/" />
+<meta property="article:published_time" content="2020-04-19T13:48:54+08:00" />
+<meta property="article:modified_time" content="2020-04-19T13:48:54+08:00" />
+<meta itemprop="name" content="单例模式的几种实现方式">
+<meta itemprop="description" content="先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }">
 
 
-<meta itemprop="datePublished" content="2020-02-29T20:22:48&#43;08:00" />
-<meta itemprop="dateModified" content="2020-02-29T20:22:48&#43;08:00" />
-<meta itemprop="wordCount" content="952">
+<meta itemprop="datePublished" content="2020-04-19T13:48:54&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-19T13:48:54&#43;08:00" />
+<meta itemprop="wordCount" content="1120">
 
 
 
-<meta itemprop="keywords" content="规划," />
+<meta itemprop="keywords" content="Java多线程," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2020年看书规划"/>
-<meta name="twitter:description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看"/>
+<meta name="twitter:title" content="单例模式的几种实现方式"/>
+<meta name="twitter:description" content="先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">2020年看书规划</h1>
+      <h1 class="post-title">单例模式的几种实现方式</h1>
       
       <div class="post-meta">
-        <time datetime="2020-02-29" class="post-time">
-          2020-02-29
+        <time datetime="2020-04-19" class="post-time">
+          2020-04-19
         </time>
         
         
@@ -241,45 +241,95 @@
 
     
     <div class="post-content">
-      <p>拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。</p>
+      
 
-<p>2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看过了。也就是说，到3月15号之前，必须再过完
-下面几本书：</p>
+<p>先看一下传统的double-check模式，代码如下：</p>
 
-<ol>
-<li>《Head First Servlets and JSP  中文版  第2版》</li>
-<li>《精通Spring 4.x  企业应用开发实战》</li>
-<li>《Spring实战 第四版》</li>
-<li>《Spring Boot实战》(比较薄)</li>
-<li>《Spring源码深度解析》(郝佳这本，希望能看完60%内容)</li>
-</ol>
+<pre><code>public class Singleton {
 
-<p>现在是2020-4-11，才回顾完前面两本书和第五本源码解析书，而且还漏掉了不少地方，比如AOP配置相关，但是对Spring整体
-还是增加了不少认知，下次再需要继续回顾这本书，跟着源码进行总结。</p>
+    private static volatile Singleton instance = null;
+    private Singleton() {}
 
-<p>2020年4月份开始阅读网络相关的知识，以netty为主线，主要是《netty权威指南》和《netty实战》这两本书，还有一本微信
-读书上面的《Netty、Redis、Zookeeper高并发实战》，这三本书为核心，但是理论上在阅读这些书籍之前需要回顾的是
-《Java NIO》这本书籍，比较简单，内容以回顾为主。然后开始阅读Java 异步框架相关的书籍，包括多线程并发实战，多线程编程
-的艺术等书籍。总之需要吃透Java多线程相关的机制。
-attention：最好可以开始阅读《Unix网络编程这本书籍》</p>
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+</code></pre>
+
+<p>读《Java 多线程编程实战指南》一书，我们知道，在 instance = new Singleton()这一步的代码，并不是一个原子操作，
+它往往被分解为以下三个独立的子操作：</p>
 
 <ul>
-<li>1、《Java 异步编程实战》——微信读书</li>
-<li>3、《Java 并发编程的艺术》——微信读书、电子pdf</li>
-<li>4、《Java多线程编程实战指南》——电子pdf</li>
-<li>《Java 并发编程实战》——实体书</li>
-<li>5、《Java 并发编程之美》——微信读书</li>
-<li>6、《图解Java多线程设计模式》+电子pdf</li>
+<li>objRef = allocate(Singleton.class)  //1、分配对象所需要的存储空间</li>
+<li>invokeConstructor(objRef)           //2、初始化objRef所引用的对象</li>
+<li>instance = objRef                   //3、将引用写入instance变量</li>
 </ul>
 
-<p>调整一下，4月份先以上面五本书为主，回顾并熟悉异步相关的知识内容，其中《Java 并发编程的艺术》这本书会比较难一点，涉及到很多JVM的知识，总之计划四月份将这些熟悉完成之后，
-5月份开始搞netty，必须吃透！</p>
+<p>临界区内的操作在临界区内部是可以被重排序的，那么，JIT编译器是可能将上述操作的第2步和第3步重排序，即在初始化这个
+对象之前将对象的引用写入instance变量中。而double-check的第一次检查，读取instance变量并没有加锁，导致另一个
+线程可能看到一个未初始化（或者说未初始化完毕）的实例，变量instance的值不为空，但是instance引用的对象中的某些
+其他实例变量的值并不是构造器中设置的初始值，而是一些默认值；因此该线程返回的instance变量所引用的实例是一个
+未初始化完毕的，导致出错。</p>
 
-<p>4月17日下午两点四十分，看完《Java 多线程编程核心技术》，主要是关于线程中断这一块的知识，有了初步的认识，但是什么时候抛出异常，还需要深入理解。下面开始阅读《Java 多线程编程实战
-指南》</p>
+<p>所以我们在instance变量前加了volatile修饰符，在这里，volatile保证了可见性和有序性：</p>
 
-<p>上面是看书相关的，还有一个需要定期总结的地方就是工作项目了，这个涉及到resume相关，必须提前养成这个意识，不要等到
-来不及的时候再去匆忙准备，给自己定一个高的目标。</p>
+<ul>
+<li>可见性：一个线程通过执行instance = new Singleton()方法修改了instance变量的值，其他线程能够读取到这个值。</li>
+<li>有序性：volatile禁止了 volatile变量写操作与该操作之前任何的读写操作进行重排序，因此禁止了JIT编译器以及处理器
+在上面的重排序，这保证了另一个线程读取到的instance变量引用的实例已经初始化完毕。</li>
+</ul>
+
+<hr />
+
+<p>使用静态内部类的方式会比较简单，代码如下</p>
+
+<pre><code>public class Singleton {
+
+    private Singleton() {}
+
+    private static class InstanceHolder {
+        final static Singleton INSTANCE = new Singleton();
+    }
+
+    public static Singleton getInstance() {
+        return InstanceHolder.INSTANCE;
+    }
+}
+</code></pre>
+
+<p>这是因为类的静态变量只会创建一次，调用getInstance()方法时，JVM会初始化这个方法所访问的静态内部类，这使得
+InstanceHolder的静态变量INSTANCE会被初始化（这个静态变量应该一直存储在方法区中），会被多个线程共享。</p>
+
+<p>attention::静态内部类不会在Singleton类加载的时候就加载，而是在调用getInstance()方法的时候才会加载。</p>
+
+<p>当然，上面这种通过静态内部类的方式不严格正确，可以通过反射的方式设置constructor的访问属性为true，并构造多个
+实例对象。也可以通过反序列化方式来构造出不同的对象。具体方法参考这篇文章</p>
+
+<h2 id="如何通过反射和反序列化攻击单例模式-https-www-cnblogs-com-happy4java-p-11206105-html"><a href="https://www.cnblogs.com/happy4java/p/11206105.html">如何通过反射和反序列化攻击单例模式</a></h2>
+
+<p>下面我们来看目前最佳的也是最简洁的实现单例模式的方法：</p>
+
+<pre><code>public enum SingletonEnum {
+
+    INSTANCE;
+
+    SingletonEnum() {
+    }
+
+    public void doSomething() {
+
+    }
+}
+</code></pre>
+
+<p>直接通过SingletonEnum.INSTANCE即可访问这个instance对象。</p>
 
     </div>
 
@@ -292,14 +342,14 @@ attention：最好可以开始阅读《Unix网络编程这本书籍》</p>
 
     <footer class="post-footer">
       <div class="post-tags">
-          <a href="https://monkback.github.io/tags/%E8%A7%84%E5%88%92/">规划</a>
+          <a href="https://monkback.github.io/tags/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/">
+          <a class="prev" href="/post/juc/object/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -309,12 +359,12 @@ attention：最好可以开始阅读《Unix网络编程这本书籍》</p>
 </svg>
 
             </i>
-            <span class="prev-text nav-default">Spring容器与web容器</span>
+            <span class="prev-text nav-default">对象的初始化安全—论static和final</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/algorithm/listnode/">
-            <span class="next-text nav-default">ListNode相关知识</span>
+          <a class="next" href="/post/work/utf-8/">
+            <span class="next-text nav-default">Utf 8</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">
