@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>2020年看书规划 - Records</title>
+  <title>ThreadSafeCollection - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看" />
+  <meta name="description" content="我们知道concurrent包里面引入了一些线程安全的集合，但是除了ConcurrentHashMap，其他都没用过，这些线程安全的集合 和我" />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/work/schedule/" />
+<link rel="canonical" href="https://monkback.github.io/post/juc/threadsafecollection/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="2020年看书规划" />
-<meta property="og:description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看" />
+<meta property="og:title" content="ThreadSafeCollection" />
+<meta property="og:description" content="我们知道concurrent包里面引入了一些线程安全的集合，但是除了ConcurrentHashMap，其他都没用过，这些线程安全的集合 和我" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/work/schedule/" />
-<meta property="article:published_time" content="2020-02-29T20:22:48+08:00" />
-<meta property="article:modified_time" content="2020-02-29T20:22:48+08:00" />
-<meta itemprop="name" content="2020年看书规划">
-<meta itemprop="description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看">
+<meta property="og:url" content="https://monkback.github.io/post/juc/threadsafecollection/" />
+<meta property="article:published_time" content="2020-04-24T17:17:50+08:00" />
+<meta property="article:modified_time" content="2020-04-24T17:17:50+08:00" />
+<meta itemprop="name" content="ThreadSafeCollection">
+<meta itemprop="description" content="我们知道concurrent包里面引入了一些线程安全的集合，但是除了ConcurrentHashMap，其他都没用过，这些线程安全的集合 和我">
 
 
-<meta itemprop="datePublished" content="2020-02-29T20:22:48&#43;08:00" />
-<meta itemprop="dateModified" content="2020-02-29T20:22:48&#43;08:00" />
-<meta itemprop="wordCount" content="1338">
+<meta itemprop="datePublished" content="2020-04-24T17:17:50&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-24T17:17:50&#43;08:00" />
+<meta itemprop="wordCount" content="223">
 
 
 
-<meta itemprop="keywords" content="规划," />
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2020年看书规划"/>
-<meta name="twitter:description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看"/>
+<meta name="twitter:title" content="ThreadSafeCollection"/>
+<meta name="twitter:description" content="我们知道concurrent包里面引入了一些线程安全的集合，但是除了ConcurrentHashMap，其他都没用过，这些线程安全的集合 和我"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">2020年看书规划</h1>
+      <h1 class="post-title">ThreadSafeCollection</h1>
       
       <div class="post-meta">
-        <time datetime="2020-02-29" class="post-time">
-          2020-02-29
+        <time datetime="2020-04-24" class="post-time">
+          2020-04-24
         </time>
         
         
@@ -241,59 +241,20 @@
 
     
     <div class="post-content">
-      <p>拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。</p>
+      <p>我们知道concurrent包里面引入了一些线程安全的集合，但是除了ConcurrentHashMap，其他都没用过，这些线程安全的集合
+和我们熟知的非线程安全集合的对应关系如下：下面做一个常用的总结。</p>
 
-<p>2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看过了。也就是说，到3月15号之前，必须再过完
-下面几本书：</p>
+<pre><code>非线程安全对象            并发集合             共同接口        遍历实现方式 
+ ArrayList          CopyOnWriteArrayList        List            快照
+ HashSet            CopyOnWriteArraySet         Set             快照
+ LinkedList         ConcurrentLinkedQueue       Queue           准实时  
+ HashMap            ConcurrentHashMap           Map             准实时
+ TreeMap            ConcurrentSkipListMap       SortedMap       准实时
+ TreeSet            ConcurrentSkipListSet       SortedSet       准实时
+</code></pre>
 
-<ol>
-<li>《Head First Servlets and JSP  中文版  第2版》</li>
-<li>《精通Spring 4.x  企业应用开发实战》</li>
-<li>《Spring实战 第四版》</li>
-<li>《Spring Boot实战》(比较薄)</li>
-<li>《Spring源码深度解析》(郝佳这本，希望能看完60%内容)</li>
-</ol>
-
-<p>现在是2020-4-11，才回顾完前面两本书和第五本源码解析书，而且还漏掉了不少地方，比如AOP配置相关，但是对Spring整体
-还是增加了不少认知，下次再需要继续回顾这本书，跟着源码进行总结。</p>
-
-<p>2020年4月份开始阅读网络相关的知识，以netty为主线，主要是《netty权威指南》和《netty实战》这两本书，还有一本微信
-读书上面的《Netty、Redis、Zookeeper高并发实战》，这三本书为核心，但是理论上在阅读这些书籍之前需要回顾的是
-《Java NIO》这本书籍，比较简单，内容以回顾为主。然后开始阅读Java 异步框架相关的书籍，包括多线程并发实战，多线程编程
-的艺术等书籍。总之需要吃透Java多线程相关的机制。
-attention：最好可以开始阅读《Unix网络编程这本书籍》</p>
-
-<ul>
-<li>1、《Java 异步编程实战》——微信读书</li>
-<li>3、《Java 并发编程的艺术》——微信读书、电子pdf</li>
-<li>4、《Java多线程编程实战指南》——电子pdf</li>
-<li>《Java 并发编程实战》——实体书</li>
-<li>5、《Java 并发编程之美》——微信读书</li>
-<li>6、《图解Java多线程设计模式》+电子pdf</li>
-</ul>
-
-<p>调整一下，4月份先以上面五本书为主，回顾并熟悉异步相关的知识内容，其中《Java 并发编程的艺术》这本书会比较难一点，涉及到很多JVM的知识，总之计划四月份将这些熟悉完成之后，
-5月份开始搞netty，必须吃透！</p>
-
-<p>4月17日下午两点四十分，看完《Java 多线程编程核心技术》，主要是关于线程中断这一块的知识，有了初步的认识，但是什么时候抛出异常，还需要深入理解。下面开始阅读《Java 多线程编程实战
-指南》。</p>
-
-<p>《Java 多线程编程实战指南》更加注重细则，比如介绍到了内存屏障，介绍到了线程工作内存包括寄存器，一级缓存，二级缓存，介绍到了synchronized的内存语义，介绍了监视器锁（即Java对象的
-内部锁），介绍到了更加底层的内容；而微信读书上《Java 并发编程之美》相对粗略一点。</p>
-
-<p>看到了内存模型，就会接触到更底层的缓存一致性相关的知识，这个应该是在组成原理上会讲的内容，现在看的有点不太明白</p>
-
-<p>理解一下ThreadLocalMap、ThreadLocal以及Thread之间的关系，里面涉及到弱引用，比较复杂。你可能大概知道
-ThreadLocal怎么用，但是并没有理解其真正含义</p>
-
-<p>《Java 多线程编程实战指南》 不是很容易看懂，尤其到后面越来越难</p>
-
-<p>并发包里面还有很多知识需要学习，juc，AQS这也是经常会问的知识点</p>
-
-<p>希望能够认真看完一次《Java 并发编程的艺术》，做好笔记，查知识点</p>
-
-<p>上面是看书相关的，还有一个需要定期总结的地方就是工作项目了，这个涉及到resume相关，必须提前养成这个意识，不要等到
-来不及的时候再去匆忙准备，给自己定一个高的目标。</p>
+<p>参考《Java 多线程编程指南核心篇》，这本书感觉可以买一本实体书，里面的内容细则值得好好阅读。下面还简介了上面这些并
+发集合各自的适用场景</p>
 
     </div>
 
@@ -305,15 +266,12 @@ ThreadLocal怎么用，但是并没有理解其真正含义</p>
     
 
     <footer class="post-footer">
-      <div class="post-tags">
-          <a href="https://monkback.github.io/tags/%E8%A7%84%E5%88%92/">规划</a>
-          
-        </div>
+      
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/">
+          <a class="prev" href="/post/algorithm/thebeautyofdatastructureandalgorithm/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -323,12 +281,12 @@ ThreadLocal怎么用，但是并没有理解其真正含义</p>
 </svg>
 
             </i>
-            <span class="prev-text nav-default">Spring容器与web容器</span>
+            <span class="prev-text nav-default">读数据结构与算法之美</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/algorithm/listnode/">
-            <span class="next-text nav-default">ListNode相关知识</span>
+          <a class="next" href="/post/juc/object/">
+            <span class="next-text nav-default">对象的初始化安全—论static和final</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">

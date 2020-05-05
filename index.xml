@@ -6,10 +6,32 @@
     <description>Recent content on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Apr 2020 18:13:56 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2020 10:09:44 +0800</lastBuildDate>
     
         <atom:link href="https://monkback.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>读数据结构与算法之美</title>
+      <link>https://monkback.github.io/post/algorithm/thebeautyofdatastructureandalgorithm/</link>
+      <pubDate>Tue, 28 Apr 2020 10:09:44 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/thebeautyofdatastructureandalgorithm/</guid>
+      
+        <description>2020-4-28，今天开始阅读数据结构与算法之美系列的文章了，看了下一共是56个小节，计划每天完成一个小节的内容，那么预期在两个月读完（实</description>
+      
+    </item>
+    
+    <item>
+      <title>ThreadSafeCollection</title>
+      <link>https://monkback.github.io/post/juc/threadsafecollection/</link>
+      <pubDate>Fri, 24 Apr 2020 17:17:50 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/threadsafecollection/</guid>
+      
+        <description>我们知道concurrent包里面引入了一些线程安全的集合，但是除了ConcurrentHashMap，其他都没用过，这些线程安全的集合 和我</description>
+      
+    </item>
     
     <item>
       <title>对象的初始化安全—论static和final</title>
