@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Redis 分布式锁的可重入 - Records</title>
+  <title>读方腾飞的《Java 并发编程的艺术》 - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位" />
+  <meta name="description" content="之前粗略的看过一次这本书，但是那时候基础知识并不好，有很多地方都看得云里雾里的，这次再尝试读一遍。 第一章里提到，我们都知道如果用多线程就会导" />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/redis/redis-reentrant-lock/" />
+<link rel="canonical" href="https://monkback.github.io/post/juc/theartofconcurrencyprogramming/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="Redis 分布式锁的可重入" />
-<meta property="og:description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位" />
+<meta property="og:title" content="读方腾飞的《Java 并发编程的艺术》" />
+<meta property="og:description" content="之前粗略的看过一次这本书，但是那时候基础知识并不好，有很多地方都看得云里雾里的，这次再尝试读一遍。 第一章里提到，我们都知道如果用多线程就会导" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/redis/redis-reentrant-lock/" />
-<meta property="article:published_time" content="2019-12-25T15:38:33+08:00" />
-<meta property="article:modified_time" content="2019-12-25T15:38:33+08:00" />
-<meta itemprop="name" content="Redis 分布式锁的可重入">
-<meta itemprop="description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位">
+<meta property="og:url" content="https://monkback.github.io/post/juc/theartofconcurrencyprogramming/" />
+<meta property="article:published_time" content="2020-05-06T18:08:29+08:00" />
+<meta property="article:modified_time" content="2020-05-06T18:08:29+08:00" />
+<meta itemprop="name" content="读方腾飞的《Java 并发编程的艺术》">
+<meta itemprop="description" content="之前粗略的看过一次这本书，但是那时候基础知识并不好，有很多地方都看得云里雾里的，这次再尝试读一遍。 第一章里提到，我们都知道如果用多线程就会导">
 
 
-<meta itemprop="datePublished" content="2019-12-25T15:38:33&#43;08:00" />
-<meta itemprop="dateModified" content="2019-12-25T15:38:33&#43;08:00" />
-<meta itemprop="wordCount" content="714">
+<meta itemprop="datePublished" content="2020-05-06T18:08:29&#43;08:00" />
+<meta itemprop="dateModified" content="2020-05-06T18:08:29&#43;08:00" />
+<meta itemprop="wordCount" content="1322">
 
 
 
-<meta itemprop="keywords" content="工作,Redis," />
+<meta itemprop="keywords" content="Java并发," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Redis 分布式锁的可重入"/>
-<meta name="twitter:description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位"/>
+<meta name="twitter:title" content="读方腾飞的《Java 并发编程的艺术》"/>
+<meta name="twitter:description" content="之前粗略的看过一次这本书，但是那时候基础知识并不好，有很多地方都看得云里雾里的，这次再尝试读一遍。 第一章里提到，我们都知道如果用多线程就会导"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">Redis 分布式锁的可重入</h1>
+      <h1 class="post-title">读方腾飞的《Java 并发编程的艺术》</h1>
       
       <div class="post-meta">
-        <time datetime="2019-12-25" class="post-time">
-          2019-12-25
+        <time datetime="2020-05-06" class="post-time">
+          2020-05-06
         </time>
         
         
@@ -241,126 +241,49 @@
 
     
     <div class="post-content">
-      <p>最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上
-就是用命令setnx ex来占据一个坑位。在Java里面体现出来可能是这样一行代码</p>
+      <p>　　之前粗略的看过一次这本书，但是那时候基础知识并不好，有很多地方都看得云里雾里的，这次再尝试读一遍。</p>
 
-<pre><code>jedis.set(lockKey, lockValue, &quot;NX&quot;, &quot;PX&quot;, expireTime);
-</code></pre>
+<p>　　第一章里提到，我们都知道如果用多线程就会导致线程的上下文切换，而这一过程是比较耗时的。减少上下文切换次数的方法主要有以下几个：</p>
 
-<p>但是这样在加锁方式是不支持线程重入的，即同一个线程在持有锁的情况下再次请求加锁，此时是会失败
-的。需要在set外层加一个包装，使其支持可重入。既然需要同一个线程再次持有，那么往往都需要引入
-一个ThreadLocal&lt;&gt;。我先实现一个简单版的，在ThreadLocal里保存当前线程的线程id。如下代码</p>
+<ul>
+<li><p>1、使用无锁编程。多个线程在竞争锁的时候，会引起上下文切换；所以可以在某些时候尝试不使用锁来达到线程安全的目的，比如使用ThreadLocal；</p></li>
 
-<pre><code>package deregister;
+<li><p>2、CAS。比如使用juc中的Atomic包下的一些类；</p></li>
 
-import redis.clients.jedis.Jedis;
+<li><p>3、协程。不知道Java里面有没有这个，但是这是go的核心，大概是在一个线程中实现多个任务的调度，并维护这些任务的切换，所以这就是你要好好学习go的原因之一。</p></li>
+</ul>
 
-public class ReentrantLockRedis {
+<p>　　第二章：</p>
 
-    private ThreadLocal&lt;Long&gt; threadId = new ThreadLocal&lt;&gt;();
-    private Jedis jedis;
+<p>　　<strong><big>volatile：</big></strong></p>
 
-    public ReentrantLockRedis(Jedis jedis) {
-        this.jedis = jedis;
-    }
+<p>　　能够保证被修饰的变量具有可见性，即所有线程(可能在不同的CPU上执行)读取到的这个变量
+都是一致的；因为volatile变量在被修改(写入)的时候，编译后的汇编代码会多出一行Lock开头的指令，lock前缀指令在多核处理器下会
+引发两件事情：</p>
 
-    public boolean lock(String key) {
-        Long id = threadId.get();
-        if (id == null) {
-            threadId.set(Thread.currentThread().getId());
-            return jedis.set(key, &quot;&quot;, &quot;NX&quot;, &quot;PX&quot;, 30) != null;
-        }
-        return Thread.currentThread().getId() == id;
-    }
+<ul>
+<li><p>1、将当前处理器缓存行(cache line，缓存的最小单位，一般为64byte)的数据写回到系统内存(memory)；</p></li>
 
-    public boolean unlock(String key) {
-        Long id = threadId.get();
-        if (id != null) {
-            threadId.remove();
-            Long count = jedis.del(key);
-            return count == 1;
-        }
-        return false;
-    }
+<li><p>2、这个写回内存的操作会使在其他CPU里缓存了该内存地址的数据无效(<strong>缓存一致性协议</strong>，每个处理器都在嗅探总线上传播的数据来
+检查自己的缓存是否已经过期)</p></li>
+</ul>
 
-}
-</code></pre>
+<p>　　讲了一个volatile优化的常用例子，Doug Lea在JDK1.7的并发包里增加的LinkedTransferQueue类就使用了<strong>字节追加</strong>的
+策略来优化队列的性能；将共享变量(头节点和尾节点)追加到64个字节，即一个L1、L2或L3级缓存的缓存行大小，从而避免头节点和尾节点被
+加载到同一个缓存行，使得头尾节点在修改时不会相互锁定。至于为什么会锁定呢？这里又回到了<strong>缓存一致性协议</strong>：当一个处理器试图修改
+头节点时，会将整个缓存行锁定，那么在缓存一致性机制的作用下，会导致其他处理器不能访问自己缓存中的尾节点，而本身队列的入队和出队
+操作需要不停的修改头节点和尾节点(这是一个链表实现的队列结构)，因此大大影响了队列的效率。这里要求你必须严格理解缓存一致性协议，
+需要单独写一篇博客来充分理解。不过在共享变量不会被频繁的写的情况下，或者是缓存行非64byte时，就没必要追加64字节了。</p>
 
-<p>上述代码其实就能实现分布式锁的可重入。下面我们来看一下稍微复杂一点的，他在ThreadLocal里面
-保存一个Map，即每个线程都持有一个自己的Map；Map的key就是Redis的key，value是这个key被
-获取的次数。代码如下，其实也挺容易理解的。不过这本书的作者不建议在Redis操作的外层封装，来支持
-线程重入，应该在业务角度考虑，是否有其他替代方案。原话为</p>
+<p>　　<strong><big>synchronized：</big></strong></p>
 
-<blockquote>
-<p>它加重了客户端的复杂性，在编写业务方法时注意在逻辑结构上进行调整完全可以不使用可重入锁</p>
-</blockquote>
+<p>　　synchronized实现同步的基础在于<strong>每一个Java对象都可以作为锁</strong>，而这个锁存储在<strong>Java对象头中</strong>，可以作用在实例方法、
+静态方法或者是方法块上。实例方法锁的是当前实例对象，静态方法锁的是当前类的Class对象，方法块上锁的是synchronized括号里面配置
+的对象。代码块同步使用的是monitorenter和monitorexit指令实现的，方法同步并不是。monitorenter指令是在编译后插入到同步代码
+块开始的位置，monitorexit指令插入到方法结束处和异常处。任何对象<strong>都有一个monitor与之关联</strong>。</p>
 
-<pre><code>package deregister;
-
-import redis.clients.jedis.Jedis;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class ReentrantLockRedisMore {
-
-    private ThreadLocal&lt;Map&lt;String, Integer&gt;&gt; lockers = new ThreadLocal&lt;&gt;();
-    private Jedis jedis;
-
-    public ReentrantLockRedisMore(Jedis jedis) {
-        this.jedis = jedis;
-    }
-
-    public Map&lt;String, Integer&gt; currentLockers() {
-        Map&lt;String, Integer&gt; map = lockers.get();
-        if (map != null) {
-            return map;
-        }
-        lockers.set(new HashMap&lt;&gt;());
-        return lockers.get();
-    }
-
-    public boolean _lock(String key) {
-        return jedis.set(key, &quot;&quot;, &quot;NX&quot;, &quot;PX&quot;, 30) != null;
-    }
-
-    public void _unlock(String key) {
-        jedis.del(key);
-    }
-
-    public boolean lock(String key) {
-        Map&lt;String, Integer&gt; lockers = currentLockers();
-        Integer count = lockers.get(key);
-        if (count != null) {
-            lockers.put(key, count + 1);
-            return true;
-        }
-        boolean _ok = _lock(key);
-        if (!_ok) {
-            return false;
-        }
-        lockers.put(key, 1);
-        return true;
-    }
-
-    private boolean unlock(String key) {
-        Map&lt;String, Integer&gt; lockers = currentLockers();
-        Integer count = lockers.get(key);
-        if (count == null) {
-            return false;
-        }
-        count--;
-        if (count &gt; 0) {
-            lockers.put(key, count);
-        } else {
-            lockers.remove(key);
-            _unlock(key);
-        }
-        return true;
-    }
-
-}
-</code></pre>
+<p>　　如果Java对象是数组类型，则JVM用3个字宽(Word)存储对象头，否则用2个字宽；多的一个字宽是存储数组长度的。在32位虚拟机中，1个
+字宽就是32位，即4byte；64位虚拟机就是64位，即8byte。</p>
 
     </div>
 
@@ -373,30 +296,16 @@ public class ReentrantLockRedisMore {
 
     <footer class="post-footer">
       <div class="post-tags">
-          <a href="https://monkback.github.io/tags/%E5%B7%A5%E4%BD%9C/">工作</a>
-          <a href="https://monkback.github.io/tags/redis/">Redis</a>
+          <a href="https://monkback.github.io/tags/java%E5%B9%B6%E5%8F%91/">Java并发</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/algorithm/linkedlist/">
-            
-            <i class="iconfont">
-              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
-</svg>
-
-            </i>
-            <span class="prev-text nav-default">链表相关算法</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
         
-          <a class="next" href="/post/work/fastjson/">
-            <span class="next-text nav-default">遇到的FastJson的一个问题</span>
+          <a class="next" href="/post/algorithm/array-linkedlist/">
+            <span class="next-text nav-default">Array LinkedList</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">

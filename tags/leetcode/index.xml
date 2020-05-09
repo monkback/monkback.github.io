@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>ListNode相关知识</title>
-      <link>https://monkback.github.io/post/algorithm/listnode/</link>
+      <title>链表相关算法</title>
+      <link>https://monkback.github.io/post/algorithm/linkedlist/</link>
       <pubDate>Tue, 14 Jan 2020 10:52:08 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/algorithm/listnode/</guid>
+      <guid>https://monkback.github.io/post/algorithm/linkedlist/</guid>
       <description>自己算法上的知识一直都很薄弱，好些题目都是靠之前的死记硬背下来的，过段时间就忘记解法了。所以最近在看极客时间上的一个专栏《数据结构与算法之美</description>
     </item>
     

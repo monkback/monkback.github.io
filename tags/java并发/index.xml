@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java并发“ on Records</title>
+    <link>https://monkback.github.io/tags/java%E5%B9%B6%E5%8F%91/</link>
+    <description>Recent content in Java并发“ on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 06 May 2020 18:08:29 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/java%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>读方腾飞的《Java 并发编程的艺术》</title>
+      <link>https://monkback.github.io/post/juc/theartofconcurrencyprogramming/</link>
+      <pubDate>Wed, 06 May 2020 18:08:29 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/theartofconcurrencyprogramming/</guid>
+      <description>之前粗略的看过一次这本书，但是那时候基础知识并不好，有很多地方都看得云里雾里的，这次再尝试读一遍。 第一章里提到，我们都知道如果用多线程就会导</description>
+    </item>
+    
+    <item>
+      <title>一次关于CompletionService的使用</title>
+      <link>https://monkback.github.io/post/work/completionservice/</link>
+      <pubDate>Thu, 31 Oct 2019 20:03:31 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/work/completionservice/</guid>
+      <description>背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段</description>
+    </item>
+    
+  </channel>
+</rss>
