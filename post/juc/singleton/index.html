@@ -68,7 +68,7 @@
 
 <meta itemprop="datePublished" content="2020-04-19T13:48:54&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-19T13:48:54&#43;08:00" />
-<meta itemprop="wordCount" content="1120">
+<meta itemprop="wordCount" content="1329">
 
 
 
@@ -276,7 +276,7 @@
 对象之前将对象的引用写入instance变量中。而double-check的第一次检查，读取instance变量并没有加锁，导致另一个
 线程可能看到一个未初始化（或者说未初始化完毕）的实例，变量instance的值不为空，但是instance引用的对象中的某些
 其他实例变量的值并不是构造器中设置的初始值，而是一些默认值；因此该线程返回的instance变量所引用的实例是一个
-未初始化完毕的，导致出错。</p>
+未初始化完毕的，导致出错。即代码读取到instance不为null时，instance引用的对象有可能还没有完成初始化。</p>
 
 <p>所以我们在instance变量前加了volatile修饰符，在这里，volatile保证了可见性和有序性：</p>
 
@@ -288,7 +288,13 @@
 
 <hr />
 
-<p>使用静态内部类的方式会比较简单，代码如下</p>
+<p>　　上面我们使用volatile的方式来保证线程安全，这是因为禁止了重排序，下面这种方案换了一个思路：<strong>允许2和3重排序，但不允许
+其他线程“看到”这个重排序</strong>。</p>
+
+<p>　　JVM在类的初始化阶段(即在Class被加载后，且被线程使用之前)，会执行类的初始化。在执行类的初始化期间，JVM会去获取一个锁，
+这个锁可以<strong>同步多个线程对同一个类的初始化</strong>。</p>
+
+<p>　　使用静态内部类的方式会比较简单，代码如下</p>
 
 <pre><code>public class Singleton {
 

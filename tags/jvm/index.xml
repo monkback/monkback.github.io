@@ -6,10 +6,19 @@
     <description>Recent content in JVM on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Apr 2020 18:13:56 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 11 May 2020 11:43:22 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java内存模型</title>
+      <link>https://monkback.github.io/post/jvm/jmm/</link>
+      <pubDate>Mon, 11 May 2020 11:43:22 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/jvm/jmm/</guid>
+      <description>在看《Java并发编程的艺术》一书时，涉及到了Java内存模型，也就是JVM中各个区域的内存分布，每一块区域都存储了哪些内容，这篇文章主要就</description>
+    </item>
     
     <item>
       <title>对象的初始化安全—论static和final</title>
