@@ -68,7 +68,7 @@
 
 <meta itemprop="datePublished" content="2019-09-03T18:10:06&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-03T18:10:06&#43;08:00" />
-<meta itemprop="wordCount" content="3743">
+<meta itemprop="wordCount" content="3735">
 
 
 
@@ -302,10 +302,15 @@
    I/O多路复用的基本原理是：将多个I/O的阻塞复用到对一个select的阻塞上，实现一个线程处理多个请求，它的核心在于多路复用器Selector，多个socket可以注册到一个Selector上，这个selector去轮询它所负责的socket，发现某一个socket的数据准备好了后就返回，然后去执行系统调用recvfrom。图中我们可以看出来，虽然I/O多路复用的函数也是阻塞的，但是其与以上两种还是有不同的，I/O多路复用是阻塞在select，epoll这样的系统调用之上，而没有阻塞在真正的I/O系统调用如recvfrom之上（所以两个系统调用，花费也更大，IO多路复用的性能是有可能比BIO还差的，但其优势在于处理多个连接，参考C10k问题）。<br />
    图中显示的系统调用是select，这就不得不引入到我们经典的几个系统调用（select、poll、epoll），这是需要单独的一篇文章来介绍三种调用的不同之处，当然它们的思想都是一致的。<br />
 <a href="https://wyj.shiwuliang.com/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3SELECT%E3%80%81POLL%E5%92%8CEPOLL%20.html" title="详解select、epoll">深入理解select、epoll</a>   当然最好还是看Linux内核书籍<br />
-   注意：当selector轮询到某一个socket可读时，它返回，然后用户进程执行系统调用recvfrom，<strong>这个时候就又回到了我们的前两种I/O模型</strong>，此时，往往都采用的是NIO方式，因为尽管select返回了，告知用户进程某个socket可读，但并不告诉我们能读的数据有多少，<strong>甚至并不意味着我们接着调用recvfrom就能读到数据</strong>，所以I/O多路复用一般得搭配NIO。参考：
-&gt;<a href="https://www.zhihu.com/question/37271342">为什么 IO 多路复用要搭配非阻塞 IO?</a>
-&gt;<a href="https://www.zhihu.com/question/23614342">使用epoll时需要将socket设为非阻塞吗？</a>
-<a href="https://imgchr.com/i/AttrJH"><img src="https://s2.ax1x.com/2019/03/25/AttrJH.png" alt="AttrJH.png" /></a></p>
+   注意：当selector轮询到某一个socket可读时，它返回，然后用户进程执行系统调用recvfrom，<strong>这个时候就又回到了我们的前两种I/O模型</strong>，此时，往往都采用的是NIO方式，因为尽管select返回了，告知用户进程某个socket可读，但并不告诉我们能读的数据有多少，<strong>甚至并不意味着我们接着调用recvfrom就能读到数据</strong>，所以I/O多路复用一般得搭配NIO。参考：</p>
+
+<blockquote>
+<p><a href="https://www.zhihu.com/question/37271342">为什么 IO 多路复用要搭配非阻塞 IO?</a></p>
+
+<p><a href="https://www.zhihu.com/question/23614342">使用epoll时需要将socket设为非阻塞吗？</a></p>
+</blockquote>
+
+<p><a href="https://imgchr.com/i/AttrJH"><img src="https://s2.ax1x.com/2019/03/25/AttrJH.png" alt="AttrJH.png" /></a></p>
 
 <p>###4、信号驱动模型
 摘抄自《权威指南书》，首先开启套接口的信号驱动功能，并通过系统调用sigaction执行一个信号处理函数（此系统调用立即返回，用户进程继续工作）；当数据准备就绪时，就为该进程生成一个SIGIO信号，通过信号回调通知应用进程调用recvfrom接口来读取数据。

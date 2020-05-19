@@ -6,10 +6,37 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 11 May 2020 11:43:22 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2020 15:51:42 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java中的线程池</title>
+      <link>https://monkback.github.io/post/juc/threadpool/</link>
+      <pubDate>Mon, 18 May 2020 15:51:42 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/threadpool/</guid>
+      <description>ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用</description>
+    </item>
+    
+    <item>
+      <title>常用排序算法</title>
+      <link>https://monkback.github.io/post/algorithm/sortalgorithm/</link>
+      <pubDate>Fri, 15 May 2020 10:57:50 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/sortalgorithm/</guid>
+      <description>一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个</description>
+    </item>
+    
+    <item>
+      <title>AbstractQueuedSynchronizer理解</title>
+      <link>https://monkback.github.io/post/juc/abstractqueuedsynchronizer/</link>
+      <pubDate>Wed, 13 May 2020 10:28:43 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/abstractqueuedsynchronizer/</guid>
+      <description>队列同步器AbstractQueuedSynchronizer是用来构建锁和其他同步工具的关键，我们熟知的ReentrantLock(有公平</description>
+    </item>
     
     <item>
       <title>Java内存模型</title>

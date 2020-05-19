@@ -6,10 +6,19 @@
     <description>Recent content in 算法 on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 05 May 2020 21:51:06 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 15 May 2020 10:57:50 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>常用排序算法</title>
+      <link>https://monkback.github.io/post/algorithm/sortalgorithm/</link>
+      <pubDate>Fri, 15 May 2020 10:57:50 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/sortalgorithm/</guid>
+      <description>一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个</description>
+    </item>
     
     <item>
       <title>Array LinkedList</title>

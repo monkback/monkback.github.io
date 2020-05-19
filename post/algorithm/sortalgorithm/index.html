@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>常用排序算法 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/algorithm/sortalgorithm/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="常用排序算法" />
+<meta property="og:description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/sortalgorithm/" />
+<meta property="article:published_time" content="2020-05-15T10:57:50+08:00" />
+<meta property="article:modified_time" content="2020-05-15T10:57:50+08:00" />
+<meta itemprop="name" content="常用排序算法">
+<meta itemprop="description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个">
+
+
+<meta itemprop="datePublished" content="2020-05-15T10:57:50&#43;08:00" />
+<meta itemprop="dateModified" content="2020-05-15T10:57:50&#43;08:00" />
+<meta itemprop="wordCount" content="3350">
+
+
+
+<meta itemprop="keywords" content="算法," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="常用排序算法"/>
+<meta name="twitter:description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">常用排序算法</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-05-15" class="post-time">
+          2020-05-15
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p><big><strong>一　冒泡排序</strong></big></p>
+
+<p>　　通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个位置，以此类推。每一次冒泡的过程是：依次比较相邻的两个
+元素，如果前一个较大就交换，思路比较清晰，代码如下：</p>
+
+<pre><code>private static void bubbleSort(int[] arr) {
+    for (int i = 0; i &lt; arr.length; i++) {   //外层循环控制n次冒泡
+        for (int j = 1; j &lt; arr.length - i; j++) {  //内层循环无需到底，因为最末尾的元素已经有序了
+            if (arr[j - 1] &gt; arr[j]) {
+                int temp = arr[j];
+                arr[j] = arr[j - 1];
+                arr[j - 1] = temp;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>　　每一次比较冒泡都是在比较两两相邻元素的关系，事实上，在这个里面还有一个优化空间。比如数组[3,2,4,6]，你第一次冒泡后变成了[2,3,4,6]，这时候已经是有序的了，你进行第二次冒泡，发现没有
+进行元素交换的操作，那么你就没有必要进行后面的冒泡操作了，因此可以在上面代码里面增加一个标识位，标识本次冒泡操作是否进行了数据交换：如果没有，那么意味着数组已经有序，无需进行后面的冒泡操作；
+如果有，那么下面的冒泡操作仍需进行，代码如下，也比较简单，这是一种减少了后续比较操作的思路!</p>
+
+<pre><code>private static void bubbleSort2(int[] arr) {
+
+    for (int i = 0; i &lt; arr.length; i++) {   //外层循环控制n次冒泡
+        boolean tag = false;
+        for (int j = 1; j &lt; arr.length - i; j++) {  //内层循环无需到底，因为最末尾的元素已经有序了
+            if (arr[j - 1] &gt; arr[j]) {
+                int temp = arr[j];
+                arr[j] = arr[j - 1];
+                arr[j - 1] = temp;
+                tag = true;
+            }
+        }
+        if (!tag) break;
+    }
+}
+</code></pre>
+
+<p>　　冒泡排序都是在元数组上进行两两交换，空间复杂度为O(1),因此是原地排序。而且，只有在前一个元素大于后面元素的时候，我们才进行交换操作，而不是大于等于，因此它也是稳定的。对于最好情况下的
+时间复杂度，可以看到优化前，你是需要n次冒泡的，所以还是O(n^2)，但是优化后，由于可以提前退出外层for循环了，所以最好情况下(原数组已经有序)，你只需要一次冒泡操作，时间复杂度只有O(n)，所以
+这个标识还是比较有用的。最坏情况下，加不加提前退出标识都一样，时间复杂度都是O(n^2)。</p>
+
+<p>　　平均情况下的时间复杂度，一种思维模式是，看这个数组究竟有多少种排列方式(其实是n!种)，对于每一种排列方式，它的时间复杂度
+也有所不同，会比较复杂。这里提供一个所有排序算法通用的思路，即逆序对，你所有的排序算法本质上都是在消除逆序对，逆序对越少，
+原数组越接近有序。即对于数组中任意两个元素，如果i &lt; j且a[i] &gt; a[j]，那么这两个元素构成一个逆序对。后面我们会看到，有些
+排序算法高效的地方就在于，它<strong>一次交换操作可以消除多个逆序对</strong>。有序对的定义就是正好相反的。</p>
+
+<p>　　举一个例子，一个数组[4,5,6,3,2,1]，它的有序对有(4,5)、(4,6)、(5,6)，一共3个，一共6个元素，那么排好序以后，
+<strong>满有序对</strong>就是15个，你可以自己算一下。逆序对为15-3 = 12个，你排序的目的就是要消除这12个逆序对。而对于冒泡排序来说，
+你每一次交换操作，就消除了一个逆序对。也就是 交换次数恒等于逆序对的数目。</p>
+
+<p>　　对于包含n个元素的数组，最好情况下，初识时候逆序对已经是0了，那么你就不需要交换操作了，一次冒泡搞定；最坏情况下，初识时
+完全逆序，逆序对为n*(n-1)/2，那么就需要这么多次交换操作。所以平均情况下可以简单取一个两者的平均，即平均情况下时间复杂度
+也是O(n^2)。</p>
+
+<p><big><strong>二　插入排序</strong></big></p>
+
+<p>　　插入排序就是从数组的第二个元素开始，依次和前半段的元素比较，找到合适的位置，向后移动元素腾出位置，再把待插入的元素填
+进去，这里有一个核心思维是，你如果要把一组元素后移，那么你肯定是要从最后一个元素开始，一个一个移动，腾出的位置前一个就能填
+进来，你要从第一个开始就会比较麻烦，涉及到先保存后面一个元素。插入排序的思想其实比较简单，就是找位置，移动，然后填充进去，
+找位置就是从前半段有序的数组中找到合适的插入位置，可以从前向后找，也可以从后往前找，当你实际写代码的时候就会发现，从后往
+前找要容易实现得多。
+但是要写出一个bug-free的插入排序并不那么容易。可以先看下代码：</p>
+
+<pre><code>private static void insertionSort(int[] arr) {
+    for (int i = 1; i &lt; arr.length; i++) {
+        int value = arr[i];        //这一步的先行保存下待比较的元素，最后需要把它放到合适的位置去  
+        int j = i - 1;           //j没有放在for循环里面，是因为最后需要j这个位置，j的位置就是需要插入的位置
+        for (; j &gt;= 0; j--) {
+            if (value &lt; arr[j]) {
+                arr[j + 1] = arr[j]; //移动元素是依次向后移动，之前i的位置数据可能就被抹掉了，所以我们提前
+                保存了value
+            } else {
+                break;  //说明不需要任何移动，比前半段元素中最大的都还要大，直接break
+            }
+        }
+        arr[j + 1] = value;   //最后进行填充
+    }
+}
+</code></pre>
+
+<p>　　针对每一个元素，都和前面已经排好序的数组元素一一比较，从后往前比较，如果比最后一个还大，那就不用动了；这一点上是
+减少了比较次数的，而且从后往前比较，方便从后往前移动元素。同理，这也是一个原地排序，不需要开辟新的内存空间；而且这也是一个
+稳定的排序，只有在后面元素更小的时候才会移动，否则是不动的；最好情况下，数组已经有序，不需要移动元素，是O(n)的时间复杂度，
+这次是因为需要从前往后遍历一次元素，比较一次就break了；最坏情况下，要移动每一个元素，时间复杂度为O(n^2)；平均情况下的
+时间复杂度也是O(n^2)，因为我们总是需要向一个有序数组中插入新的元素。</p>
+
+<p>　　插入排序的数据移动次数也是就等于逆序对的数目，你有多少个逆序对，就需要移动多少次元素。</p>
+
+<p><big><strong>三　选择排序</strong></big></p>
+
+<p>　　插入排序相当于是将整个数组分为前半部分的已排序数组和后半部分的未排序数组，每次从后面拿一个元素，插入到前面已经排好序的
+数组中；而选择排序也是将整个数组分为两半部分，但是每次是在后半部分的数组中<strong>选择最小的元素</strong>，放入到前半部分数组的末尾。
+代码如下：</p>
+
+<pre><code>private static void selectionSort(int[] arr) {
+    for (int i = 0; i &lt; arr.length; i++) {
+        int min = i;         //用min来保存内层循环中找到的最小元素的索引，在外层循环进行这一次交换操作
+        for (int j = i + 1; j &lt; arr.length; j++) {
+            if (arr[j] &lt; arr[min]) {
+                min = j;
+            }
+        }
+        if (min != i) {   //能找到比第一个元素还小的，就进行交换
+            int temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
+        }
+    }
+}
+</code></pre>
+
+<p>　　上面就是选择排序的代码了，其实思路很容易理解；就是永远在后半数组中找最小的元素，然后和它交换，这次交换其实就是在<strong>挑选出最小的元素</strong>，放在有序数组的末尾，这里的思路是使用min在记录
+后面数组中最小元素的位置，如果找到了就交换。显然，选择排序也是一个原地排序算法，空间复杂度O(1)；而且<strong>最好、最坏、平均情况下的时间复杂度都是O(n^2)</strong>，即使原数组已经有序，你还是少不了
+内层遍历后续元素去进行比较。那么你再推导一下就发现，选择排序并不是一个稳定的排序算法，比如对于数组[5,3,5,7,4]，会经历[3,5,5,7,4]-&gt;[3,4,5,7,5]-&gt;[3,4,5,5,7]。在第二次选择的时候
+第一个5已经跑到最后面去了，两个5的先后顺序发生了变化。</p>
+
+<p>　　思考两个问题：1、复杂度都是O(n^2)，插入排序和冒泡排序哪一种更好？  2、插入排序是否还有优化空间？</p>
+
+<p>　　答案：1、我们前面看到对于一个数组来讲，冒泡排序的交换次数等于数组中的逆序对数目，交换是通过一个临时变量来做的，一共三次
+赋值操作；插入排序的数据移动次数也<strong>等于数组中逆序对的数目</strong>，移动是通过arr[j + 1] = arr[j]这一步赋值操作来做的；
+可以看到插入排序所需要的操作明显更少，因此其效率会更高。2、插入排序每次移动操作都是在消除一个逆序对，事实上，能不能在此基础
+一次移动操作消除多个逆序对呢？，学习一下
+<strong><a href="https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F">希尔排序</a></strong>。</p>
+
+<p><big><strong>四　归并排序</strong></big></p>
+
+<p>　　归并排序的核心思想是分治，分而治之，将大问题分解为子问题进行求解，先将待排序数组从中间分为两部分，依次对前后两部分
+数组分别排序，再将两个有序数组进行合并，使得数组整体有序。回想一下之前什么问题可以使用递归来解决？一要原问题可以分解为子
+问题，二是子问题的求解方式和原问题是一样的，三是这个过程存在终止条件，即子问题分解到多细粒度以后就可以停止分解了，直接
+求解。这个和分治思维是很相似的，简单来说，分治是一种解决问题的处理思想，而递归是一种编程技巧。</p>
+
+<pre><code>
+private static void mergeSort(int[] arr, int start, int end) {
+    if (start &gt;= end) return;
+    int middle = (start + end) / 2;
+    mergeSort(arr, start, middle);
+    mergeSort(arr, middle + 1, end);
+    merge(arr, start, middle, end);
+}
+
+private static void merge(int[] arr, int start, int middle, int end) {
+    int[] temp = new int[end - start + 1];
+    int k = 0;
+    int i = start, j = middle + 1;
+    while (i &lt;= middle &amp;&amp; j &lt;= end) {
+        if (arr[i] &lt; arr[j]) {
+            temp[k++] = arr[i++];
+        } else {
+            temp[k++] = arr[j++];
+        }
+    }
+    while (i &lt;= middle) {
+        temp[k++] = arr[i++];
+    }
+    while (j &lt;= end) {
+        temp[k++] = arr[j++];
+    }
+
+    for (int index = 0; index &lt; temp.length; index++) {
+        arr[index + start] = temp[index];
+    }
+}
+
+</code></pre>
+
+<p>　　上面是归并排序代码的Java实现，</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/juc/threadpool/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Java中的线程池</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/juc/abstractqueuedsynchronizer/">
+            <span class="next-text nav-default">AbstractQueuedSynchronizer理解</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

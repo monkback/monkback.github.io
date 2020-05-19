@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AbstractQueuedSynchronizer理解 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="队列同步器AbstractQueuedSynchronizer是用来构建锁和其他同步工具的关键，我们熟知的ReentrantLock(有公平" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/juc/abstractqueuedsynchronizer/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="AbstractQueuedSynchronizer理解" />
+<meta property="og:description" content="队列同步器AbstractQueuedSynchronizer是用来构建锁和其他同步工具的关键，我们熟知的ReentrantLock(有公平" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/juc/abstractqueuedsynchronizer/" />
+<meta property="article:published_time" content="2020-05-13T10:28:43+08:00" />
+<meta property="article:modified_time" content="2020-05-13T10:28:43+08:00" />
+<meta itemprop="name" content="AbstractQueuedSynchronizer理解">
+<meta itemprop="description" content="队列同步器AbstractQueuedSynchronizer是用来构建锁和其他同步工具的关键，我们熟知的ReentrantLock(有公平">
+
+
+<meta itemprop="datePublished" content="2020-05-13T10:28:43&#43;08:00" />
+<meta itemprop="dateModified" content="2020-05-13T10:28:43&#43;08:00" />
+<meta itemprop="wordCount" content="7800">
+
+
+
+<meta itemprop="keywords" content="Java多线程," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AbstractQueuedSynchronizer理解"/>
+<meta name="twitter:description" content="队列同步器AbstractQueuedSynchronizer是用来构建锁和其他同步工具的关键，我们熟知的ReentrantLock(有公平"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">AbstractQueuedSynchronizer理解</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-05-13" class="post-time">
+          2020-05-13
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>　　队列同步器AbstractQueuedSynchronizer是用来构建锁和其他同步工具的关键，我们熟知的ReentrantLock(有公平和非公平
+两种实现)，内部就是通过继承AQS来实现的，CountdownLatch也是通过继承AQS，来实现的，这个数据结构很重要，这篇文章主要就是
+分析AQS相关的知识的。</p>
+
+<p>　　AQS类本身代码是比较多的，不算Doug Lea的注释，一共还有1200+行，但捋清楚结构后，也不算太复杂。整体框架，可以从下图中看出来，它维护一个int型的成员变量表示同步状态(代表共享资源)，使用一个
+FIFO队列来存放获取共享资源的线程(一个线程等待队列，多线程争用资源被阻塞时会进入该队列)，本质上是一个双向链表。AQS中的
+head节点指向同步队列的头节点，是获取同步状态成功的节点；tail节点指向同步队列的尾节点。head节点在释放同步队列时，会唤醒
+后继节点，而后继几点如果成功获取到了同步状态后，也会将自己设置为新的head节点。
+<img src="https://images2015.cnblogs.com/blog/721070/201705/721070-20170504110246211-10684485.png" alt="AttrH.png" /></p>
+
+<p>　　AQS提供了三个方法来访问同步状态：</p>
+
+<ul>
+<li>1、getState()：获取当前同步状态</li>
+<li>2、setState(int newState)：设置当前同步状态</li>
+<li>3、compareAndSetState(int expect, int update)：使用CAS设置当前状态，可以保证状态设置的原子性</li>
+</ul>
+
+<p>　　AQS可以支持独占式的获取同步状态(只有一个线程能执行，ReentrantLock、ReentrantReadWriteLock中的WriteLock)，也可以共享式的获取同步状态(可以多个线程同时执行，ReentrantLock中
+的ReadLock、CountdownLatch以及Semaphore)。不同的自定义同步器争用共享资源的方式也不同。自定义同步器在实现时只需要<strong>实现共享资源state的获取与释放方式</strong>即可，至于具体线程等待队列的维护
+（如获取资源失败入队/唤醒出队等），AQS已经在顶层实现好了。自定义同步器实现时主要实现以下几种方法：</p>
+
+<ul>
+<li>1、protected boolean tryAcquire(int arg)           独占式的获取同步状态，实现该方法需要先查询当前状态是否符合预期，再使用CAS的方式设置同步状态。成功则返回true，否则返回false</li>
+<li>2、protected boolean tryRelease(int arg)           独占式的释放同步状态，阻塞在队列中的线程将有机会获取同步状态。成功返回true，失败返回false</li>
+<li>3、protected int tryAcquireShared(int arg)         共享式的获取同步状态，返回负数表示失败，0表示获取成功，但没有剩余资源，大于0的数表示成功且还有剩余资源。</li>
+<li>4、protected boolean tryReleaseShared(int arg)     共享式的释放同步状态，如果释放后允许唤醒后续等待结点返回true，否则返回false。</li>
+<li>5、protected boolean isHeldExclusively()           表示当前线程是否正在独占资源。只有用到Condition时才需要实现它。</li>
+</ul>
+
+<p>　　以ReentrantLock为例，state初始化为0，表示未锁定状态。A线程lock()时，会调用tryAcquire()独占该锁并将state+1。此后，其他线程再tryAcquire()时就会失败，直到A线程unlock()到
+state=0（即释放锁）为止，其它线程才有机会获取该锁。当然，释放锁之前，A线程自己是可以重复获取此锁的（state会累加），这就是可重入的概念。但要注意，获取多少次就要释放多么次，这样才能保证
+state是能回到零态的。</p>
+
+<p>　　再以CountDownLatch以例，任务分为N个子线程去执行，state也初始化为N（注意N要与线程个数一致）。这N个子线程是并行执行的，每个子线程执行完后countDown()一次，state会CAS减1。等到所
+有子线程都执行完后(即state=0)，会unpark()主调用线程，然后主调用线程就会从await()函数返回，继续后余动作。</p>
+
+<p>　　一般来说，自定义同步器要么是独占方法，要么是共享方式，他们也只需实现tryAcquire-tryRelease、tryAcquireShared-tryReleaseShared中的一种即可。但AQS也支持自定义同步器同时实现
+独占和共享两种方式，如ReentrantReadWriteLock。</p>
+
+<p>　　在研究内部的方法之前，我们先看一下AQS的核心同步队列的相关实现。从上面的图里可以看出来，同步队列是由一个个节点Node构成的双向链表，Node是对每一个等待资源的线程的封装，其中包含了线程以及
+线程的等待状态(如是否被阻塞，是否等待唤醒，是否已经被取消等)，这个状态使用waitStatus表示，Node类的主要field如下：</p>
+
+<ul>
+<li>1、int waitStatus，等待状态，主要包含以下五种：
+
+<ul>
+<li>CANCELLED，值为1，表示在同步队列中的线程等待超时了，或者被中断了(能够响应中断的前提下—&gt;acquireInterruptibly)，就将当前节点的状态变更为取消状态，节点进入该状态后就不会再变化了；</li>
+<li>SIGNAL，值为-1，表示它的next节点在等待当前节点唤醒，next节点入队时，会将它的前一个节点状态置为SIGNAL；当前节点如果释放了同步状态或者取消，将会通知next节点，让后面节点可以运行；</li>
+<li>CONDITION，值为-2，节点在<strong>Condition等待队列(不是同步队列)</strong>中，<strong>节点线程等待在Condition上</strong>，当其他线程对Condition调用了Signal()方法后，该节点会从等待队列中移入**同步队列，加入
+到对同步状态的获取中；</li>
+<li>PROPAGATE，值为-3，表示共享模式下，下一次获取共享式同步状态将会<strong>无条件传播下去</strong>。</li>
+<li>INITIAL，值为0，新节点入队时的默认状态。
+负数表示节点处于有效等待状态，正数表示节点已经被取消了。因此源码中都用&gt;0 、&lt;0来判断节点的状态是否正常。</li>
+</ul></li>
+<li>2、Node pre，前驱节点</li>
+<li>3、Node next，后继节点</li>
+<li>4、Node nextWaiter，Condition等待队列中的后继节点，不是同步队列。如果当前节点是共享的，那么这个字段是一个SHARED常
+量，也就是节点类型和条件等待队列中的后继节点公用一个字段。</li>
+<li>5、Thread thread，获取同步状态的线程</li>
+<li>6、Node SHARED，标记该节点类型为共享</li>
+<li>7、Node EXCLUSIVE，标记该节点类型为独占</li>
+</ul>
+
+<p>　　这里注意到了，已经出现了两个不同的队列：同步队列和Condition等待队列，它们的实现基础都是Node节点，但是同步队列是双向的
+，而Condition等待队列是单向的，具体可以看ConditionObject这个内部类，它只有一个firstWaiter和一个lastWaiter，然后
+通过nextWaiter来链接到一起。</p>
+
+<p>　　下面我们开始阅读源码部分。</p>
+
+<p>　　<strong><strong><big>1、 acquire(int arg)</big></strong></strong></p>
+
+<p>　　这个方法是独占模式下获取同步状态的入口，需要注意的是该方法不会响应中断，也就是说如果线程由于获取同步状态失败而进入同步
+队列中，另一个线程将该线程中断，这个线程并不会从队列中移出，就不会将自身节点的waitStatus状态修改为CANCELLED。如果获取
+到资源，则线程直接返回，否则会进入同步队列，直到获取到了资源为止。源码如下：</p>
+
+<pre><code>public final void acquire(int arg) {
+    if (!tryAcquire(arg) &amp;&amp;
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        selfInterrupt();
+}
+</code></pre>
+
+<p>这段代码主要的执行流程如下：</p>
+
+<ul>
+<li>1) 调用自己实现的tryAcquire(int arg)方法，尝试获取同步状态(<strong>注意公平锁和非公平锁的实现方式不太一样，可以对比代码
+就能发现，非公平锁直接先CAS设置一次同步状态，即抢占；而公平锁表示如果队列中有等待的，就不会先做这次CAS操作</strong>)，如果成功
+就直接返回。</li>
+<li>2) 上一步调用失败了，调用addWaiter(Node.EXCLUSIVE)将该线程(构造为一个独占节点)加入<strong>同步队列的尾部</strong>。</li>
+<li>3) acquireQueued(Node node, int arg)方法，使该节点以&rdquo;死循环&rdquo;的方式获取同步状态，获取不到则阻塞在同步队列中。</li>
+<li>4) 前面提到了这个方法并不响应中断，所以只有在获取资源以后，selfInterrupt()自我中断一次。</li>
+</ul>
+
+<p><strong>1.1 tryAcquire(int arg)</strong></p>
+
+<p>　　这个方法就是各种同步器自己实现的了，自行决定能否重入，是否公平等，可以思考一下为什么这个方法没有声明为abstract。</p>
+
+<p><strong>1.2 addWaiter(Node node)</strong></p>
+
+<pre><code>private Node addWaiter(Node mode) {
+    Node node = new Node(Thread.currentThread(), mode);
+    // Try the fast path of enq; backup to full enq on failure
+    Node pred = tail;
+    if (pred != null) {
+        node.prev = pred;
+        if (compareAndSetTail(pred, node)) {
+            pred.next = node;
+            return node;
+        }
+    }
+    enq(node);
+    return node;
+}
+
+private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            if (compareAndSetHead(new Node()))
+                tail = head;
+        } else {
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>　　注意我们调用的时候传的node是一个Node.EXCLUSIVE，这表明当前新构建出来的节点是独占模式，isShared()返回false。
+首先判断如果tail不为空，则代表队列也非空，则先尝试快速添加的方式，一次CAS操作将node添加到队尾，这里你可以思考一下，为
+什么node.prev = pred; 这一步是放在CAS之前做，而不是放在CAS成功后再做？我猜是尽量if语句里面代码的执行时间，避免另一
+个线程的CAS一直失败，此处存疑；如果tail为空(表示队列为空)，或者上一步CAS失败了，在进入enq(Node node)方法，直接自旋
+式的添加，<strong>直到节点添加成功到队尾，线程才返回</strong>。这里值得注意的是，如果队列为空的做法，是强制生成了一个标识节点，头尾都指向
+这个节点，我猜是为了利用此方法compareAndSetTail，这个方法要求传递的expect的tail不为空；作为对比，你可以看
+compareAndSetHead()方法传递的expect的head是一直为空的，此处好好思考一下为什么？因为compareAndSetHead()方法只在enq这里调用过一次，目的是在队列为空时构造出一个标识节点作为头节点，
+其他时候设置头节点<strong>只会由获取同步状态成功的线程执行</strong>，由于只有一个线程能够获取到同步状态，因此设置头节点的方法是不需要CAS操作的。</p>
+
+<p><strong>1.3 final boolean acquireQueued(final Node node, int arg)</strong></p>
+
+<p>　　通过上面的步骤后，线程获取同步状态失败了，也将自己添加到同步队列的队尾了。下面又开始了一个&rdquo;自旋&rdquo;的过程，每个节点(线程)都开始观察，等待头节点释放同步状态，如果自己获取到了同步状态，就结束
+这个自旋的过程，否则一直这个节点的线程会一直阻塞。注意到现在为止，一个线程执行acquire(int arg)方法还一直阻塞着，代码如下：</p>
+
+<pre><code>final boolean acquireQueued(final Node node, int arg) {
+    boolean failed = true;                 //标记是否成功拿到资源
+    try {
+        boolean interrupted = false;       //标记在等待的过程中是否被中断过
+        for (;;) {
+            final Node p = node.predecessor();      //拿前驱节点
+            if (p == head &amp;&amp; tryAcquire(arg)) {     //如果前驱是head才能尝试去获取同步状态
+                setHead(node);                      //这里简单将自己设置为头节点
+                p.next = null; // help GC           //将原来头节点的next置为null，原有的头节点已经没用了(已经出队了)，可以被GC回收掉
+                failed = false;                     //成功获取资源
+                return interrupted;                 //返回在等待资源的过程中是否被中断
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                parkAndCheckInterrupt())
+                interrupted = true;           //在等待过程中是否被中断过
+        }
+    } finally {
+        if (failed)                   //如果没有获取到同步状态(可能是超时or被中断)，取消节点在队列中的等待。
+            cancelAcquire(node);
+    }
+}
+</code></pre>
+
+<p>　　setHead()方法只会在下面这种情况下调用：当前节点的前驱是头节点，也就是，只有这种节点才能尝试获取同步状态，原因如下：</p>
+
+<ul>
+<li>1) 头节点是成功获取到同步状态的节点，当它释放同步状态后，会唤醒后继节点，后继节点被唤醒后还需要**检查自己的前驱节点是否是头节点；</li>
+<li>2) 维护队列FIFO的原则，</li>
+</ul>
+
+<p>　　我们再来看如果前驱节点不是头节点的情况，此时不能去尝试获取同步状态。先来看shouldParkAfterFailedAcquire(Node pred, Node node)方法，这个方法主要用来检查节点(准确来说是线程)
+是否可以休息。整个流程中，如果前驱节点的状态不是SIGNAL，则会返回false，表示并不能休息。</p>
+
+<p><strong>1.3.1 boolean shouldParkAfterFailedAcquire(Node pred, Node node)</strong></p>
+
+<pre><code>private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+    int ws = pred.waitStatus;
+    if (ws == Node.SIGNAL)
+        /*
+         * This node has already set status asking a release to signal it, so it can safely park.
+         * 如果前驱节点的状态已经是SIGNAL了，代表前驱节点释放同步状态后会通知我自己，那我自己就可以休息了
+         */
+        return true;
+    if (ws &gt; 0) {
+        /*
+         * Predecessor was cancelled. Skip over predecessors and indicate retry.
+         * 如果前驱节点已经放弃了，那么就放弃前驱节点了，继续前移，直到pred节点状态为非CANCELLED，排在它的后面
+         */
+        do {
+            node.prev = pred = pred.prev;
+        } while (pred.waitStatus &gt; 0);
+        pred.next = node;
+    } else {
+        /*
+         * waitStatus must be 0 or PROPAGATE.  Indicate that we need a signal, but don't park yet.  Caller will need to retry to 
+         * make sure it cannot acquire before parking.
+         * 如果前驱节点的状态是正常的(处于剩下其他状态)，尝试以CAS的方式将前驱节点的状态设置成SIGNAL，让前驱节点可以通知自己
+         */
+        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+    }
+    return false;
+}
+</code></pre>
+
+<p><strong>1.3.2 final boolean parkAndCheckInterrupt()</strong></p>
+
+<pre><code>private final boolean parkAndCheckInterrupt() {
+    LockSupport.park(this);                 //调用park()方法，使得线程进入waiting状态(到这里线程才真正waiting了，)，这里可以用一篇文章梳理一下LockSupport类的相关知识
+    return Thread.interrupted();            //执行到这里说明线程又开始run了，查看一下自己是否是被中断的       
+}
+</code></pre>
+
+<p>　　park()会让当前线程进入waiting状态。在此状态下，有两种途径可以唤醒该线程：1）被unpark()；2）被interrupt()。需要注意的是，Thread.interrupted()会清除当前线程的中断标记位。</p>
+
+<p>　　<strong>1.3  再次总结一下acquireQueued的流程</strong></p>
+
+<p>　　首先，节点进入队尾，检测前驱节点是否是head，是就尝试获取同步状态；否则就尝试将前驱节点的状态修改为SIGNAL，设置成功后，线程便调用park进入waiting状态，等待unpark()或者interrupt()
+唤醒自己；被唤醒后，如果能够拿到同步状态，则将头节点设置为自己，并返回<strong>从入队列到获得同步状态整个过程中是否被中断过</strong>，如果没有拿到则继续继续检查前驱节点状态，一直循环下去。</p>
+
+<p>　　再次回到acquire(int arg)的代码，总结一下它的调用流程(可以参考《Java 并发编程的艺术》书中的流程图)：</p>
+
+<pre><code>public final void acquire(int arg) {
+    if (!tryAcquire(arg) &amp;&amp;
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        selfInterrupt();
+}
+</code></pre>
+
+<ul>
+<li>1)  调用自定义同步器的tryAcquire(int arg)方法，尝试获取同步状态，成功则直接返回；</li>
+<li>2)  如果没成功，则调用addWaiter()方法将当前线程包装为Node，加入同步队列的尾部，并标记为独占模式；</li>
+<li>3)  节点进入队尾后，acquire()方法让线程在队列中休息，线程进入waiting状态，被unpark的时候会被唤醒，当其前驱节点是头节点时才能尝试获取同步状态，获取到同步状态后线程返回，如果在整个
+等待过程中被中断过，则返回true，否则返回false；</li>
+<li>4)  如果在整个等待过程中线程被中断过，这个方法是忽略中断的，被中断的线程在队列中也不会修改其waitStatus状态，最后在线程被unpark的时候，我们是调用的Thread.interrupted()方法来返回
+线程是否被中断过，注意这个方法会清除中断状态。所以如果是true的话，最后调用了一次selfInterrupt()方法来将自己的中断状态补上，又置为true。</li>
+</ul>
+
+<p>　　ReentrantLock.lock()的流程就是acquire(1)，内部还提供了<strong>公平和非公平</strong>的两种实现，可以参考。</p>
+
+<p>　　<strong><strong><big>2、 release(int arg)</big></strong></strong></p>
+
+<p>　　前面将了acquire的流程，现在看一下它的反向操作，释放一个独占式的同步状态，如果释放成功，则会唤醒等待队列中的下一个节点，让其尝试获取同步状态。整个流程并不复杂，大体上是根据各自同步器
+实现的tryRelease()方法的返回值来判断同步状态是否得到释放了，代码如下：</p>
+
+<pre><code>public final boolean release(int arg) {
+    if (tryRelease(arg)) {
+        Node h = head;
+        if (h != null &amp;&amp; h.waitStatus != 0)
+            unparkSuccessor(h);
+        return true;
+    }
+    return false;
+}
+</code></pre>
+
+<p><strong>2.1 tryRelease(int arg)</strong></p>
+
+<p>　　这个方法和tryAcquire(int arg)一样，也是需要同步器自己实现的。一般来说，tryRelease都会成功，因为在独占模式下，来释放资源的线程一定之前拿到了独占资源，直接减掉释放的资源量即可
+(state -= arg)，注意返回值即可。</p>
+
+<p><strong>2.2 unparkSuccessor(Node node)</strong></p>
+
+<p>　　这个方法用来唤醒等待队列中的下一个节点(线程)，代码如下：</p>
+
+<pre><code>private void unparkSuccessor(Node node) {
+    /*
+     * If status is negative (i.e., possibly needing signal) try to clear in anticipation of signalling.  It is OK if this fails 
+     * or if status is changed by waiting thread.
+     */
+    int ws = node.waitStatus;
+    if (ws &lt; 0)
+        compareAndSetWaitStatus(node, ws, 0);         //将当前节点(也就是头节点)的waitStatus置为0，允许失败？那不做这一步可以吗？
+
+    /*
+     * Thread to unpark is held in successor, which is normally just the next node.  But if cancelled or apparently null,
+     * traverse backwards from tail to find the actual non-cancelled successor.
+     */
+    Node s = node.next;
+    if (s == null || s.waitStatus &gt; 0) {
+        s = null;
+        for (Node t = tail; t != null &amp;&amp; t != node; t = t.prev)
+            if (t.waitStatus &lt;= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
+</code></pre>
+
+<p>　　有了前面的基础知识，我们发现这个函数一点也不复杂，归纳为一句话就是：找到head节点后面第一个满足条件的(未被取消的)节点线程，唤醒它。在acquire中因为park阻塞住的线程就可以继续运行了。
+这里其实可以思考这样一个问题，如果你的代码在release()的时候抛异常了，那么永远也不会unpark，之前进入waiting状态的线程将永远停止在那儿。</p>
+
+<p>　　<strong><strong><big>3、 acquireShared(int arg)</big></strong></strong></p>
+
+<p>　　看完独占式的获取和释放同步资源以后，我们再来研究一下共享式的获取同步资源，也就是同步状态在同一时刻允许被多个线程同时获取。它会获取指定量的资源，获取成功则直接返回，获取失败
+则进入等待队列，直到获取到资源为止，整个过程一样忽略中断，代码如下：</p>
+
+<pre><code>public final void acquireShared(int arg) {
+    if (tryAcquireShared(arg) &lt; 0)
+        doAcquireShared(arg);
+}
+</code></pre>
+
+<p>　　这里tryAcquireShared()依然需要自定义同步器去实现。但是AQS已经把其返回值的语义定义好了：负值代表获取失败；0代表获取成功，但没有剩余资源；正数表示获取成功，还有剩余资源，其他线程还可以
+去获取。所以这里acquireShared()的流程就是：</p>
+
+<ul>
+<li>1)  tryAcquireShared()尝试获取资源，成功则直接返回；</li>
+
+<li><p>2)  失败则通过doAcquireShared()进入同步队列，直到获取到资源为止才返回。</p>
+
+<p>private void doAcquireShared(int arg) {
+    final Node node = addWaiter(Node.SHARED);
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r &gt;= 0) {
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    if (interrupted)
+                        selfInterrupt();
+                    failed = false;
+                    return;
+                }
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}</p></li>
+</ul>
+
+<p>　　可以看出来，共享式的放入同步队列和独占式的acquireQueued方法代码结构都很相似，都是自旋式的等待头节点释放同步状态。不同之处在于尝试获取同步状态时，共享式的返回的是数字(代表可用的资源数)
+，并且将selfInterrupt放在了这个方法里面，实际效果和之前独占式的没有什么区别。</p>
+
+<p>　　如果当前节点的前驱节点是头节点时，尝试去获取同步状态。如果获取的同步状态个数(可用资源数目)不小于0的话，还会唤醒之后的
+节点，也就是方法setHeadAndPropagate，下面是这个方法的源码。这儿需要注意的是，如果head节点释放的资源数目为5个，而它的
+后继节点需要的同步资源为6个，后继的后继需要的资源为2个，那么后继的后继是不会被唤醒的，仍然会先满足上一个后继节点的需求，
+从而两个后继节点都会等待。</p>
+
+<pre><code>private void setHeadAndPropagate(Node node, int propagate) {
+    Node h = head; // Record old head for check below
+    setHead(node);
+
+    if (propagate &gt; 0 || h == null || h.waitStatus &lt; 0 ||
+        (h = head) == null || h.waitStatus &lt; 0) {
+        Node s = node.next;
+        if (s == null || s.isShared())
+            doReleaseShared();
+    }
+}
+</code></pre>
+
+<p>　　获取到了同步状态后，将头节点设置为自己，这些还是一样的流程，只有这个propagate的地方不一样，即如果还有可用的资源，会去
+唤醒后续的共享节点，调用doReleaseShared()方法，如下：</p>
+
+<pre><code>private void doReleaseShared() {
+    for (;;) {
+        Node h = head;
+        if (h != null &amp;&amp; h != tail) {
+            int ws = h.waitStatus;
+            if (ws == Node.SIGNAL) {
+                if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
+                    continue;            // loop to recheck cases
+                unparkSuccessor(h);
+            }
+            else if (ws == 0 &amp;&amp;
+                     !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
+                continue;                // loop on failed CAS
+        }
+        if (h == head)                   // loop if head changed
+            break;
+    }
+}
+</code></pre>
+
+<p>　　<strong><strong><big>4、 releaseShared(int arg)</big></strong></strong></p>
+
+<p>　　共享式的获取同步资源以后，现在进入共享式的释放同步资源。如果释放成功，本质上就是调用一个上面提到过的方法doReleaseShared()，就会唤醒队列里的后续等待节点。和独占式的也很相似，只不过独
+占式的是唤醒head的后继节点，这个共享式的唤醒可能唤醒一堆&hellip;</p>
+
+<pre><code>public final boolean releaseShared(int arg) {
+    if (tryReleaseShared(arg)) {     //尝试释放资源
+        doReleaseShared();           //唤醒后续节点
+        return true;
+    }
+    return false;
+}
+</code></pre>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/algorithm/sortalgorithm/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">常用排序算法</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/jvm/jmm/">
+            <span class="next-text nav-default">Java内存模型</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

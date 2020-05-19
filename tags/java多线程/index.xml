@@ -6,10 +6,28 @@
     <description>Recent content in Java多线程 on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Apr 2020 18:13:56 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2020 15:51:42 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/tags/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java中的线程池</title>
+      <link>https://monkback.github.io/post/juc/threadpool/</link>
+      <pubDate>Mon, 18 May 2020 15:51:42 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/threadpool/</guid>
+      <description>ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用</description>
+    </item>
+    
+    <item>
+      <title>AbstractQueuedSynchronizer理解</title>
+      <link>https://monkback.github.io/post/juc/abstractqueuedsynchronizer/</link>
+      <pubDate>Wed, 13 May 2020 10:28:43 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/abstractqueuedsynchronizer/</guid>
+      <description>队列同步器AbstractQueuedSynchronizer是用来构建锁和其他同步工具的关键，我们熟知的ReentrantLock(有公平</description>
+    </item>
     
     <item>
       <title>对象的初始化安全—论static和final</title>
