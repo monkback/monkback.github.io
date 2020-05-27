@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>2020年看书规划 - Records</title>
+  <title>Linux系统下的CPU核数问题 - Records</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看" />
+  <meta name="description" content="这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台 上，一共申请了4个节点" />
 
 
 
@@ -34,7 +34,7 @@
 <meta name="generator" content="Hugo 0.57.2" />
 
 
-<link rel="canonical" href="https://monkback.github.io/post/work/schedule/" />
+<link rel="canonical" href="https://monkback.github.io/post/linux/cpu/" />
 
 
 
@@ -56,26 +56,26 @@
 
 
 
-<meta property="og:title" content="2020年看书规划" />
-<meta property="og:description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看" />
+<meta property="og:title" content="Linux系统下的CPU核数问题" />
+<meta property="og:description" content="这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台 上，一共申请了4个节点" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/work/schedule/" />
-<meta property="article:published_time" content="2020-02-29T20:22:48+08:00" />
-<meta property="article:modified_time" content="2020-02-29T20:22:48+08:00" />
-<meta itemprop="name" content="2020年看书规划">
-<meta itemprop="description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看">
+<meta property="og:url" content="https://monkback.github.io/post/linux/cpu/" />
+<meta property="article:published_time" content="2020-05-22T16:34:20+08:00" />
+<meta property="article:modified_time" content="2020-05-22T16:34:20+08:00" />
+<meta itemprop="name" content="Linux系统下的CPU核数问题">
+<meta itemprop="description" content="这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台 上，一共申请了4个节点">
 
 
-<meta itemprop="datePublished" content="2020-02-29T20:22:48&#43;08:00" />
-<meta itemprop="dateModified" content="2020-02-29T20:22:48&#43;08:00" />
-<meta itemprop="wordCount" content="1529">
+<meta itemprop="datePublished" content="2020-05-22T16:34:20&#43;08:00" />
+<meta itemprop="dateModified" content="2020-05-22T16:34:20&#43;08:00" />
+<meta itemprop="wordCount" content="1020">
 
 
 
-<meta itemprop="keywords" content="规划," />
+<meta itemprop="keywords" content="Linux," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2020年看书规划"/>
-<meta name="twitter:description" content="拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。 2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看"/>
+<meta name="twitter:title" content="Linux系统下的CPU核数问题"/>
+<meta name="twitter:description" content="这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台 上，一共申请了4个节点"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -219,11 +219,11 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">2020年看书规划</h1>
+      <h1 class="post-title">Linux系统下的CPU核数问题</h1>
       
       <div class="post-meta">
-        <time datetime="2020-02-29" class="post-time">
-          2020-02-29
+        <time datetime="2020-05-22" class="post-time">
+          2020-05-22
         </time>
         
         
@@ -241,65 +241,53 @@
 
     
     <div class="post-content">
-      <p>拒绝浪费时间，重拾看书规划，这篇文章会持续更新记录。</p>
+      <p>　　这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台
+上，一共申请了4个节点，每个节点是一个docker，每个节点的配置是4核8G，一般书籍或者网上的博客都指出：对于IO密集型应用，线程池的大小应该设置为
+2*N + 1；CPU密集型的应用，线程池的大小设置为N + 1，其中N是CPU核数。</p>
 
-<p>2020年3月开始，先花两周的时间复习一下Spring相关内容，因为之前已经花很多时间看过了。也就是说，到3月15号之前，必须再过完
-下面几本书：</p>
+<p>　　问题：我一开始认为我们单节点只有4核，我以为这样你最多也只能起4个线程同时执行某个任务，线程池大小设置得再大也没什么用，
+这是背景，这里怪自己太懒惰了，也没有自己写个程序去尝试跑一下，看能最多起多少个线程出来。</p>
 
-<ol>
-<li>《Head First Servlets and JSP  中文版  第2版》</li>
-<li>《精通Spring 4.x  企业应用开发实战》</li>
-<li>《Spring实战 第四版》</li>
-<li>《Spring Boot实战》(比较薄)</li>
-<li>《Spring源码深度解析》(郝佳这本，希望能看完60%内容)</li>
-</ol>
+<p>　　现在我们来重新理解一下Linux系统的CPU核的几个概念：</p>
 
-<p>现在是2020-4-11，才回顾完前面两本书和第五本源码解析书，而且还漏掉了不少地方，比如AOP配置相关，但是对Spring整体
-还是增加了不少认知，下次再需要继续回顾这本书，跟着源码进行总结。</p>
+<p><strong>1、物理CPU数量</strong></p>
 
-<p>2020年4月份开始阅读网络相关的知识，以netty为主线，主要是《netty权威指南》和《netty实战》这两本书，还有一本微信
-读书上面的《Netty、Redis、Zookeeper高并发实战》，这三本书为核心，但是理论上在阅读这些书籍之前需要回顾的是
-《Java NIO》这本书籍，比较简单，内容以回顾为主。然后开始阅读Java 异步框架相关的书籍，包括多线程并发实战，多线程编程
-的艺术等书籍。总之需要吃透Java多线程相关的机制。
-attention：最好可以开始阅读《Unix网络编程这本书籍》</p>
+<p>　　物理CPU指的是实际服务器中插槽上的CPU个数，也就是不重复的physical id 有几个，可以通过下面命令看到：</p>
 
-<ul>
-<li>1、《Java 异步编程实战》——微信读书</li>
-<li>3、《Java 并发编程的艺术》——微信读书、电子pdf</li>
-<li>4、《Java多线程编程实战指南》——电子pdf</li>
-<li>《Java 并发编程实战》——实体书</li>
-<li>5、《Java 并发编程之美》——微信读书</li>
-<li>6、《图解Java多线程设计模式》+电子pdf</li>
-</ul>
+<p>　　grep &lsquo;physical id&rsquo; /proc/cpuinfo | sort -u</p>
 
-<p>调整一下，4月份先以上面五本书为主，回顾并熟悉异步相关的知识内容，其中《Java 并发编程的艺术》这本书会比较难一点，涉及到很多JVM的知识，总之计划四月份将这些熟悉完成之后，
-5月份开始搞netty，必须吃透！</p>
+<p>　　这个命令输出的就是你的物理CPU数目，可以看到是2个。在公司私有云的4核节点上，10核的节点上，输出都是如下：</p>
 
-<p>4月17日下午两点四十分，看完《Java 多线程编程核心技术》，主要是关于线程中断这一块的知识，有了初步的认识，但是什么时候抛出异常，还需要深入理解。下面开始阅读《Java 多线程编程实战
-指南》。</p>
+<p>　　physical id     : 0</p>
 
-<p>《Java 多线程编程实战指南》更加注重细则，比如介绍到了内存屏障，介绍到了线程工作内存包括寄存器，一级缓存，二级缓存，介绍到了synchronized的内存语义，介绍了监视器锁（即Java对象的
-内部锁），介绍到了更加底层的内容；而微信读书上《Java 并发编程之美》相对粗略一点。</p>
+<p>　　physical id     : 1</p>
 
-<p>看到了内存模型，就会接触到更底层的缓存一致性相关的知识，这个应该是在组成原理上会讲的内容，现在看的有点不太明白</p>
+<p><strong>2、每颗物理CPU的核数</strong></p>
 
-<p>理解一下ThreadLocalMap、ThreadLocal以及Thread之间的关系，里面涉及到弱引用，比较复杂。你可能大概知道
-ThreadLocal怎么用，但是并没有理解其真正含义</p>
+<p>　　每颗物理CPU的核数指的就是：一块CPU上能处理数据的芯片组的数量，可以通过下面命令查看</p>
 
-<p>《Java 多线程编程实战指南》 不是很容易看懂，尤其到后面越来越难</p>
+<p>　　grep &lsquo;core id&rsquo; /proc/cpuinfo | sort -u | wc -l</p>
 
-<p>并发包里面还有很多知识需要学习，juc，AQS这也是经常会问的知识点</p>
+<p>　　这个命令输出每个物理CPU的核数，在我们4核服务器上输出的是10，和上面结合，那就是</p>
 
-<p>希望能够认真看完一次《Java 并发编程的艺术》，做好笔记，查知识点。可以看看<strong>并发编程网</strong>上面的一些知识，上面有很多内容都值得学习。</p>
+<p>　　总核数 = 物理CPU数目 * 每颗物理CPU的核数 = 2 * 10 = 20。这是我们单节点的总核数。</p>
 
-<p>5月6日开始看方腾飞的这本书《Java 并发编程的艺术》，认真思考做笔记。读得差不多之后需要快速看netty相关知识了。</p>
+<p><strong>3、逻辑CPU数目</strong></p>
 
-<p>5月19日基本看完这一遍《Java 并发编程的艺术》书籍，现在要在平时看《Netty、Redis、Zookeeper高并发实战》这本书了。</p>
+<p>　　一般情况下，一个CPU有多核，再加上<strong>超线程技术</strong>，可以在逻辑上再分出一倍的核数，可以通过下面命令查看</p>
 
-<p>上面是看书相关的，还有一个需要定期总结的地方就是工作项目了，这个涉及到resume相关，必须提前养成这个意识，不要等到
-来不及的时候再去匆忙准备，给自己定一个高的目标。</p>
+<p>　　grep &lsquo;processor&rsquo; /proc/cpuinfo | sort -u | wc -l</p>
 
-<p>好好看一下王勃他的博客上的关于umc的那几篇文章，很值得仔细研究。</p>
+<p>　　在我们的4核服务器上，这个值的输出是40，因为现在服务器都默认启用了超线程技术，即：</p>
+
+<p>　　总逻辑CPU数 = 物理CPU数目 * 每颗物理CPU的核数 * 超线程数 = 2 * 10 * 2 = 40。</p>
+
+<p>　　超线程技术：超线程技术是在一颗CPU同时执行多个程序而共同分享一颗CPU内的资源，理论上要像两颗CPU一样在同一时间执行两个
+线程，虽然采用超线程技术能同时执行两个线程，但它并不象两个真正的CPU那样，每个CPU都具有独立的资源。当两个线程都同时需要
+某一个资源时，其中一个要暂时停止，并让出资源，直到这些资源闲置后才能继续。因此超线程的性能并不等于两颗CPU的性能。</p>
+
+<p>　　todo：通过上面命令可以看到，公司私有云平台上分配的4核节点和10核节点，区别仅在于4核节点，每颗物理CPU的核数是10个，
+而10和核节点上，每颗物理CPU的核数是12个，这么一看，似乎区别并不大？</p>
 
     </div>
 
@@ -312,14 +300,14 @@ ThreadLocal怎么用，但是并没有理解其真正含义</p>
 
     <footer class="post-footer">
       <div class="post-tags">
-          <a href="https://monkback.github.io/tags/%E8%A7%84%E5%88%92/">规划</a>
+          <a href="https://monkback.github.io/tags/linux/">Linux</a>
           
         </div>
 
       
       <nav class="post-nav">
         
-          <a class="prev" href="/post/spring/spring%E5%AE%B9%E5%99%A8%E4%B8%8Eweb%E5%AE%B9%E5%99%A8/">
+          <a class="prev" href="/post/work/cyclicbarrier/">
             
             <i class="iconfont">
               <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -329,12 +317,12 @@ ThreadLocal怎么用，但是并没有理解其真正含义</p>
 </svg>
 
             </i>
-            <span class="prev-text nav-default">Spring容器与web容器</span>
+            <span class="prev-text nav-default">分布式锁的一次问题排查</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         
-          <a class="next" href="/post/algorithm/linkedlist/">
-            <span class="next-text nav-default">链表相关算法</span>
+          <a class="next" href="/post/juc/threadpool/">
+            <span class="next-text nav-default">Java中的线程池</span>
             <span class="prev-text nav-mobile">Next</span>
             
             <i class="iconfont">

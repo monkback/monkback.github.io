@@ -6,10 +6,43 @@
     <description>Recent content on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 18 May 2020 15:51:42 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 23:07:37 +0800</lastBuildDate>
     
         <atom:link href="https://monkback.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>BinarySearch及其变种</title>
+      <link>https://monkback.github.io/post/algorithm/binarysearch/</link>
+      <pubDate>Wed, 27 May 2020 23:07:37 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/binarysearch/</guid>
+      
+        <description></description>
+      
+    </item>
+    
+    <item>
+      <title>分布式锁的一次问题排查</title>
+      <link>https://monkback.github.io/post/work/cyclicbarrier/</link>
+      <pubDate>Wed, 27 May 2020 17:48:29 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/work/cyclicbarrier/</guid>
+      
+        <description>这篇文章来源于工作中发现的一个项目bug。 1、项目背景： 这是一个rpc服务，维护的是公司所有用户的基本信息，包括用户注册、修改、注销以及查询</description>
+      
+    </item>
+    
+    <item>
+      <title>Linux系统下的CPU核数问题</title>
+      <link>https://monkback.github.io/post/linux/cpu/</link>
+      <pubDate>Fri, 22 May 2020 16:34:20 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/linux/cpu/</guid>
+      
+        <description>这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台 上，一共申请了4个节点</description>
+      
+    </item>
     
     <item>
       <title>Java中的线程池</title>
