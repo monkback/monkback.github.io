@@ -6,10 +6,19 @@
     <description>Recent content in 算法 on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 27 May 2020 23:07:37 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 31 May 2020 21:52:27 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>数据结构之散列表</title>
+      <link>https://monkback.github.io/post/algorithm/hashtable/</link>
+      <pubDate>Sun, 31 May 2020 21:52:27 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/hashtable/</guid>
+      <description>哈希表，内部是依赖着数组来存储元素的，因为数组可以支持随机访问。看到这一章节时，我想起来之前看《代码大全》时， 里面提到的一种思维：数组本质上</description>
+    </item>
     
     <item>
       <title>BinarySearch及其变种</title>
@@ -17,7 +26,7 @@
       <pubDate>Wed, 27 May 2020 23:07:37 +0800</pubDate>
       
       <guid>https://monkback.github.io/post/algorithm/binarysearch/</guid>
-      <description></description>
+      <description>终于看到了王争的二分查找章节了，这其实是我一直以来的一个痛点，因为二分查找听起来简单，但它有各种变种，记得我之前找工作的时候 ，就没有掌握到二</description>
     </item>
     
     <item>
