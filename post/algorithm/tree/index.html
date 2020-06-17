@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>二叉树 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="好长一段时间没有看《数据结构与算法之美》系列了，现在重归树这一章节，这里的内容会比较多，也不会太容易理解，尤其后面涉及到 红黑树的地方。事实上" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/algorithm/tree/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="二叉树" />
+<meta property="og:description" content="好长一段时间没有看《数据结构与算法之美》系列了，现在重归树这一章节，这里的内容会比较多，也不会太容易理解，尤其后面涉及到 红黑树的地方。事实上" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/tree/" />
+<meta property="article:published_time" content="2020-06-04T15:49:41+08:00" />
+<meta property="article:modified_time" content="2020-06-04T15:49:41+08:00" />
+<meta itemprop="name" content="二叉树">
+<meta itemprop="description" content="好长一段时间没有看《数据结构与算法之美》系列了，现在重归树这一章节，这里的内容会比较多，也不会太容易理解，尤其后面涉及到 红黑树的地方。事实上">
+
+
+<meta itemprop="datePublished" content="2020-06-04T15:49:41&#43;08:00" />
+<meta itemprop="dateModified" content="2020-06-04T15:49:41&#43;08:00" />
+<meta itemprop="wordCount" content="6224">
+
+
+
+<meta itemprop="keywords" content="算法,树," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="二叉树"/>
+<meta name="twitter:description" content="好长一段时间没有看《数据结构与算法之美》系列了，现在重归树这一章节，这里的内容会比较多，也不会太容易理解，尤其后面涉及到 红黑树的地方。事实上"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">二叉树</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-06-04" class="post-time">
+          2020-06-04
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>　　好长一段时间没有看《数据结构与算法之美》系列了，现在重归树这一章节，这里的内容会比较多，也不会太容易理解，尤其后面涉及到
+红黑树的地方。事实上，如果你完全掌握了红黑树，对你理解Linux的很多知识也会有帮助，比如我们常说的epoll这个系统调用，内部的
+实现就强依赖于红黑树。</p>
+
+<p>　　首先提出关于树的几个比较相似的概念：这里一定要随时给自己刻画一个概念，一棵树是有很多子树的。</p>
+
+<ul>
+<li>1） 高度（Height）：节点的高度—&gt;节点到叶子节点的最长路径（边数），树的高度就是根节点的高度</li>
+<li>2） 深度（Depth）：节点的深度—&gt;根节点到该节点所经历的边数</li>
+<li>3） 层（Level）：节点的层数—&gt;节点的深度 + 1，即根节点为第1层。</li>
+</ul>
+
+<p>　　二叉树，即每个节点最多只有两个子节点。二叉树的主要两个概念是<strong>满二叉树</strong>和<strong>完全二叉树</strong>。</p>
+
+<ul>
+<li>（1） 满二叉树：指除了叶子节点以外，每个节点都有左右两个子节点。叶子节点都在最后一层</li>
+<li>（2） 完全二叉树：叶子节点都在最底下两层，最后一层的叶子节点都靠左排列，并且除了最后一层以外，其他层的节点个数都要达到最大。这个概念可能不那么容易理解，后面会有一个完全二叉树的数学概念，
+非常容易想明白。</li>
+</ul>
+
+<p>　　一个问题，<strong>如何表示（存储）一棵二叉树？</strong>，一般来说有两种方法：</p>
+
+<ul>
+<li>1） 基于指针或者引用的二叉链式存储法，也就是和链表类似，每一个节点除了数据以外，还保存了左右两个子节点的引用，这也是最常用的方式，绝大部分二叉树代码都是这样实现的。</li>
+<li>2） 基于数组的顺序存储法。注意上面的链式并不要求节点在地址空间上连续，但是基于数组存储则需要，因为我们要使用到数组的
+随机访问特性：将根节点存储在下标i = 1的位置，左子节点存储在2 * i = 2的位置，右子节点存储在2 * i + 1 = 3的位置，以此
+类推。这样将每个节点存储起来，节点之间不需要引用，但是依赖于我们约定的这种规则。
+　　
+　　对于上述的基于数组的顺序存储方式，当一棵树满足完全二叉树的条件时，我们仅仅会浪费一个存储空间，即第0个位置。如果不满足
+完全二叉树的条件，只是一棵普通的二叉树的话，则会浪费许多的存储空间，数组存储就不再适用了。所以结论便是：<strong>如果一棵树是完全
+二叉树的话，那么非常适合使用数组来存储</strong>，后续会看到，堆其实就是一种完全二叉树。</li>
+</ul>
+
+<p>　　二叉树的遍历：前序中序和后续，主要是看当前节点是否在左子节点之前遍历，根—&gt;左—&gt;右，这样就是前序遍历。这三种遍历方式
+我们都常用递归的方式，代码本质上都很简单，需要注意的是，二叉树的遍历时间复杂度都是O(n)，参考如下：</p>
+
+<ul>
+<li><p>（1） 前序遍历：</p>
+
+<pre><code>public static void beforeSearch(TreeNode root) {
+        if (root == null) return;
+        System.out.print(root.data + &quot;-&quot;);
+        beforeSearch(root.left);
+        beforeSearch(root.right);
+    }
+</code></pre></li>
+
+<li><p>（2） 中序遍历：</p>
+
+<pre><code>public static void middleSearch(TreeNode root) {
+    if (root == null) return;
+    middleSearch(root.left);
+    System.out.print(root.data + &quot;-&quot;);
+    middleSearch(root.right);
+}
+</code></pre></li>
+
+<li><p>（3） 后序遍历：</p>
+
+<pre><code>public static void afterSearch(TreeNode root) {
+    if (root == null) return;
+    afterSearch(root.left);
+    afterSearch(root.right);
+    System.out.print(root.data + &quot;-&quot;);
+}
+</code></pre></li>
+
+<li><p>（4） 层次遍历：层次遍历要稍微复杂一点，需要借用一个队列来操作，先将根节点入队列，然后在循环中不断出队，针对不为空的子节
+点，依次入队。</p>
+
+<pre><code>public static void levelSearch(TreeNode root) {
+    Deque&lt;TreeNode&gt; nodeQueue = new ArrayDeque&lt;&gt;();
+    nodeQueue.add(root);
+    while (!nodeQueue.isEmpty()) {
+        TreeNode node = nodeQueue.remove();
+        System.out.println(node.data);
+        if (node.left != null) {
+            nodeQueue.add(node.left);
+        }
+        if (node.right != null) {
+            nodeQueue.add(node.right);
+        }
+    }
+}
+</code></pre></li>
+</ul>
+
+<p><strong><big>二叉查找树</big></strong></p>
+
+<p>　　二叉查找树是被设计出来用来同时支持**高效地添加、删除、查找元素的一个数据结构，其实前面提到过，散列表也支持这些操作，
+并且时间复杂度只有O(1)，已经足够高效了，那使用二叉查找树的场景是什么呢？事实上，在学习HashMap的时候，我们了解到在哈希
+碰撞激烈后，链表会升级成红黑树，这就是因为当你哈希碰撞激烈后，查找的时间复杂度会退化为去遍历一个链表，就不高效了。</p>
+
+<p>　　二叉查找树，也叫二叉搜索树，它和我们普通二叉树的区别在于：它约束了<strong>对于树中的每一个节点，其</strong>左子树的每个节点的值**都要小于当前节点值，
+<strong>右子树的每个节点的值</strong>都要大于当前节点值**，换句话说，它的中序遍历后生成的结果是自然升序的。下面我们依次看一下二叉查找树的查找、添加和
+删除节点的操作。</p>
+
+<p>　　<strong>1、查找</strong></p>
+
+<p>　　二叉查找树的查找过程本质上就是一个二分，先和根节点作比较，根据大小关系判断去左子树或者右子树里面查找，比较简单。使用
+递归或者非递归的方式都比较容易实现。这里不再写代码了。</p>
+
+<p>　　<strong>2、插入</strong></p>
+
+<p>　　二叉树的新插入的数据一般都在叶子节点上，本质上，也是从根节点开始，比较待插入节点数据和根节点数据的大小关系，依次在
+左子树或者右子树中进行插入操作，规则如下：</p>
+
+<ul>
+<li>（1）如果树为空，则直接将节点设置为根节点，返回即可。</li>
+<li>（2）如果待插入的数据大于根节点数据，并且根节点的右子节点为空，则将新数据写入根节点的右子节点位置；如果右子节点不为空，
+就再递归遍历右子树，直到找到插入位置。</li>
+<li>（3）如果待插入的数据小于根节点数据，和上面一样的原理，判断根节点的左子节点是否为空，进行相关操作。</li>
+</ul>
+
+<p>　　按照上述规则，代码如下，应该还比较容易理解：</p>
+
+<pre><code>    public static void insert(TreeNode root, int data) {
+        if (root == null) {
+            root = new TreeNode(data);
+            return;
+        }
+
+        TreeNode node = root;
+        while (node != null) {
+            if (node.data &lt; data) {
+                if (node.right == null) {
+                    node.right = new TreeNode(data);
+                    return;
+                } 
+                node = node.right;
+            } else {
+                if (node.left == null) {
+                    node.left = new TreeNode(data);
+                    return;
+                } 
+                node = node.left;
+            }
+        }
+
+    }
+</code></pre>
+
+<p>　　<strong>3、删除</strong></p>
+
+<p>　　从一个二叉查找树中删除一个节点，就会比较复杂了，因为你删除的可能是一个叶子节点（最简单的情况，直接删除即可），也可能是一个非叶子节点，这样还需要看这个节点的左右子节点是否为空。针对要删除
+的节点的子节点数目，主要分为以下几种情况讨论：</p>
+
+<ul>
+<li>1） 待删除的节点没有子节点，即是一个叶子节点，那么只需要直接将父节点中指向待删除节点的指针置为null即可；</li>
+<li>2） 待删除的节点只有一个子节点（只有左子节点或者只有右子节点），只需要更新父节点中指向待删除节点的指针，让它指向待删除节点的子节点即可，也还比较简单。</li>
+<li>3） 待删除的节点有两个子节点（既有左子节点又有右子节点），这种情况会比较复杂。首先，<strong>需要找到待删除节点的右子树中最小节点</strong>，记为min，将min节点替换到待删除节点上，相当于一次copy操作，
+然后再删除原右子树中这个min节点（这个min节点肯定没有左子节点，因为如果有，那它就肯定不是最小节点），所以这一次删除至少可以使用规则2来进行。</li>
+</ul>
+
+<p>　　上述规则明了后，其实要写出在一棵二叉查找树中删除特定元素的代码并不难，当然涉及到寻找某个节点的父节点等通用操作，代码如下，简单描述一下整个流程：</p>
+
+<p>　　首先需要找到待删除数据data对应的节点needDeleted，以及其父节点，因为后面会用到这个parent节点，注意这里找的时候，初始值也比较重要，needDeleted初始值就是根节点，从根节点
+开始往下找，直到找到了值为data的节点；parent节点的初始值为null，因为当你要删除的节点就是根节点的时候，它的父节点其实是null的；注意while循环的退出条件，
+这个while循环很巧妙，它的退出条件是needDeleted.data == data或者needDeleted为空，表示从树中没有找到值为data的节点，或者就找到了。parent节点在这个过程中不断赋值就好。</p>
+
+<p>　　如果在上一步中没有找到值为data的节点，直接返回即可，如果找到了，就需要根据不同情况进行判断了，判断它的子节点的数目。</p>
+
+<p>　　先看最复杂的情况，needDeleted节点的左右子节点均不为空，这时候我们需要找到needDeleted节点的右子树中的最小节点（<strong>事实上，这里也可以找其左子树中的最大节点</strong>），找到这个
+min节点以后，将其值赋值到needDeleted上，然后删除min节点即可。注意此时删除min节点，min节点的左子节点必然为空，这一步删除就比较简单，这里需要注意的是，由于要删除min节点，
+所以你在这个过程中还需要找到min节点的父节点parentMin节点。</p>
+
+<p>　　剩下的两种简单情况，我写的代码比较繁杂，事实上是可以简化的，主要就是判断左子节点为空还是右子节点为空，进行相应的赋值即可。</p>
+
+<p>　　<strong>attention：parent节点可能为空，因此下面的代码是可能会抛出NPE的，这种情况发生的条件是：待删除节点是跟节点，其左子节点和右子节点至少有一个为空的时候，parent此时也为
+null，可能抛异常，因此还需要特殊处理</strong></p>
+
+<pre><code>    public static void delete(TreeNode root, int data) {
+        if (root == null) {
+            return;
+        }
+        TreeNode needDeleted = root;
+        TreeNode parent = null;
+        while (needDeleted != null &amp;&amp; needDeleted.data != data) {
+            parent = needDeleted;
+            if (needDeleted.data &lt; data) {
+                needDeleted = needDeleted.right;
+            } else {
+                needDeleted = needDeleted.left;
+            }
+        }
+        if (needDeleted == null) return;//没找到待删除的元素，直接返回即可，这是上面while循环break的一个条件
+
+        //左右子节点都不为空，则需要找到右子树中最小节点，将最小节点元素copy到待删除节点上，然后移除右子树中的最小节点
+        if (needDeleted.left != null &amp;&amp; needDeleted.right != null) {
+
+            //找到min节点，以及其父节点
+            TreeNode min = needDeleted.right;
+            TreeNode parentMin = needDeleted;
+            while (min.left != null) {
+                parentMin = min;
+                min = min.left;
+            }
+
+            //经过上述遍历，min节点即是右子树中的最小节点，将min节点的值赋值给待删除节点
+            //而，parentMin是min节点的父节点
+            needDeleted.data = min.data;
+
+            //移除min节点，注意此时min节点的左子节点必然为空，就看min节点是parentMin的左子节点还是右子节点了；
+            // 这里为什么可能是右子节点：needDeleted.right本身就是右子树中的最小节点
+            if (parentMin.left == min) {
+                parentMin.left = min.right;
+            } else if (parentMin.right == min) {
+                parentMin.right = min.right;
+            }
+            return;
+        }
+
+        if (needDeleted.left == null &amp;&amp; needDeleted.right == null) {
+            if (parent.left == needDeleted) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+            return;
+        }
+
+        if (needDeleted.left != null) {
+            if (parent.left == needDeleted) {
+                parent.left = needDeleted.left;
+            } else if (parent.right == needDeleted){
+                parent.right = needDeleted.left;
+            }
+            return;
+        }
+
+        if (parent.left == needDeleted) {
+            parent.left = needDeleted.right;
+        } else if (parent.right == needDeleted){
+            parent.right = needDeleted.right;
+        }
+        return;
+    }
+</code></pre>
+
+<p>　　<strong>4、求一棵二叉树的高度</strong></p>
+
+<p>　　用递归的思路，求二叉树的高度会比较简单，代码如下，这里有一个疑问：<strong>只有一个节点的树的高度是1还是0，为了和空树区分开，认为应该是1</strong></p>
+
+<pre><code>    public static int computeHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(computeHeight(root.right), computeHeight(root.left)) + 1;
+    }
+</code></pre>
+
+<p>　　上述递归的思路实际上是深度优先算法，DFS。还有一种广度优先的算法，BFS，利用到了上面写的层次遍历的思路，但是具体过程需要深度理解，广度优先算法往往都需要利用到一些外部的
+数据结构（队列or栈）来辅助我们，存储一些中间过程的数据。这里的核心思想就是这个队列，必须要理解，下面这个代码就是
+广度优先算法遍历或者操作一棵树的公共思路，都是需要一个队列来辅助。
+代码如下：</p>
+
+<pre><code>    public static int getHeight(TreeNode root) {
+        int result = 0;
+        Deque&lt;TreeNode&gt; nodeQueue = new ArrayDeque&lt;&gt;();
+        nodeQueue.add(root);
+        
+        //while循环控制层数
+        while (!nodeQueue.isEmpty()) {
+            result++;
+            int size = nodeQueue.size();    //这一步非常重要，size记录的就是当前层的节点数目
+            for (int i = 0; i &lt; size; i++) {  //for循环中，去遍历每一层的所有节点。
+                TreeNode node = nodeQueue.remove();
+                if (node.left != null) {
+                    nodeQueue.add(node.left);
+                }
+                if (node.right != null) {
+                    nodeQueue.add(node.right);
+                }
+            }
+        }
+        return result;
+    }
+</code></pre>
+
+<p>　　实际上，对于删除操作，还有一个比较取巧的方法，就是在删除时仅对该节点做一个标记，标记为已删除，但是并不真正的移动这些
+节点的指针，这样做的好处就是删除操作变得很简单，但是会浪费存储空间。</p>
+
+<p>　　<strong>4、时间复杂度</strong></p>
+
+<p>　　很显然，在最坏情况下的一棵二叉查找树，根节点的左右子树极度不平衡，树已经退化为链表了，这时它的查找、插入和删除的时间复杂
+度都是O(n)，很不高效；但是在一棵满二叉树或者完全二叉树下，查找，插入和删除的时间复杂度仅是O(log(n))，非常高效。</p>
+
+<p>　　所以我们现在的目标就转化了，构建一棵不管怎么插入和删除数据，都尽量保持任意节点的左右子树比较平衡的二叉查找树———
+<strong>平衡二叉查找树</strong>，平衡二叉查找树的高度接近O(log(n))，对于n个节点的树，因此其查找，插入和删除的性能都比较稳定。</p>
+
+<p><strong><big>支持重复数据的二叉查找树</big></strong></p>
+
+<p>　　前面我们描述的二叉查找树都是默认认为元素并不会重复，查找到了就直接返回，并不考虑会有重复元素的情况，而实际上这种情况也
+是会出现的，一般也有两种方法来解决这个问题：</p>
+
+<ul>
+<li>1） 借鉴哈希表使用链表法解决哈希冲突的思想，二叉查找树的每一个节点不仅仅存储一个元素，而是存储了一个链表，这个链表将
+值相同的所有元素都串起来，每个节点存储的都是值相同的元素。</li>
+<li>2） 第二种方法更加优雅：每个节点仍然存储一个元素，在插入一个重复的元素时，我们总是将这个元素插入到相等值节点的右子树中，
+也就是把新插入的元素当作是大于这个节点的值来处理。这样，查找和删除也会变化，当查找到某个值时，并不能直接停止返回，而是需要
+继续在右子树中查找，直到遇到叶子节点，这样就查找出了所有等于值value的节点；当删除某个元素的时候，也需要先查找到等于值的
+所有节点，然后依次删除。</li>
+</ul>
+
+<p>　　问题：相比于散列表，二叉查找树的优势在哪里？</p>
+
+<ul>
+<li>（1） 散列表中的数据是无序存储的，如果要有序，需要其他数据结构辅助；而二叉查找树中序遍历就是有序的；</li>
+<li>（2） 散列表扩容耗时较多，遇到散列冲突时性能不稳定；但是在工程中我们常用的<strong>平衡二叉查找树</strong>性能稳定，时间复杂度稳定在
+O(log(n))；</li>
+<li>（3） 散列表的设计更加复杂，需要考虑散列函数的设计，冲突解决办法，扩容缩容策略等，平衡二叉查找树只需要考虑<strong>维护平衡
+性</strong>这一个问题，其解决方案很成熟。</li>
+</ul>
+
+<p><strong><big>平衡二叉查找树</big></strong></p>
+
+<p>　　定义：何为平衡？对于树中的任意一个节点，它的左子树和右子树的高度相差不能大于1，前面我们说到的，满二叉树和完全
+二叉树都是平衡二叉树。那平衡 + 二叉查找就是在普通的二叉查找树上增强了概念。</p>
+
+<p>　　最先被发明的平衡二叉查找树是AVL树，在AVL树中，任一节点对应的两棵子树的最大高度差为1，因此它也被称为高度平衡树。
+查找、插入和删除在平均和最坏情况下的时间复杂度都是O(log(n))。增加和删除元素的操作则
+<strong>可能需要借由一次或多次树旋转</strong>，以实现树的重新平衡。</p>
+
+<p>　　节点的平衡因子是它的左子树的高度减去它的右子树的高度（有时相反）。带有平衡因子1、0或 -1的节点被认为是平衡的。
+带有平衡因子 -2或2的节点被认为是不平衡的，并需要重新平衡这个树。</p>
+
+<p>　　事实上，上面是平衡二叉查找树的<strong>严格定义</strong>，我们用的最多的平衡二叉查找树是传说中的红黑树，但是红黑树并不严格
+符合上面的定义，它从根节点到叶子节点的最长路径可能是最短路径的一倍多。这里王争提出不用死抠平衡的定义，而是回到发明
+平衡二叉查找树的初衷来，即<strong>解决普通二叉查找树在频繁的插入、删除等动态更新的情况下，出现时间复杂度退化的问题。</strong></p>
+
+<p>　　平衡二叉查找树其实有很多，比如，Splay Tree（伸展树）、Treap（树堆）等，但是我们提到平衡二叉查找树，听到的
+基本都是红黑树。它的出镜率甚至要高于“平衡二叉查找树”这几个字，有时候，我们甚至默认平衡二叉查找树就是红黑树。</p>
+
+<p>　　一棵红黑树的定义，或者说其约束如下：</p>
+
+<ul>
+<li>1） 所有节点，要么是黑色，要么是红色；</li>
+<li>2） 根节点是黑色的；</li>
+<li>3） 每个叶子节点都是黑色的空节点（null），即叶子节点不存储数据，且为黑色（这个要求主要是为了简化红黑树的实现）；</li>
+<li>4） 任何相邻的节点不能同时是红色的，也就是说，红色节点是被黑色节点隔开的；</li>
+<li>5） 每个节点，从该节点到达其<strong>可达叶子节点的所有路径</strong>，其包含的相同数目的黑色节点。</li>
+</ul>
+
+<p>　　这里王争简单从红黑树的定义分析了红黑树的时间复杂度为什么近似是O(log(n))，可以再理解一下。我们前面提到Treap、
+Splay Tree，绝大部分情况下，它们操作的效率都很高，但是也无法避免极端情况下时间复杂度的退化。尽管这种情况出现的概率
+不大，但是对于单次操作时间非常敏感的场景来说，它们并不适用。</p>
+
+<p>　　AVL树是一种高度平衡的二叉树，所以查找的效率非常高，但是，有利就有弊，AVL树为了维持这种高度的平衡，就要付出更多
+的代价。每次插入、删除都要做调整，就比较复杂、耗时。所以，对于有频繁的插入、删除操作的数据集合，使用AVL树的代价就有
+点高了。</p>
+
+<p>　　红黑树只是做到了近似平衡，并不是严格的平衡，所以在维护平衡的成本上，要比AVL树要低。所以，红黑树的插入、删除、查
+找各种操作性能都比较稳定。对于工程应用来说，要面对各种异常情况，为了支撑这种工业级的应用，我们更倾向于这种性能稳定的
+平衡二叉查找树。</p>
+
+<p><strong><big>红黑树</big></strong></p>
+
+<p>　　重在理解，即使记不住左旋右旋，也无所谓，重在思想。这一章节暂时不看，可以配合着《算法》一书中的2-3-4树和红黑树
+章节一起看，那本书讲的也比较细。</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          <a href="https://monkback.github.io/tags/%E6%A0%91/">树</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/net/netty/nettyinaction/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Netty实战读书笔记</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/net/netty/nettyguide/">
+            <span class="next-text nav-default">netty权威指南读书笔记</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

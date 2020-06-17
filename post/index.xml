@@ -6,10 +6,37 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 31 May 2020 21:52:27 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2020 23:06:25 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Netty实战读书笔记</title>
+      <link>https://monkback.github.io/post/net/netty/nettyinaction/</link>
+      <pubDate>Wed, 17 Jun 2020 23:06:25 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/net/netty/nettyinaction/</guid>
+      <description>2020-6-17，开始重读《netty实战》一书</description>
+    </item>
+    
+    <item>
+      <title>二叉树</title>
+      <link>https://monkback.github.io/post/algorithm/tree/</link>
+      <pubDate>Thu, 04 Jun 2020 15:49:41 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/tree/</guid>
+      <description>好长一段时间没有看《数据结构与算法之美》系列了，现在重归树这一章节，这里的内容会比较多，也不会太容易理解，尤其后面涉及到 红黑树的地方。事实上</description>
+    </item>
+    
+    <item>
+      <title>netty权威指南读书笔记</title>
+      <link>https://monkback.github.io/post/net/netty/nettyguide/</link>
+      <pubDate>Thu, 04 Jun 2020 14:03:53 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/net/netty/nettyguide/</guid>
+      <description>2020-6-4，开始重读李林峰的《netty权威指南》 一、IO模型 Linux内核将所有的外部设备都看作一个文件，对一个文件的读写操作会调用</description>
+    </item>
     
     <item>
       <title>数据结构之散列表</title>
