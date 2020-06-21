@@ -23,7 +23,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 
-  <meta name="description" content="2020-6-17，开始重读《netty实战》一书" />
+  <meta name="description" content="2020-6-17，开始重读《netty实战》一书 这本书和前面那本《netty权威指南》不太一样的是，这本书开始先介绍netty中的各类组件" />
 
 
 
@@ -57,25 +57,25 @@
 
 
 <meta property="og:title" content="Netty实战读书笔记" />
-<meta property="og:description" content="2020-6-17，开始重读《netty实战》一书" />
+<meta property="og:description" content="2020-6-17，开始重读《netty实战》一书 这本书和前面那本《netty权威指南》不太一样的是，这本书开始先介绍netty中的各类组件" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://monkback.github.io/post/net/netty/nettyinaction/" />
 <meta property="article:published_time" content="2020-06-17T23:06:25+08:00" />
 <meta property="article:modified_time" content="2020-06-17T23:06:25+08:00" />
 <meta itemprop="name" content="Netty实战读书笔记">
-<meta itemprop="description" content="2020-6-17，开始重读《netty实战》一书">
+<meta itemprop="description" content="2020-6-17，开始重读《netty实战》一书 这本书和前面那本《netty权威指南》不太一样的是，这本书开始先介绍netty中的各类组件">
 
 
 <meta itemprop="datePublished" content="2020-06-17T23:06:25&#43;08:00" />
 <meta itemprop="dateModified" content="2020-06-17T23:06:25&#43;08:00" />
-<meta itemprop="wordCount" content="25">
+<meta itemprop="wordCount" content="2353">
 
 
 
 <meta itemprop="keywords" content="netty," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Netty实战读书笔记"/>
-<meta name="twitter:description" content="2020-6-17，开始重读《netty实战》一书"/>
+<meta name="twitter:description" content="2020-6-17，开始重读《netty实战》一书 这本书和前面那本《netty权威指南》不太一样的是，这本书开始先介绍netty中的各类组件"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -242,6 +242,80 @@
     
     <div class="post-content">
       <p><strong>2020-6-17，开始重读《netty实战》一书</strong></p>
+
+<p>　　这本书和前面那本《netty权威指南》不太一样的是，这本书开始先介绍netty中的各类组件，事实上这是这本书的第一部分，
+然后介绍一些编解码器，接下来介绍各类网络协议在netty中的实现，最后研究了一些案例，整体上来说，这本书写得更好一些，
+那本书里面粘贴了很多无用的代码，而且并不细致。</p>
+
+<p>　　<strong>一、异步和事件驱动</strong></p>
+
+<p>　　Netty 的异步编程模型是建立在Future 和回调的概念之上。</p>
+
+<p>　　Netty 通过触发事件将Selector 从应用程序中抽象出来，消除了所有本来将需要手动编写的派发代码。这个dispatch代码就是经典的
+Reactor模式下的将各个IO事件分发到各个handler中去，在内部，将会为每个Channel
+分配一个EventLoop，用以处理所有事件，包括：
+  注册感兴趣的事件；
+  将事件派发给ChannelHandler；
+  安排进一步的动作。
+  EventLoop 本身只由一个线程驱动，其处理了一个Channel 的所有I/O 事件，并且在该EventLoop 的整个生命周期内都不会改变。</p>
+
+<p>　　<strong>问题1：channelRead方法和channelReadComplete方法分别是在什么时候调用的？什么时候会出现channelReadComplete
+方法调用了而channelRead方法还没有调用？</strong></p>
+
+<p>　　<strong>问题2：SimpleChannelInboundHandler 与ChannelInboundHandler的区别在于什么？大概是涉及到对于消息占用内存的释放</strong></p>
+
+<p>　　<strong>三、netty组件设计</strong>
+　　</p>
+
+<p>　　1、channel接口</p>
+
+<p>　　channel中一些基本的IO操作（bind()、connect()、read()、write()）都依赖于Java socket的操作，当然本质上是底层操作系统的
+API，主要用到的channel接口是NioServerSocketChannel、NioSocketChannel、NioDatagramChannel</p>
+
+<p>　　2、EventLoop</p>
+
+<p>　　一般来说</p>
+
+<ul>
+<li>1） 一个EventLoopGroup包含一个或者多个EventLoop，这一点和Java自带的ThreadGroup和Thread之间的关系；</li>
+<li>2） 一个EventLoop在其生命周期内只和一个Thread绑定；</li>
+<li>3） 所有由EventLoop处理的IO事件都将在它专有的Thread上进行处理（因此没有同步的问题）；</li>
+<li>4） 一个channel在其生命周期内只注册于一个EventLoop；</li>
+<li>5） 一个EventLoop可能会被分配给多个channel。</li>
+</ul>
+
+<p>　　3、ChannelFuture</p>
+
+<p>　　netty中所有的IO事件都是异步的，因此需要future来为结果添加相应的监听器，用于某个操作真正完成后的回调操作。</p>
+
+<p>　　4、ChannelPipeline接口</p>
+
+<p>　　这里你需要注意的是，不管是在服务端还是在客户端我们编写代码的时候，总是通过ChannelInitializer这个类来将自定义的ChannelHandler
+安装到ChannelPipeline中。ChannelPipeline 提供了ChannelHandler 链的容器，<strong>当Channel 被创建时，它会被自动地分配到它专属的
+ChannelPipeline</strong>。ChannelHandler 安装到ChannelPipeline 中的过程如下所示：</p>
+
+<ul>
+<li>1） 一个ChannelInitializer的实现被注册到了ServerBootstrap中（对应客户端则是Bootstrap）；</li>
+<li>2） 当ChannelInitializer.initChannel()方法被调用时，ChannelInitializer将在ChannelPipeline 中安装一组自定义的
+ChannelHandler；</li>
+<li>3） <strong>ChannelInitializer 将它自己从ChannelPipeline 中移除</strong>。这里需要理解的是ChannelInitializer自身就是一个
+ChannelHandler，或者准确来说是<strong>一个ChannelInboundHandler</strong>，它需要将自己移除（无须业务逻辑关心这个移除步骤）。</li>
+</ul>
+
+<p>　　当ChannelHandler 被添加到ChannelPipeline 时，它将会被分配一个ChannelHandlerContext，其代表了ChannelHandler和
+ChannelPipeline 之间的绑定。虽然这个对象可以被用于获取底层的Channel，但是它主要还是<strong>被用于写出站数据</strong>。</p>
+
+<p>　　在Netty 中，有两种发送消息的方式。你可以直接写到Channel中，也可以写到和ChannelHandler相关联的ChannelHandlerContext对象
+中。前一种方式将会导致消息从ChannelPipeline 的尾端开始流动（因为<strong>出站是从尾部开始的</strong>），而后者将导致消息从ChannelPipeline中
+的下一个ChannelHandler开始流动。</p>
+
+<p>　　事实上，后面将要学习的编解码器，都是ChannelHandler，解码器往往是ChannelPipeline中的第一个ChannelHandler，编码器应该是
+最后一个，对应着入站和出站数据流；除此以外还有一种ChannelHandler，叫做SimpleChannelInboundHandler，这个也比较重要。</p>
+
+<p>　　引导一个客户端只需要一个EventLoopGroup，但是一个服务端ServerBootstrap 则需要两个（也可以是同一个实例）。这个原因是：
+服务器需要两组不同的Channel。第一组将只包含一个ServerChannel，代表服务器自身的已绑定到某个本地端口的正在监听的套接字。而第二组将
+包含所有已创建的用来处理传入客户端连接（对于每个服务器已经接受的连接都有一个）的Channel。所以第一组的EventLoopGroup往往也只设置一
+个EventLoop即可。</p>
 
     </div>
 

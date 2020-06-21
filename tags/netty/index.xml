@@ -17,11 +17,11 @@
       <pubDate>Wed, 17 Jun 2020 23:06:25 +0800</pubDate>
       
       <guid>https://monkback.github.io/post/net/netty/nettyinaction/</guid>
-      <description>2020-6-17，开始重读《netty实战》一书</description>
+      <description>2020-6-17，开始重读《netty实战》一书 这本书和前面那本《netty权威指南》不太一样的是，这本书开始先介绍netty中的各类组件</description>
     </item>
     
     <item>
-      <title>netty权威指南读书笔记</title>
+      <title>Netty权威指南读书笔记</title>
       <link>https://monkback.github.io/post/net/netty/nettyguide/</link>
       <pubDate>Thu, 04 Jun 2020 14:03:53 +0800</pubDate>
       
