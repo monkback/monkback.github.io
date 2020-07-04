@@ -6,10 +6,28 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 17 Jun 2020 23:06:25 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2020 17:07:54 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>深入理解Java虚拟机</title>
+      <link>https://monkback.github.io/post/jvm/jvm/</link>
+      <pubDate>Thu, 02 Jul 2020 17:07:54 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/jvm/jvm/</guid>
+      <description>之前也很粗略的看过一遍《深入理解Java虚拟机》一书，但是有很多地方都没有看懂，导致现在忘 了很多了已经，现在开始再重新看一遍，这次看的是第三</description>
+    </item>
+    
+    <item>
+      <title>堆和堆排序</title>
+      <link>https://monkback.github.io/post/algorithm/heap/</link>
+      <pubDate>Wed, 01 Jul 2020 09:56:33 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/heap/</guid>
+      <description>堆是一种特殊的树，或者说，一种特殊的完全二叉树，一棵树只要满足下面两个条件， 那么它就是一个堆。 1） 它是一棵完全二叉树，即叶子节点都在最下面两</description>
+    </item>
     
     <item>
       <title>Netty实战读书笔记</title>

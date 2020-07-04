@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>树 on Records</title>
-    <link>https://monkback.github.io/tags/%E6%A0%91/</link>
-    <description>Recent content in 树 on Records</description>
+    <title>堆 on Records</title>
+    <link>https://monkback.github.io/tags/%E5%A0%86/</link>
+    <description>Recent content in 堆 on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 01 Jul 2020 09:56:33 +0800</lastBuildDate>
     
-	<atom:link href="https://monkback.github.io/tags/%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://monkback.github.io/tags/%E5%A0%86/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://monkback.github.io/post/algorithm/heap/</guid>
       <description>堆是一种特殊的树，或者说，一种特殊的完全二叉树，一棵树只要满足下面两个条件， 那么它就是一个堆。 1） 它是一棵完全二叉树，即叶子节点都在最下面两</description>
-    </item>
-    
-    <item>
-      <title>二叉树</title>
-      <link>https://monkback.github.io/post/algorithm/tree/</link>
-      <pubDate>Thu, 04 Jun 2020 15:49:41 +0800</pubDate>
-      
-      <guid>https://monkback.github.io/post/algorithm/tree/</guid>
-      <description>好长一段时间没有看《数据结构与算法之美》系列了，现在重归树这一章节，这里的内容会比较多，也不会太容易理解，尤其后面涉及到 红黑树的地方。事实上</description>
     </item>
     
   </channel>
