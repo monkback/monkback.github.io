@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Leetcode—栈相关 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &amp;lsquo;(&amp;lsquo;，&amp;rsquo;" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/algorithm/leetcode/leetcode-stack/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Leetcode—栈相关" />
+<meta property="og:description" content="这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &lsquo;(&lsquo;，&rsquo;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/leetcode/leetcode-stack/" />
+<meta property="article:published_time" content="2020-08-10T15:24:03+08:00" />
+<meta property="article:modified_time" content="2020-08-10T15:24:03+08:00" />
+<meta itemprop="name" content="Leetcode—栈相关">
+<meta itemprop="description" content="这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &lsquo;(&lsquo;，&rsquo;">
+
+
+<meta itemprop="datePublished" content="2020-08-10T15:24:03&#43;08:00" />
+<meta itemprop="dateModified" content="2020-08-10T15:24:03&#43;08:00" />
+<meta itemprop="wordCount" content="2670">
+
+
+
+<meta itemprop="keywords" content="Leetcode," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Leetcode—栈相关"/>
+<meta name="twitter:description" content="这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &lsquo;(&lsquo;，&rsquo;"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Leetcode—栈相关</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-08-10" class="post-time">
+          2020-08-10
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>　　这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。</p>
+
+<p>　　<strong>20、给定一个只包括 &lsquo;(&lsquo;，&rsquo;)&lsquo;，&rsquo;{&lsquo;，&rsquo;}&lsquo;，&rsquo;[&lsquo;，&rsquo;]&rsquo; 的字符串，判断字符串是否有效</strong></p>
+
+<pre><code>// 左括号必须用相同类型的右括号闭合。 
+// 左括号必须以正确的顺序闭合。 
+// 注意空字符串可被认为是有效字符串。 
+//
+// 示例 1:
+// 输入: &quot;()&quot;
+//输出: true
+//
+// 示例 2: 
+// 输入: &quot;()[]{}&quot;
+//输出: true
+//
+// 示例 3: 
+// 输入: &quot;(]&quot;
+//输出: false
+//
+// 示例 4: 
+// 输入: &quot;([)]&quot;
+//输出: false
+// 
+// 示例 5: 
+// 输入: &quot;{[]}&quot;
+//输出: true 
+</code></pre>
+
+<p>　　这个题目也算是经典的使用栈的题目了，题目本身的约束条件是很多的，题目本身没有太多说的，使用一个栈来存储遍历的每一个字符，如果
+遇到左括号，就入栈；如果遇到右括号，则出栈，判断其是否匹配，最后判断一下栈是否为空即可。</p>
+
+<p>　　<strong>42、给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水</strong></p>
+
+<p>　　这个题目需要看着官网的图，才比较容易理解，对照着图去梳理题意，至少可以找到比较暴力的解法的&hellip;&hellip;比如可以遍历整个数组，计算每
+一列可以装的水的份数，那么每一列可以装的水的份数取决于什么呢？仔细想一下你用两个隔板来装水，那么能装的水是取决于更矮的那个隔板的
+高度的，也就是每一列可以装的水的份数是取决于当前列左侧和右侧各自最高的隔板的高度，注意这里你仔细思考就会发现这是嵌套的for循环，
+因此是O(n^2)的时间复杂度。思路就是这样，代码实现也比较简洁。</p>
+
+<p>　　<strong>动态规划</strong>：前面我们已经看到了，在循环内部，我们每次找当前列左侧的最高高度和右侧的最高高度时，都又去遍历了一次整个数组（或者说
+半个数组），这其实是非常不合适的，所以还是可以继续优化一下。我们用两个数组maxLeft[i]记录第i列左边最高的墙高度（不包括自身），用
+maxRight[i]来记录第i列右侧最高的墙高度（不包括自身），先提前记录下来，这样后续直接去这个数组里查就可以了。</p>
+
+<p>　　如何通过遍历计算出每一列左侧和右侧各自的最高高度呢？这里就是<strong>动态规划</strong>的思想了，这里注意，对于第0列和最后一列，是不需要计算出它左侧（右侧）的最高高度的，可以简单记为0，那么maxLeft[i]其实
+就是Math.max(maxLeft[i - 1], height[i - 1])，这一步应该可以理解，只需要这样一直递推下去，就可以求出maxLeft了，同理也可以计算出maxRight（只不过从后往前）。这样通过提前计算，我们就将
+上面那个解法的时间复杂度降到了O(n)。耗时显著减少。</p>
+
+<p>　　<strong>优化版本的动态规划</strong>：仔细思考前面的思路，我们就会发现，maxLeft和maxRight这两个数组中的每一个元素，我们<strong>都只使用了一次</strong>，所以可以考虑一下，不使用一个数组，而只使用一个变量来解决，事实
+上，这里的maxLeft是可以不用的（但是maxRight是需要的），转而在遍历数组的时候，每次遍历到当前元素的时候，实时计算当前元素的左侧中最大的元素，这样也是可以的。需要注意的是，这一步的优化，只能去掉
+maxLeft数组，不能去掉maxRight数组，因为right数组是从后往前遍历计算得到的。除非你最终的遍历也是从后往前计算，这样也可以，但是始终需要保留一个数组。</p>
+
+<p>　　<strong>双指针</strong>：这是这道题的tag之一（还有栈），</p>
+
+<p>　　<strong>栈</strong>：栈和双指针都不那么容易理解，这个题真是有点意思了，反倒是动态规划的思路比较清晰直接，先存疑吧。</p>
+
+<p>　　<strong>155、设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈</strong></p>
+
+<pre><code>// push(x) —— 将元素 x 推入栈中。 
+// pop() —— 删除栈顶的元素。 
+// top() —— 获取栈顶元素。 
+// getMin() —— 检索栈中的最小元素。 
+</code></pre>
+
+<p>　　其实细看这道题目，只限制了可以在常数时间内查到栈中的最小元素，其他并未做要求，可以实现的方法也非常多，下面研究一下每一种方法：</p>
+
+<ul>
+<li><p>1） 使用两个原生栈来实现，一个普通栈来提供正常的方法，一个最小栈来保存当前栈中的最小元素。元素入栈：普通栈正常push，最小元素栈
+如果为空或者最小元素栈的栈顶元素大于当前入栈元素，则最小栈也push；元素出栈：普通栈正常pop，如果pop的元素和最小栈的栈顶元素相等，
+那么最小栈也pop，否则不处理；获取最小元素则直接返回最小栈的栈顶元素即可。</p></li>
+
+<li><p>2） 第一种方法用了另一个栈来保存最小值，实际上，我们可以只用一个变量来记录最小值，但是在入栈的时候会有一些变化，如果入栈的元素比当先min值更小，那么就先把当前最小值入栈，然后更新min，这里也就是
+连续入栈了两个元素；那么在对应出栈的时候，需要判断出栈的元素是否等于当前min值，如果相等，那还需要再次出栈一个元素，并且把min赋值给这个元素。</p></li>
+</ul>
+
+<p>　　后面还有两种比较奇妙的方法，甚至最后一种方法并不使用栈本身来实现，而是使用一个链表（因为题目并没有要求其他操作的时间复杂度），只不过这个链表节点需要增加一个元素，来保存每加入一个节点后的min值。
+这两种方法都值得思考一番。</p>
+
+<p>　　<strong>225、使用队列实现栈的下列操作</strong></p>
+
+<pre><code>// push(x) -- 元素 x 入栈 
+// pop() -- 移除栈顶元素 
+// top() -- 获取栈顶元素 
+// empty() -- 返回栈是否为空 
+// 
+// 你只能使用队列的基本操作-- 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。
+</code></pre>
+
+<p>　　用队列来实现栈，和用栈实现队列，本质上都是在考察栈和队列的不同点。思考一下就发现，我们将一个元素offer到队列的时候，要出队也是最小入队的被移出，但是栈是反过来的，所以你用队列来实现栈的时候，简单
+一点可以这样：入栈的时候，队列正常offer一个元素；出栈的时候，你需要出的是队列的最后进来的那个元素，所以应该先把前面的出队（可以保存到一个临时的队列中），直到只剩一个元素了，这个元素就是要出栈的那个
+元素，然后将临时队列的元素再依次入队列；判断栈是否为空即复用队列的判空方法；获取栈顶元素和出栈一样，但是最后剩下的那个元素还需要再次入队。</p>
+
+<p>　　上面这种方法我们其实是在push入栈时<strong>直接使用offer，修改出栈的pop方法</strong>，也可以换一种思路，在入栈时，每次push一个元素，我们就把之前已经在队列中的元素出队并再次入队，这样就实现了队列的首元素
+永远是刚刚加入进来的元素，这样也就实现了一个栈的思想，而且更加简洁。</p>
+
+<p>　　<strong>232、使用栈实现一个队列</strong></p>
+
+<p>　　这个题目和前面的题本质上属于一个类型，具体来说，也有两种思路，要么在push的时候就做文章（这时候也需要一个临时栈先保存当前栈的元素），要么在pop的时候使用一个临时栈去保存先弹出的那几个元素。题目
+本身还是比较简单的。</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/leetcode/">Leetcode</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/algorithm/leetcode/leetcode-sort/">
+            <span class="next-text nav-default">Leetcode—排序相关题目</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

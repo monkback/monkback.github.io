@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>字符串 on Records</title>
+    <link>https://monkback.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+    <description>Recent content in 字符串 on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 09 Jul 2020 15:18:18 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>字符串匹配算法</title>
+      <link>https://monkback.github.io/post/algorithm/string/</link>
+      <pubDate>Thu, 09 Jul 2020 15:18:18 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/string/</guid>
+      <description>字符串匹配也是一个比较常见的功能了，本质上，就是从一个字符串中查找另一个字符串，传说中的KMP 算法就是讲这个的，在深入了解复杂的匹配算法之前</description>
+    </item>
+    
+  </channel>
+</rss>

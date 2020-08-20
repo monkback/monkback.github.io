@@ -60,7 +60,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://monkback.github.io/" />
 
-<meta property="og:updated_time" content="2020-07-02T17:07:54+08:00" />
+<meta property="og:updated_time" content="2020-08-10T15:24:03+08:00" />
 <meta itemprop="name" content="Records">
 <meta itemprop="description" content="">
 
@@ -214,6 +214,130 @@
     
   
   
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      <a class="post-link" href="/post/work/cyclicbarrier/">分布式锁的一次问题排查</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-05-27" class="post-time">
+        2020-05-27
+      </time>
+      
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      这篇文章来源于工作中发现的一个项目bug。 1、项目背景： 这是一个rpc服务，维护的是公司所有用户的基本信息，包括用户注册、修改、注销以及查询
+    </div>
+    <div class="read-more">
+      <a href="/post/work/cyclicbarrier/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      <a class="post-link" href="/post/linux/cpu/">Linux系统下的CPU核数问题</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-05-22" class="post-time">
+        2020-05-22
+      </time>
+      
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台 上，一共申请了4个节点
+    </div>
+    <div class="read-more">
+      <a href="/post/linux/cpu/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      <a class="post-link" href="/post/juc/threadpool/">Java中的线程池</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-05-18" class="post-time">
+        2020-05-18
+      </time>
+      
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用
+    </div>
+    <div class="read-more">
+      <a href="/post/juc/threadpool/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      <a class="post-link" href="/post/algorithm/sortalgorithm/">常用排序算法</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-05-15" class="post-time">
+        2020-05-15
+      </time>
+      
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个
+    </div>
+    <div class="read-more">
+      <a href="/post/algorithm/sortalgorithm/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
   
     <article class="post bg-white">
   <header class="post-header">
@@ -432,130 +556,6 @@
 </article>
 
   
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/juc/singleton/">单例模式的几种实现方式</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2020-04-19" class="post-time">
-        2020-04-19
-      </time>
-      
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }
-    </div>
-    <div class="read-more">
-      <a href="/post/juc/singleton/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/work/utf-8/">Utf 8</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2020-04-14" class="post-time">
-        2020-04-14
-      </time>
-      
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      一个坑点，暂时作为记录： 在本地编辑好的文本文件，比如用notepad或者其他编辑器，或者你自己写一个Java、Python程序处理文本文件，
-    </div>
-    <div class="read-more">
-      <a href="/post/work/utf-8/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/juc/thread/">Thread类</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2020-04-14" class="post-time">
-        2020-04-14
-      </time>
-      
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      最近在看一本比较基础的书《Java 多线程编程核心技术》，发现里面有一个关于Thread类的知识点，是我以前没有注意过的，比较有意思， 记录如下
-    </div>
-    <div class="read-more">
-      <a href="/post/juc/thread/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/spring/spring-bean-lifecycle/">Spring Bean LifeCycle</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2020-03-25" class="post-time">
-        2020-03-25
-      </time>
-      
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      这是回顾Spring系列书籍的第二篇文章，主要分析Spring容器中Bean的生命周期，这里的Spring容器主要指BeanFactory，
-    </div>
-    <div class="read-more">
-      <a href="/post/spring/spring-bean-lifecycle/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
 </section>
 
 
@@ -595,6 +595,10 @@
       
       <li >
         <a href="/page/4/">4</a>
+      </li>
+      
+      <li >
+        <a href="/page/5/">5</a>
       </li>
       
     </ul>

@@ -68,7 +68,7 @@
 
 <meta itemprop="datePublished" content="2020-06-17T23:06:25&#43;08:00" />
 <meta itemprop="dateModified" content="2020-06-17T23:06:25&#43;08:00" />
-<meta itemprop="wordCount" content="6771">
+<meta itemprop="wordCount" content="7006">
 
 
 
@@ -434,7 +434,12 @@ EventLoop不仅可以用来执行channel上的一些IO任务，还可以执行�
 
 <p>　　<strong>八、引导</strong></p>
 
-<p>　　</p>
+<p>　　分别作用于客户端的Bootstrap和作用于服务端的ServerBootstrap，服务端致力于使用一个父channel来接受客户端的连接，并
+创建子channel以用于它们之间的通信；客户端往往只需要一个单独的，没有父channel的channel来和服务端进行网络交互（对于无连接
+的UDP协议也适用）</p>
+
+<p>　　大体上，这本书感觉翻译的还是有一些问题，中间有一些细节上的概念并没有完全搞懂，打算看一下李林峰的第二本书，从更多实战的
+角度讲netty的，希望比那本权威指南要好一些吧。</p>
 
     </div>
 

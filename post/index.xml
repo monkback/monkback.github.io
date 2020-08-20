@@ -6,10 +6,46 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 02 Jul 2020 17:07:54 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2020 15:24:03 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode—栈相关</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-stack/</link>
+      <pubDate>Mon, 10 Aug 2020 15:24:03 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-stack/</guid>
+      <description>这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &amp;lsquo;(&amp;lsquo;，&amp;rsquo;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode—排序相关题目</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-sort/</link>
+      <pubDate>Wed, 29 Jul 2020 17:08:10 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-sort/</guid>
+      <description>最近打算按照LeetCode的标签来做一些题目，有些题目可能属于多个标签，比如一个题目既可能是数组相关，又可能是双指针相关，我想先打算做刷前</description>
+    </item>
+    
+    <item>
+      <title>字符串匹配算法</title>
+      <link>https://monkback.github.io/post/algorithm/string/</link>
+      <pubDate>Thu, 09 Jul 2020 15:18:18 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/string/</guid>
+      <description>字符串匹配也是一个比较常见的功能了，本质上，就是从一个字符串中查找另一个字符串，传说中的KMP 算法就是讲这个的，在深入了解复杂的匹配算法之前</description>
+    </item>
+    
+    <item>
+      <title>深度优先搜索和广度优先搜索</title>
+      <link>https://monkback.github.io/post/algorithm/bfs-dfs/</link>
+      <pubDate>Mon, 06 Jul 2020 16:52:23 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/bfs-dfs/</guid>
+      <description>在树的那一章节，提到过深度优先和广度优先的思想，具体用在一棵树的遍历上，前面写的前序、中序和后序都是深度优先遍历，而层次 遍历利用一个队列，来</description>
+    </item>
     
     <item>
       <title>深入理解Java虚拟机</title>
@@ -265,10 +301,10 @@
     
     <item>
       <title>560 Subarray Sum Equals K</title>
-      <link>https://monkback.github.io/post/algorithm/560-subarray-sum-equals-k/</link>
+      <link>https://monkback.github.io/post/algorithm/leetcode/560-subarray-sum-equals-k/</link>
       <pubDate>Fri, 01 Nov 2019 18:12:07 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/algorithm/560-subarray-sum-equals-k/</guid>
+      <guid>https://monkback.github.io/post/algorithm/leetcode/560-subarray-sum-equals-k/</guid>
       <description>560-Subarray Sum Equals K 题目：Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: Input:nums = [1,1,1], k = 2 Output: 2 The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the</description>
     </item>
     
@@ -283,28 +319,28 @@
     
     <item>
       <title>621 Task Cheduler</title>
-      <link>https://monkback.github.io/post/algorithm/621-task-cheduler/</link>
+      <link>https://monkback.github.io/post/algorithm/leetcode/621-task-cheduler/</link>
       <pubDate>Sat, 26 Oct 2019 17:19:45 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/algorithm/621-task-cheduler/</guid>
+      <guid>https://monkback.github.io/post/algorithm/leetcode/621-task-cheduler/</guid>
       <description>621-Task Scheduler 题目：Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks. Tasks could be done without original order.Each task could be done in one interval. For each interval, CPU could finish one task or just be idle. However, there is a non-negative cooling interval n that means between two</description>
     </item>
     
     <item>
       <title>647 Palindromic Substrings</title>
-      <link>https://monkback.github.io/post/algorithm/647-palindromic-substrings/</link>
+      <link>https://monkback.github.io/post/algorithm/leetcode/647-palindromic-substrings/</link>
       <pubDate>Thu, 24 Oct 2019 17:35:13 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/algorithm/647-palindromic-substrings/</guid>
+      <guid>https://monkback.github.io/post/algorithm/leetcode/647-palindromic-substrings/</guid>
       <description>647-Palindromic Substrings 题目：Given a string, your task is to count how many palindromic substrings in this string. The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters. Example 1: Input: &amp;ldquo;abc&amp;rdquo; Output: 3 Explanation: Three palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;b&amp;rdquo;, &amp;ldquo;c&amp;rdquo;. Example 2: Input: &amp;ldquo;aaa&amp;rdquo; Output: 6 Explanation: Six palindromic strings: &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;, &amp;ldquo;a&amp;rdquo;,</description>
     </item>
     
     <item>
       <title>739 Daily Temperatures</title>
-      <link>https://monkback.github.io/post/algorithm/739-dailytemperatures/</link>
+      <link>https://monkback.github.io/post/algorithm/leetcode/739-dailytemperatures/</link>
       <pubDate>Tue, 22 Oct 2019 20:19:40 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/algorithm/739-dailytemperatures/</guid>
+      <guid>https://monkback.github.io/post/algorithm/leetcode/739-dailytemperatures/</guid>
       <description>739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,</description>
     </item>
     
