@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux on Records</title>
-    <link>https://monkback.github.io/tags/linux/</link>
-    <description>Recent content in Linux on Records</description>
+    <title>网络编程 on Records</title>
+    <link>https://monkback.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+    <description>Recent content in 网络编程 on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 11 Oct 2020 17:16:40 +0800</lastBuildDate>
     
-	<atom:link href="https://monkback.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://monkback.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://monkback.github.io/post/linux/linuxhighperformanceserverprogram/</guid>
       <description>总览 最近发现了一本不错的书，叫《Linux高性能服务器编程》，我从豆瓣阅读上买了一本电子书，大体初略的看了一遍，从TCP/IP协议，讲到so</description>
-    </item>
-    
-    <item>
-      <title>Linux系统下的CPU核数问题</title>
-      <link>https://monkback.github.io/post/linux/cpu/</link>
-      <pubDate>Fri, 22 May 2020 16:34:20 +0800</pubDate>
-      
-      <guid>https://monkback.github.io/post/linux/cpu/</guid>
-      <description>这篇文章源于我们在项目中使用线程池时，但是不会评估线程池的一些初始参数应该怎么设置。我们的服务是部署在公司的私有云平台 上，一共申请了4个节点</description>
     </item>
     
   </channel>

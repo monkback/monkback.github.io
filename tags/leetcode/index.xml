@@ -6,10 +6,37 @@
     <description>Recent content in Leetcode on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 10 Aug 2020 15:24:03 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2020 20:10:26 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode-字典树</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-trie/</link>
+      <pubDate>Thu, 17 Sep 2020 20:10:26 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-trie/</guid>
+      <description>字典树，也叫前缀树，从名称上就可以看出来，它比较适合用于前缀匹配。字典树的基本结构是一棵多叉树，每 个节点表示一个字符，从根节点到每一个叶子节</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-贪心算法相关</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-greedy/</link>
+      <pubDate>Wed, 16 Sep 2020 20:26:27 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-greedy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Leetcode-堆相关</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-heap/</link>
+      <pubDate>Wed, 16 Sep 2020 17:35:13 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-heap/</guid>
+      <description>这篇文章是LeetCode上面堆相关的一些题目，堆相关的题目都比较复杂，难度系数都不低。 215、在未排序的数组中找到第 k 个最大的元素 //请注</description>
+    </item>
     
     <item>
       <title>Leetcode—栈相关</title>

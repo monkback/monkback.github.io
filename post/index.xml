@@ -6,10 +6,55 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 10 Aug 2020 15:24:03 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 11 Oct 2020 17:16:40 +0800</lastBuildDate>
     
 	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux高性能服务器编程</title>
+      <link>https://monkback.github.io/post/linux/linuxhighperformanceserverprogram/</link>
+      <pubDate>Sun, 11 Oct 2020 17:16:40 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/linux/linuxhighperformanceserverprogram/</guid>
+      <description>总览 最近发现了一本不错的书，叫《Linux高性能服务器编程》，我从豆瓣阅读上买了一本电子书，大体初略的看了一遍，从TCP/IP协议，讲到so</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-字典树</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-trie/</link>
+      <pubDate>Thu, 17 Sep 2020 20:10:26 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-trie/</guid>
+      <description>字典树，也叫前缀树，从名称上就可以看出来，它比较适合用于前缀匹配。字典树的基本结构是一棵多叉树，每 个节点表示一个字符，从根节点到每一个叶子节</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-贪心算法相关</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-greedy/</link>
+      <pubDate>Wed, 16 Sep 2020 20:26:27 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-greedy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Leetcode-堆相关</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-heap/</link>
+      <pubDate>Wed, 16 Sep 2020 17:35:13 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-heap/</guid>
+      <description>这篇文章是LeetCode上面堆相关的一些题目，堆相关的题目都比较复杂，难度系数都不低。 215、在未排序的数组中找到第 k 个最大的元素 //请注</description>
+    </item>
+    
+    <item>
+      <title>读《Operating Systems:Three Easy Pieces》一书</title>
+      <link>https://monkback.github.io/post/linux/os/</link>
+      <pubDate>Sun, 06 Sep 2020 09:56:19 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/linux/os/</guid>
+      <description>之前了解到有一本讲操作系统的书籍，比较清晰简单易懂，就阅读了一下，书名叫《Operating Systems: Three Easy Pieces》，这本书是威斯康辛大学课程的</description>
+    </item>
     
     <item>
       <title>Leetcode—栈相关</title>
@@ -413,7 +458,7 @@
       <pubDate>Tue, 03 Sep 2019 18:10:06 +0800</pubDate>
       
       <guid>https://monkback.github.io/post/net/nio2/</guid>
-      <description>###传统的BIO### 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定</description>
+      <description>传统的BIO 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监</description>
     </item>
     
   </channel>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Operating System on Records</title>
+    <link>https://monkback.github.io/tags/operating-system/</link>
+    <description>Recent content in Operating System on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 06 Sep 2020 09:56:19 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/operating-system/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>读《Operating Systems:Three Easy Pieces》一书</title>
+      <link>https://monkback.github.io/post/linux/os/</link>
+      <pubDate>Sun, 06 Sep 2020 09:56:19 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/linux/os/</guid>
+      <description>之前了解到有一本讲操作系统的书籍，比较清晰简单易懂，就阅读了一下，书名叫《Operating Systems: Three Easy Pieces》，这本书是威斯康辛大学课程的</description>
+    </item>
+    
+  </channel>
+</rss>

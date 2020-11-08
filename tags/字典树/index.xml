@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>字典树 on Records</title>
+    <link>https://monkback.github.io/tags/%E5%AD%97%E5%85%B8%E6%A0%91/</link>
+    <description>Recent content in 字典树 on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 17 Sep 2020 20:10:26 +0800</lastBuildDate>
+    
+	<atom:link href="https://monkback.github.io/tags/%E5%AD%97%E5%85%B8%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Leetcode-字典树</title>
+      <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-trie/</link>
+      <pubDate>Thu, 17 Sep 2020 20:10:26 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-trie/</guid>
+      <description>字典树，也叫前缀树，从名称上就可以看出来，它比较适合用于前缀匹配。字典树的基本结构是一棵多叉树，每 个节点表示一个字符，从根节点到每一个叶子节</description>
+    </item>
+    
+  </channel>
+</rss>
