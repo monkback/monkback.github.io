@@ -6,10 +6,21 @@
     <description>Recent content on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 11 Oct 2020 17:16:40 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 23 Nov 2020 21:54:30 +0800</lastBuildDate>
     
         <atom:link href="https://monkback.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>读MySQL相关书</title>
+      <link>https://monkback.github.io/post/mysql/highperformancemysql/</link>
+      <pubDate>Mon, 23 Nov 2020 21:54:30 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/mysql/highperformancemysql/</guid>
+      
+        <description>总览 两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，</description>
+      
+    </item>
     
     <item>
       <title>Linux高性能服务器编程</title>

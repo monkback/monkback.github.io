@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>读MySQL相关书 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="总览 两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/mysql/highperformancemysql/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="读MySQL相关书" />
+<meta property="og:description" content="总览 两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/mysql/highperformancemysql/" />
+<meta property="article:published_time" content="2020-11-23T21:54:30+08:00" />
+<meta property="article:modified_time" content="2020-11-23T21:54:30+08:00" />
+<meta itemprop="name" content="读MySQL相关书">
+<meta itemprop="description" content="总览 两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，">
+
+
+<meta itemprop="datePublished" content="2020-11-23T21:54:30&#43;08:00" />
+<meta itemprop="dateModified" content="2020-11-23T21:54:30&#43;08:00" />
+<meta itemprop="wordCount" content="8243">
+
+
+
+<meta itemprop="keywords" content="MySQL," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="读MySQL相关书"/>
+<meta name="twitter:description" content="总览 两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">读MySQL相关书</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-11-23" class="post-time">
+          2020-11-23
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<h1 id="总览">总览</h1>
+
+<p>　　两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，当然更新版MySQL有
+更多的知识值得学习，不过5.5已经足够学习重点内容了，希望自己可以掌握核心内容吧。在阅读本书的过程中，会辅导以掘金小册的《MySQL是怎样运行的：从跟上
+理解MySQL》和淘宝丁奇的极客时间MySQL专栏一起学习，学习完以后，看一遍何登成的技术博客。</p>
+
+<h1 id="第一章">第一章</h1>
+
+<p>　　MySQL的并发控制是在两个层面的：服务器层和存储引擎层，回忆MySQL的架构，MySQL服务器层包括接收客户端的连接、查询缓存、查询解析器将查询语句构造为
+解析树、优化器等；而存储引擎是一个单独的，可插拔的模块，可以在使用过程中进行切换的，每种MySQL存储引擎都可以实现自己的锁策略和锁粒度。</p>
+
+<p>　　这里提到，MySQL服务器本身会为类似于ALTER TABLE这样的语句使用表锁，而忽略存储引擎的锁机制。行级锁只在存储引擎层实现，MySQL服务器层并没有实现
+行级锁。　　</p>
+
+<p>　　谈到事务，就绕不开ACID四大特性（atomicity、consistency、isolation和durability）。这里说的隔离性，是指<strong>通常来说</strong>，一个事务所做的修改
+在事务最终提交之前，对其他事务是不可见的。但事实上，这个与事务的隔离级别有很大关系；而对于持久性，也是一个比较模糊的概念，持久也分为很多的级别。
+在《DDIA》一书中其实提到了，一致性严格来说并不是数据库的特性，这里的一致性主要指<strong>数据库处于应用程序锁期待的‘预期状态’</strong>，所以一致性往往需要
+应用程序的逻辑来保证。</p>
+
+<p>　　隔离级别：</p>
+
+<ul>
+<li><p>1、READ UNCOMMITTED（未提交读），指事务中的修改即使还没有提交，对于其他事务也是可见的。也就是会产生脏读（Dirty Read），事务可以读取到未提交的
+数据，这也是最低的隔离级别，实际中几乎不会用到。</p></li>
+
+<li><p>2、READ COMMITTED（提交读），这是大多数数据库系统默认的隔离级别（但MySQL不是），这个就是满足了前面说的隔离性的定义，即一个事务从开始直到提交
+之前，所做的操作对于其他事务是不可见的；这种隔离级别也叫不可重复读（nonrepeatable read），因为执行两次相同的查询，可能得到的结果不一样。</p></li>
+
+<li><p>3、REPEATABLE READ（可重复读），这是MySQL的默认隔离级别，简称rr，rr保证了在同一个事务中多次读取同样记录的结果是一致的，注意这是和上面的不可
+重复读的区别，但是解决不了幻读（Phantom Read）的问题，InnoDB通过多版本并发控制（MVCC，Multiversion Concurrency Control）来解决幻读问题。
+实际上，是通过间隙锁（next-key locking）来解决幻读问题的。</p></li>
+
+<li><p>4、SERIALIZABLE（可串行化），这就是强制事务串行，实际中也很少使用。</p></li>
+</ul>
+
+<p>　　事务日志：存储引擎在修改表的数据的时候，只修改其内存拷贝，再把该修改行为记录到硬盘上的事务日志中，而不用每次都将修改的数据本身持久到磁盘。事务日志
+采用追加的方式，也就是写事务日志是在磁盘的一小块区域顺序I/O，而不是写真实数据那样的随机I/O（需要在磁盘的多个地方移动磁头），所以采用事务日志的方式要
+快得多。事务日志持久化以后，内存中被修改的数据再慢慢刷盘，大多数存储引擎都是这么实现的，通常称之为<strong>预写式日志（Write-Ahead Logging）</strong>，因此修改
+数据需要写两次磁盘。很明显，事务日志可以帮助系统在崩溃时恢复修改的数据。</p>
+
+<p>　　自动提交（AUTOCOMMIT）：MySQL的默认采用自动提交模式，也就是说，如果不显示的开启一个事务，则每个查询都被当作一个事务来执行。所以一般在dao框架
+中，要开启一段事务操作时，都先setAutoCommit为false。修改AUTOCOMMIT对于非事务型的表（比如MyISAM，它并不支持事务）是没有意义的，这种表没有
+commit和rollback的概念。所以需要为每张表选择合适的存储引擎，尽量不要在事务中混用事务型和非事务型的表。</p>
+
+<p>　　多版本并发控制：可以理解成是一种轻量级的行级锁，它在大多数情况下避免加锁行为，从而提高并发度。MVCC是通过保存数据在某个时间点的快照来实现的，也就是，
+不管事务需要执行多长时间，事务执行过程中看到的数据是一致的（即可重复读）；但是不同事务的开始时间可能不一样，因此不同事务在同一时刻看到的数据可能是不同的。</p>
+
+<p>　　InnoDB的MVCC实现是在每一行记录后面加上两个系统版本号，分别是行的创建时间和过期时间，每开始一个新的事务，版本号都会递增。在SELECT/INSERT/DELETE
+以及UPDATE的时候分别对版本号进行操作（细则后续再整理学习），最终使得select出来的记录是符合要求的。MVCC只在REPEATABLE READ和READ COMMITTED这两个隔离级别下工作，其他
+两个隔离级别和MVCC不兼容，因为READ UNCOMMITTED总是读取最新的行，而不是符合当前事务版本的数据行。</p>
+
+<h1 id="创建高性能的索引">创建高性能的索引</h1>
+
+<p>　　MySQL只能高效的使用索引的最左前缀，因此创建一个包含两列的索引和创建两个只包含一列的索引是完全不一
+样的。在MySQL中，索引是在存储引擎层实现的，而不是服务器层，因此不同存储引擎支持的索引类型和工作方式并
+不一样。</p>
+
+<p>　　<strong>B-Tree索引</strong>：一般来说这就是最常见的索引类型，B-Tree索引使用B-Tree数据结构来存储索引数据（事实上大多数存储引擎使用的是B+树）。大多数存储引擎都支持这种索引。这里B-Tree是一个广泛的概念，因为有的存储引擎内部可能
+使用的并不是B-Tree这种数据结构，但是也统称为B-Tree索引，典型的就是InnoDB使用B+树。</p>
+
+<p>　　索引列的顺序非常重要。</p>
+
+<p>　　<strong>哈希索引</strong>：基于哈希表实现，只有精确匹配索引中的所有列才能查询有效（即命中索引），对于每一行数据，存储引擎都会针对所有的索引列计算一个hash
+code，索引中存储的就是哈希码，哈希表中保存指向每一行数据的指针。目前只有Memory引擎支持哈希索引（当然它也支持B-Tree索引）。</p>
+
+<p>　　InnoDB引擎有一个比较厉害的功能叫做&rdquo;自适应哈希索引(adaptive hash index)&ldquo;，当InnoDB注意到某些索引被使用的非常频繁的时候，它会在内存中基于
+B-Tree之上再创建一个哈希索引，这样就相当于结合了两种索引的优点，不过这是一个完全自动的、内部的行为。</p>
+
+<p>　　聚簇索引不是一种索引类型，它指的是一种数据存储方式，InnoDB的聚簇索引指的是在同一结构中保存了B-Tree索引和数据行。当表有聚簇索引时，它的数据行存放
+在索引的叶子页（leaf page）上。&rdquo;聚簇&rdquo;往往表示的是数据行和相邻的键值存储在一起，一个表只能有一个聚簇索引。</p>
+
+<p>　　比较快速的看完这本书的前六章，发现这本书是有一些难度的，决定从11月28号开始看《MySQL是怎样运行的》一书，补充下基础知识。</p>
+
+<hr />
+
+<hr />
+
+<hr />
+
+<p>分界线，进入《MySQL是怎样运行的》书</p>
+
+<hr />
+
+<hr />
+
+<hr />
+
+<h1 id="第一篇">第一篇</h1>
+
+<p>　　先介绍了怎么安装MySQL服务端，以及如何启动服务端，然后在客户端使用相关的命令连接服务端。关于客户端和服务端连接的过程以及方式值得注意一下，这个连接的过程本质上是一个进程间通信的过程，所以不只是通过TCP socket来连接
+这一种方式，尽管这是我们最常用的方式。所以MySQL支持的客户端进程和服务端进程通信的方式主要有以下几种：</p>
+
+<ul>
+<li>1、TCP/IP，其实也就是通过ip地址 + 端口号的方式，这是最常用的，因为往往生产环境中MySQL服务端和客户端是处于不同机器的；</li>
+<li>2、命名管道和共享内存，这是Windows支持的通信方式，都是通过在启动服务端程序时加上某些特定参数来实现的，需要注意的是如果使用共享内存来通信的话，客户端和服务端进程必须在同一台Windows主机上。</li>
+<li>3、Unix域套接字文件：Unix域套接字用于在同一台机器上运行的进程间的通信，MySQL支持这种通信方式也是在启动服务端和客户端程序时加上某些特殊命令来实现的，这个和因特网套接字（TCP socket）不同之处在于：Unix域套接字
+效率更高（当然要求通信双方位于同一台机器），它只是复制数据，没有协议处理解析、计算校验和、不需要序列号确认号（反正就是TCP的那一整套）。关于Unix域套接字的全面学习需要参考书籍《Unix环境高级编程》。</li>
+</ul>
+
+<p>　　服务器处理客户端请求时，往往需要经过三个部分：连接管理、解析与优化、存储引擎。服务端每收到一个新的客户端请求时，都会使用一个新的线程来专门处理与这个客户端的交互。这里你可以回顾一下并发现，MySQL服务端并不使用
+reactor这种网络IO模型来处理连接，而是使用线程池，来为每一个连接分配一个线程干活，其实epoll出现的也比MySQL要晚，那你可以思考一下：</p>
+
+<p>　　<strong>问题1</strong>：MySQL服务端可以使用epoll吗？如果使用epoll会比现在的线程池（one-connection-per-thread）更好吗？</p>
+
+<p>　　解析与优化主要又包括了三个部分：查询缓存、语法解析（将你的sql语句构造为解析树）和查询优化。首先查询缓存功能在5.6的版本已经是默认关闭了，而且后面会被删除；查询缓存只有在两个查询请求完全一样的情况下才会命中（全部
+字符），而且如果查询请求中包含某些系统函数、用户自定义变量和函数、一些系统表，如 mysql 、information_schema、 performance_schema 数据库中的表，那这个请求就不会被缓存。一旦某张表的数据或者结构被修改，那么这
+张表的所有缓存都会失效。show variables like &lsquo;%query_cache%&lsquo;; 这个命令可以查看缓存情况，目前umc是开启了查询缓存的。关于MySQL8.0以后关闭查询缓存，官方有一篇解释
+文章<a href="https://mysqlserverteam.com/mysql-8-0-retiring-support-for-the-query-cache/">MySQL8.0关闭查询缓存</a>。</p>
+
+<p>　　语法解析，就是将sql语句转换为内部的一棵解析树，本质上是一个代码编译过程，涉及到词法分析、语法分析、语义分析等。查询优化就是优化器会对我们的查询语句进行优化，提高查询效率。</p>
+
+<p>　　存储引擎：MySQL服务器把数据存储和提取操作封装到了存储引擎这个模块里，我们看到的表和每一行数据记录是怎么在磁盘上存储的，是由存储引擎决定的，不同存储引擎的实现方式并不一样。为了管理方便，人们把连接管理、查询缓存、
+语法解析、查询优化这些并不涉及真实数据存储的功能划分为MySQL server的功能，把真实存取数据的功能划分为存储引擎的功能。不同的表可以使用不同的存储引擎。</p>
+
+<h1 id="第二篇-启动选项和配置文件">第二篇：启动选项和配置文件</h1>
+
+<p>　　这一篇文章主要介绍的是服务端在启动MySQL时，可以指定的一些系统变量，看过一遍后基本都能理解，如果用得到可以作为查询章节使用。</p>
+
+<h1 id="第三篇-字符集和比较规则">第三篇：字符集和比较规则</h1>
+
+<p>　　字符集就是一堆字符的集合，不同的字符集包括的字符是不一样的，有的多一些，有的少一些；编码就是将字符转变为字节，解码就是逆过程。比较规则指的是如何对比两个字符的大小，同一种字符集可以有多种不同的比较规则，一些比较常见
+的字符集如下：</p>
+
+<ul>
+<li>1、ASCII字符集：共收录128个字符，包括键盘上的常见字符，使用1个字节来编码。</li>
+<li>2、ISO 8859-1字符集：共收录256个字符，它是在ASCII字符集的基础上又扩充了128个西欧常用字符(包括德法两国的字母)，也可以使用1个字节来进行编码。这个字符集也有一个别名latin1。</li>
+<li>3、GB2312字符集：收录了一些希腊字母、汉字等，兼容ASCII码的编码方式，使用1~2个字节来编码一个字符。</li>
+<li>4、GBK字符集：在2312的基础上又增加了字符，编码方式仍然一样。</li>
+<li>5、Unicode字符集：集兼容ASCII字符集，采用变长编码方式，编码一个字符需要使用的字节不等。有常见的utf-8、utf-16、utf-32等多种编码方案，utf-8使用1~4个字节编码一个字符，utf-16使用2~4个字节，utf-32使用4个字节。
+MySQL中把这几种都统称为utf字符集。关于字符编码问题，有道云笔记上有几篇之前梳理过的文章。</li>
+</ul>
+
+<p>　　MySQL中的utf8只使用了1~3个字节来表示字符，而utf8mb4是正宗的utf8字符集，使用的是1~4个字节，因此它可以存储emoji表情。MySQL支持的每一种字符集都有一个自己默认的比较规则，比如utf8对应的默认比较规则是
+utf8_general_ci，它是一种通用的比较规则，后面的ci表示case insensitive，即不区分大小写。</p>
+
+<p>　　MySQL有4个级别的字符集和比较规则，分别是服务器级别、数据库级别、表级别和列级别。可以通过一些命令或者配置文件来修改它们。</p>
+
+<p>　　比较规则主要用于比较字符串的大小或者需要排序的时候，比如ORDER BY语句。</p>
+
+<h1 id="第四篇-innodb记录的存储结构">第四篇：InnoDB记录的存储结构</h1>
+
+<p>　　MySQL中每一行真实数据在不同存储引擎的存储格式是不一样的，这一篇文章主要研究的是InnoDB存储引擎下一行记录的存储格式。需要注意的是InnoDB是将数据划分为多个页的，磁盘和内存的数据交互都是以页为单位的，InnoDB中页
+的大小一般是16KB，也就是一般情况下，一次从磁盘读取的数据大小至少是16KB，一次写磁盘也是16KB的数据。</p>
+
+<p>　　每一行记录在磁盘上的存放方式叫做行格式，InnoDB存储引擎现在支持4种不同类型的行格式，分别是Compact、Redundant、Dynamic和Compressed行格式，目前的innodb_default_row_format是Dynamic，行格式可以在创建
+或者修改表的时候指定ROW_FORMAT变量来设置。</p>
+
+<h3 id="compact行格式">Compact行格式</h3>
+
+<p>　　在Compact行格式中（实际上后面三种也是），一条完整的记录是由两部分组成的：记录的额外信息和记录的真实数据。记录的额外信息是服务器为了描述这条记录不得不添加的一些信息，额外信息又主要分为3类：分别是变长字段长度列表、
+NULL值列表和记录头信息，下面分别看一下这3部分额外信息。</p>
+
+<h6 id="变长字段长度列表">变长字段长度列表</h6>
+
+<p>　　MySQL支持一些变长的数据类型，如VARCHAR(M)、VARBINARY(M)、TEXT类型以及BLOB类型，变长字段实际存储多少字节的数据是不固定的，所以在存储真实数据的同时也需要把这些数据占用的字节数存储起来，在Compact行格式中，
+所有变长字段的真实数据所占用的长度都存放在记录的开头，形成一个<strong>变长字段长度列表</strong>，各个变长字段数据所占用的字节数按照<strong>列的逆序</strong>存放，当然这里的列必须是可变长字段的列，固定长度的列就不会存放了。</p>
+
+<p>　　变长字段的实际数据长度可能会比较长，比如大于256个字节了，那么其长度1个字节也无法表示，可能就会需要2个字节来表示真实数据的长度，对于变长类型VARCHAR(M)来说，这种类型表示能存储最多M个字符（注意是字符不是字节），
+另外，对于值为NULL的列的变长字段，这个列表里是不存放其长度的（长度为0）。如果某个表的所有列都不是变长的数据类型的话，那么就不需要变长字段列表了。</p>
+
+<h6 id="null值列表">NULL值列表</h6>
+
+<p>　　Compact将所有值为NULL的列统一起来，存储到NULL值列表中，这样真实数据中就不用管NULL数据了（这里我们就会发现，尽量将列设为NOT NULL，这样每一行记录就不需要这个列表了）。首先统计表中允许存储NULL的列有哪些，其中
+主键列、被NOT NULL修饰的列是不允许为空的，然后用一串二进制byte<strong>逆序</strong>表示某一列是否为空，1代表为NULL</p>
+
+<h6 id="记录头信息">记录头信息</h6>
+
+<p>　　记录头信息比较复杂一点，涉及到B+树等，暂时不细说。</p>
+
+<h6 id="记录的真实数据">记录的真实数据</h6>
+
+<p>　　事实上，记录的真实数据除了自己定义的那几列以外，MySQL会为每行记录添加一些默认列（隐藏列），具体的列如下：</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">列名</th>
+<th align="center">是否必须</th>
+<th align="center">占用空间</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">DB_ROW_ID</td>
+<td align="center">否</td>
+<td align="center">6字节</td>
+<td align="center">行id，唯一标识一条记录</td>
+</tr>
+
+<tr>
+<td align="center">DB_TRX_ID</td>
+<td align="center">是</td>
+<td align="center">6字节</td>
+<td align="center">事务id</td>
+</tr>
+
+<tr>
+<td align="center">DB_ROLL_PTR</td>
+<td align="center">是</td>
+<td align="center">7字节</td>
+<td align="center">回滚指针</td>
+</tr>
+</tbody>
+</table>
+
+<p>　　InnoDB表对主键的生成策略是：优先使用用户自定义的主键作为主键，如果用户没有定义主键，则选取一个unique键作为主键，如果表中没有定义unique键的话，则InnoDB会为表默认添加一个名为DB_ROW_ID的隐藏列作为主键，所以
+这一列是可选的（<strong>在没有自定义主键以及Unique键的情况下才会添加该列</strong>）。</p>
+
+<h6 id="char-m-列的存储格式">CHAR(M)列的存储格式</h6>
+
+<p>　　前面提到在Compact行格式下，只会把变长类型的列的实际长度逆序存到变长字段列表中。但是如果我们采用变长的字符集（比如utf8而非是ASCII），也就是表示
+一个字符需要的字节数不定，那么如果一个列是CHAR(M)类型的，它的实际长度<strong>也会被存储到变长字段长度列表中</strong>。也就是说，对于CHAR(M)类型的列来说，当列采
+用的是定长字符集（注意字符集是有四个级别的，同一张表的不同列采用的字符集可以不一样），该列占用的字节数不会被存储到变长字段长度列表；而如果采用的是变长
+字符集，该列所占用的字节数就会被加入到变长字段长度列表中。</p>
+
+<p>　　还有一点还需要注意，变长字符集的CHAR(M)类型的列要求至少占用M个字节，而VARCHAR(M)却没有这个要求。比方说对于使用utf8字符集的CHAR(10)的列来说，
+该列存储的数据字节长度的范围是10～30个字节。即使我们向该列中存储一个空字符串也会占用10个字节，这是怕将来更新该列的值的字节长度大于原有值的字节长度而
+小于10个字节时，可以在该记录处直接更新，而不是在存储空间中重新分配一个新的记录空间，导致原有的记录空间成为所谓的碎片。</p>
+
+<h3 id="redundant行格式">Redundant行格式</h3>
+
+<p>　　这种格式比较老了，现在已经不再使用，比较浪费存储空间，不再记录笔记。</p>
+
+<h6 id="行溢出数据">行溢出数据</h6>
+
+<p>　　VARCHAR(M)类型的列最多能够占用65535个字节，M代表最多可以存储的字符数量，所以这就取决于我们采用的字符集是什么了，如果是ASCII字符集，那么一个
+字符采用一个字节来编码，但是实际上VARCHAR(65535)是不行的，因为MySQL对一条记录占用的最大存储空间是有限制的，除了TEXT和BLOB类型的列以外，其他
+<strong>所有的列（不包括隐藏列和记录头信息）占用的字节长度之和</strong>不能超过65535字节，也就是这65535字节不仅包括真实数据，还需要包括真实数据所占用的字节长
+度，以及NULL标识（如果该列被NOT NULL修饰可以没有这部分存储空间）。</p>
+
+<p>　　那么对于ASCII字符，如果该VARCHAR类型的列没有NOT NULL，那么最多只能存储65532个字节的数据，因为真实数据长度位需要占用2个字节，NULL标识需要占用
+1个字节；如果该VARCHAR类型的列有NOT NULL，那么最多可以存储65533个字节的数据，不需要NULL标识了。</p>
+
+<p>　　如果这列用的是utf8字符，那么在值允许为NULL的情况下，最多存储的字符是65532/3 = 21844个字符。当然这些都是在表中只有一个字段的情况下说的，也就
+是65535字节的限制是一个行中的所有列（不包括隐藏列和记录头信息）占用的字节长度之和。</p>
+
+<p>　　前面提到，MySQL中磁盘和内存的交换单位是页，表中的每一行记录都会被分配到某个页中进行存储，一个页的大小一般是16KB，也就是16384字节，而一个
+VARCHAR(M)类型的列最多可以存储65532个字节，也就是一个页都可能存不下一条记录。</p>
+
+<p>　　在Compact和Redundant行格式中，对于占用空间非常大的列，在记录的真实数据处只会存储该列的一部分数据，把剩余的数据分散存储在其他页中，然后在记录的
+真实数据位置处用20个字节来指向这些分散页的地址（这20字节还包括分散在其他页中的数据所占用的字节数）。实际上对于这两种行格式，如果某一列的数据非常多的
+话，在该记录的真实数据位置只会存储该列的前768个字节的数据和一个指向其他页的地址，然后将剩下的数据存储在其他页中，这个过程就叫做<strong>行溢出</strong>，存储那些
+剩余数据的页叫做<strong>溢出页</strong>。当然不只是VARCHAR(M)类型的列，TEXT、BLOB类型的列在数据量比较大的情况下也会发生行溢出。</p>
+
+<p>　　MySQL规定一个页至少存放两行记录，因此发生行溢出是有临界点的。</p>
+
+<h3 id="dynamic和compressed行格式">Dynamic和Compressed行格式</h3>
+
+<p>　　现在MySQL默认的行格式就是Dynamic，它们的存储方式和Compact很像。只不过在处理行溢出数据的时候有一些区别，它们不会在记录的真实数据处存放真实数据
+的前768字节，而是把所有的字节都存放在其他页面中，只是在真实数据位置存放其他页面的地址，而Compressed行格式更进一步，它会采用压缩算法对页面进行压缩
+来节省空间。</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/mysql/">MySQL</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/linux/linuxhighperformanceserverprogram/">
+            <span class="next-text nav-default">Linux高性能服务器编程</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
