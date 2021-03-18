@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/algorithm/hashtable/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="数据结构之散列表" />
 <meta property="og:description" content="哈希表，内部是依赖着数组来存储元素的，因为数组可以支持随机访问。看到这一章节时，我想起来之前看《代码大全》时， 里面提到的一种思维：数组本质上" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/algorithm/hashtable/" />
-<meta property="article:published_time" content="2020-05-31T21:52:27+08:00" />
-<meta property="article:modified_time" content="2020-05-31T21:52:27+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/hashtable/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-31T21:52:27&#43;08:00" />
+<meta property="article:modified_time" content="2020-05-31T21:52:27&#43;08:00" />
+
 <meta itemprop="name" content="数据结构之散列表">
-<meta itemprop="description" content="哈希表，内部是依赖着数组来存储元素的，因为数组可以支持随机访问。看到这一章节时，我想起来之前看《代码大全》时， 里面提到的一种思维：数组本质上">
-
-
-<meta itemprop="datePublished" content="2020-05-31T21:52:27&#43;08:00" />
+<meta itemprop="description" content="哈希表，内部是依赖着数组来存储元素的，因为数组可以支持随机访问。看到这一章节时，我想起来之前看《代码大全》时， 里面提到的一种思维：数组本质上"><meta itemprop="datePublished" content="2020-05-31T21:52:27&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-31T21:52:27&#43;08:00" />
 <meta itemprop="wordCount" content="4177">
-
-
-
-<meta itemprop="keywords" content="算法," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="算法," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="数据结构之散列表"/>
 <meta name="twitter:description" content="哈希表，内部是依赖着数组来存储元素的，因为数组可以支持随机访问。看到这一章节时，我想起来之前看《代码大全》时， 里面提到的一种思维：数组本质上"/>
 
@@ -244,93 +238,68 @@
       <p>　　哈希表，内部是依赖着数组来存储元素的，因为数组可以支持随机访问。看到这一章节时，我想起来之前看《代码大全》时，
 里面提到的一种思维：数组本质上是一种特殊的哈希表，下标0对应第一个元素。所以本质上是对存储元素的key进行hash运算，这里就涉及到
 hash函数的碰撞问题，也叫散列冲突，因为这是不可避免的。一般来说，解决散列冲突的方式有两种：</p>
-
 <ul>
 <li>1） 开放寻址法（open addressing）：如果出现了两个不同的key，经过hash后，却映射到了同一个数组位置的情况，那么我们就重新
 探测一个空闲位置，重新探测呢，可以使用线性探测法：即顺序往数组下一个位置找，直到找到第一个为空的位置，将元素插入；也可以使用一
 个新的hash函数，也可以使用二次探测，即每次探测的步长变成原来的二次方，依次加1、4、9等这样。</li>
 </ul>
-
 <p>　　上面说的是插入时出现冲突，重新探测下一个空闲位置；那在查找的时候呢，我们先hash一次key，然后去数组中找，如果没找到，那么就
 需要遍历整个数组，顺序往后依次查找，找不到就说明不存在。删除时候，不能简单的直接删除掉元素，需要将删除的元素做一个特殊的标记，
 主要是防止为空。</p>
-
 <p>　　我们一般使用一个<strong>装载因子</strong>，load factor来表示散列表中还剩下的空闲位置的多少。装载因子是一个比率，表示已经填入散列表中
 的元素个数 除以 散列表的总长度。</p>
-
 <ul>
 <li>2） 链表法（这才是核心），前面也看到了，开放寻址法有很多缺点，因为数组的位置迟早有不够用的时候。链表法就是数组中存储的元素
 都是一个链表，代表key经过hash后，值相等（即出现碰撞）的那些元素，把它们一个个链接起来。但是链表法也不是就一定比开放寻址法厉害，
 后面可以看到。</li>
 </ul>
-
 <p>　　<strong>散列函数</strong></p>
-
 <p>　　这里提到了一个问题，什么是好的散列函数（哈希函数），因为它直接决定了散列表冲突的多少，也就直接决定了散列表的性能。</p>
-
 <ul>
 <li>1） 设计不能太复杂，运算不能太耗时。</li>
 <li>2） 生成的值尽可能的随机且均匀分布，这样才能尽量分布到不同的数组位置上去。</li>
 </ul>
-
 <p>　　<strong>装载因子</strong></p>
-
 <p>　　前面我们提到，装载因子越大，代表散列表中的元素越多，空闲的位置就越少了，散列冲突的可能性就越大。插入数据的过程就可能需要
 不停的寻址（开放寻址法），或者是拉很长的链（链表法），最终导致查找的过程也会变慢。所以，一般约定装载因子过大时，就要进行扩容，
 扩容导致的问题就是散列表大小变化，数据存储的位置也就可能变化了，就需要通过散列函数重新计算每个元素的新的存储位置。</p>
-
 <p>　　对于散列表来讲，插入和查找一个元素的时间复杂度都是O(1)，因为插入在多数情况下是不需要扩容的，复杂的一次扩容可以分摊到多次
 插入上；查找也是利用到了数组的随机访问特性。</p>
-
 <p>　　可以自由设定什么时候需要扩容，什么时候需要缩容。但是如何避免低效的扩容，比如当某一次插入操作触发了扩容时，这时开辟一个新的
 散列表，然后把之前的数据重新通过hash函数（rehash过程），复制到新的散列表中，这个过程是比较低效的，有下面这种办法：</p>
-
 <p>　　为了避免一次性扩容时耗时过多的情况，可以将扩容操作穿插在插入操作中，<strong>分批完成</strong>，这其实就是Redis使用的<strong>渐进式扩容</strong>：
 这里多一句，似乎memcache的扩容策略就不是渐进式的，一次扩容可能导致的是大量数据失效，<strong>有待考证。</strong>
 当装载因子达到阈值时，我们申请一块新的散列表空间，但是此时并不搬迁数据；当有新的数据需要插入时，我们将新的数据插入到新的散列表
 中，并且同时从老的散列表中拿出一个数据放入到新的散列表，每次有新的数据插入时，我们就重复上面那个过程，这样经过多次插入操作后，
 老的散列表数据就逐渐搬迁到了新的散列表中了，这就是分摊的思想。这种实现方式，就可以把每一次插入操作都均摊为O(1)的时间复杂度。</p>
-
 <p>　　在上面这个过程中，查询操作时，其实是双读的策略，先查询新的散列表，有就直接返回了；如果没有找到再去老的散列表中查找。</p>
-
 <p>　　<strong>选择合适的冲突解决方式</strong></p>
-
 <p>　　前面说到，冲突的解决方式主要有开放寻址法和链表法两种。事实上，这两种方式各有优劣且各有用途，Java中LinkedHashMap使用的
 是链表法解决冲突的，而ThreadLocalMap使用的则是开放寻址法。怎么决定使用哪一种呢？或者说，这两种方法各自的适用场景是什么呢？</p>
-
 <ul>
 <li>1） 开放寻址法：</li>
 </ul>
-
 <p>　　开放寻址法不像链表法，需要拉很多链表。散列表中的数据都存储在数组中，可以有效地利用CPU缓存加快查询速度。而且，这种方法实现的
 散列表，<strong>序列化起来比较简单</strong>。</p>
-
 <p>　　缺点则是，用开放寻址法解决冲突的散列表，删除数据的时候比较麻烦，需要特殊标记已经删除掉的数据。而且，在开放寻址法中，所有的数
 据都存储在一个数组中，比起链表法来说，冲突的代价更高。所以，使用开放寻址法解决冲突的散列表，装载因子的上限不能太大。这也导致这
 种方法比链表法更浪费内存空间。
 所以，当数据量比较小、装载因子小的时候，适合采用开放寻址法。这也是Java中的ThreadLocalMap使用开放寻址法解决散列冲突的原因。</p>
-
 <ul>
 <li>2） 链表法：</li>
 </ul>
-
 <p>　　首先，链表法对内存的利用率比开放寻址法要高。因为链表结点可以在需要的时候再创建，并不需要像开放寻址法那样事先申请好。实际上，
 这一点也是链表优于数组的地方。</p>
-
 <p>　　链表法比起开放寻址法，对大装载因子的容忍度更高。开放寻址法只能适用装载因子小于1的情况。接近1时，就可能会有大量的散列冲突，
 导致大量的探测、再散列等，性能会下降很多。但是对于链表法来说，只要散列函数的值随机均匀，即便装载因子变成10，也就是链表的长度变
 长了而已，虽然查找效率有所下降，但是比起顺序查找还是快很多。</p>
-
 <p>　　链表因为要存储指针，所以对于比较小的对象的存储，是比较消耗内存的，还有可能会让内存的消耗翻倍。而且，因为链表中的结点是零散
 分布在内存中的，不是连续的，所以对CPU缓存是不友好的，这方面对于执行效率也有一定的影响。当然，如果我们存储的是大对象，也就是说
 要存储的对象的大小远远大于一个指针的大小（4个字节或者8个字节），那链表中指针的内存消耗在大对象面前就可以忽略了。</p>
-
 <p>　　实际上，我们对链表法稍加改造，可以实现一个更加高效的散列表。那就是，我们将链表法中的链表改造为其他高效的动态数据结构，比如
 跳表、红黑树。这样，即便出现散列冲突，极端情况下，所有的数据都散列到同一个桶内，那最终退化成的散列表的查找时间也只不过是
 O(log(n))。这样也就有效避免了前面讲到的散列碰撞攻击。这也就是Java8以后，hashMap在链表长度过长时就会变为红黑树的原因。</p>
-
 <p>　　<strong>参考Java中HashMap的实现方式</strong></p>
-
 <ul>
 <li>1） 初始大小：HashMap的默认初识大小为16，当然你也可以自己指定一个合适的，来提高性能。</li>
 <li>2） 装载因子：最大装载因子默认是0.75，当HashMap中元素个数超过0.75*capacity（capacity表示散列表的容量）的时候，就会
@@ -338,60 +307,44 @@ O(log(n))。这样也就有效避免了前面讲到的散列碰撞攻击。这�
 <li>3） 散列冲突解决方法：HashMap底层采用链表法来解决冲突。即使负载因子和散列函数设计得再合理，也免不了会出现拉链过长的情况，
 一旦出现拉链过长，则会严重影响HashMap的性能。</li>
 </ul>
-
 <p>　　于是，在JDK1.8版本中，为了对HashMap做进一步优化，我们引入了红黑树。而当链表长度太长（默认超过8）时，链表就转换为红黑树。我们
 可以利用红黑树快速增删改查的特点，提高HashMap的性能。当红黑树结点个数少于6个的时候，又会将红黑树转化为链表。因为在数据量较小
 的情况下，红黑树要维护平衡，比起链表来，性能上的优势并不明显。这里有两个阈值6和8。</p>
-
 <ul>
-<li><p>4） 散列函数，设计非常简单，代码如下</p>
-
-<pre><code>int hash(Object key) {
-int h = key.hashCode()；
-return (h ^ (h &gt;&gt;&gt; 16)) &amp; (capitity -1); //capicity表示散列表的大小
-}
-</code></pre></li>
+<li>4） 散列函数，设计非常简单，代码如下</li>
 </ul>
-
-<p>　　贴一个看到的对于上述hash函数的讲解：</p>
-
+<pre><code>    int hash(Object key) {
+    int h = key.hashCode()；
+    return (h ^ (h &gt;&gt;&gt; 16)) &amp; (capitity -1); //capicity表示散列表的大小
+    }
+</code></pre><p>　　贴一个看到的对于上述hash函数的讲解：</p>
 <p>　　首先hashcode本身是个32位整型值，在系统中，这个值对于不同的对象必须保证唯一（JAVA规范），这也是大家常说的，重写equals
 必须重写hashcode的重要原因。</p>
-
-<p>　　获取对象的hashcode以后，先进行移位运算，然后再和自己做异或运算，即：hashcode ^ (hashcode &gt;&gt;&gt; 16)，这一步甚是巧妙，
+<p>　　获取对象的hashcode以后，先进行移位运算，然后再和自己做异或运算，即：hashcode ^ (hashcode &raquo;&gt; 16)，这一步甚是巧妙，
 是将高16位移到低16位，这样计算出来的整型值将“具有”高位和低位的性质。</p>
-
 <p>　　最后，用hash表当前的容量减去一，再和刚刚计算出来的整型值做位与运算。进行位与运算，很好理解，是为了计算出数组中的位置。但
 这里有个问题：为什么要用容量减去一？</p>
-
 <p>　　因为A % B = A &amp; (B - 1)，注意这个公式成立的前提是<strong>B 是2的整数倍</strong>
-所以，(h ^ (h &gt;&gt;&gt; 16)) &amp; (capitity -1) = (h ^ (h &gt;&gt;&gt; 16)) % capitity，可以看出
+所以，(h ^ (h &raquo;&gt; 16)) &amp; (capitity -1) = (h ^ (h &raquo;&gt; 16)) % capitity，可以看出
 这里本质上是使用了「除留余数法」。综上，可以看出，hashcode的随机性，加上移位异或算法，得到一个非常随机的hash值，再通过
 「除留余数法」，得到index，整体的设计过程与散列函数”设计原则非常吻合！</p>
-
 <p>　　<strong>LinkedHashMap的特殊之处</strong></p>
-
 <p>　　我们都知道，HashMap里面存储的元素是无序的，也就是你插入的元素，后面再去遍历时，可能每次返回的顺序都不一样，但是
 LinkedHashMap是默认按照其元素插入的顺序来存储的，当时TreeMap是默认按照key的大小顺序存储元素的，这个就更厉害了。
 LinkedHashMap事实上不仅仅支持按照插入顺序遍历数据，还支持按照访问顺序遍历数据，可以使用下面这个构造函数：</p>
-
 <pre><code>    public LinkedHashMap(int initialCapacity,
                          float loadFactor,
                          boolean accessOrder) {
         super(initialCapacity, loadFactor);
         this.accessOrder = accessOrder;
     }
-</code></pre>
-
-<p>　　其中，accessOrder传true，就可以让你的元素按照访问顺序来遍历元素了，这是因为，每次调用put函数的时候，都会将当前元素放入
+</code></pre><p>　　其中，accessOrder传true，就可以让你的元素按照访问顺序来遍历元素了，这是因为，每次调用put函数的时候，都会将当前元素放入
 链表的尾部，每次调用get的时候，也会将被访问到的数据元素移到链表的尾部。所以LinkedHashMap中的“Linked”实际上是指的是双向链表，
 并非指用链表法解决散列冲突。</p>
-
 <p>　　散列表这种数据结构虽然支持非常高效的数据插入、删除、查找操作，但是散列表中的数据都是通过散列函数打乱之后无规律存储的。也就
 说，它无法支持按照某种顺序快速地遍历数据。如果希望按照顺序遍历散列表中的数据，那我们需要将散列表中的数据拷贝到数组中，然后排序
 ，再遍历。因为散列表是动态数据结构，不停地有数据的插入、删除，所以每当我们希望按顺序遍历散列表中的数据的时候，都需要先排序，那
 效率势必会很低。为了解决这个问题，我们将散列表和链表（或者跳表）结合在一起使用。</p>
-
 <p>　　<strong>Redis集群模式下的一致性哈希算法</strong></p>
 
     </div>
@@ -498,7 +451,7 @@ LinkedHashMap事实上不仅仅支持按照插入顺序遍历数据，还支持�
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

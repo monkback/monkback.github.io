@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on Records</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Linux on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 11 Oct 2020 17:16:40 +0800</lastBuildDate>
-    
-	<atom:link href="https://monkback.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 11 Oct 2020 17:16:40 +0800</lastBuildDate><atom:link href="https://monkback.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux高性能服务器编程</title>
       <link>https://monkback.github.io/post/linux/linuxhighperformanceserverprogram/</link>

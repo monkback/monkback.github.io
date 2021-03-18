@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java多线程 on Records</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Java多线程 on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 27 May 2020 17:48:29 +0800</lastBuildDate>
-    
-	<atom:link href="https://monkback.github.io/tags/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 27 May 2020 17:48:29 +0800</lastBuildDate><atom:link href="https://monkback.github.io/tags/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>分布式锁的一次问题排查</title>
       <link>https://monkback.github.io/post/work/cyclicbarrier/</link>

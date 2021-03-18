@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/juc/threadpool/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="Java中的线程池" />
 <meta property="og:description" content="ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/juc/threadpool/" />
-<meta property="article:published_time" content="2020-05-18T15:51:42+08:00" />
-<meta property="article:modified_time" content="2020-05-18T15:51:42+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/juc/threadpool/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-18T15:51:42&#43;08:00" />
+<meta property="article:modified_time" content="2020-05-18T15:51:42&#43;08:00" />
+
 <meta itemprop="name" content="Java中的线程池">
-<meta itemprop="description" content="ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用">
-
-
-<meta itemprop="datePublished" content="2020-05-18T15:51:42&#43;08:00" />
+<meta itemprop="description" content="ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用"><meta itemprop="datePublished" content="2020-05-18T15:51:42&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-18T15:51:42&#43;08:00" />
-<meta itemprop="wordCount" content="4016">
-
-
-
-<meta itemprop="keywords" content="Java多线程," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="4026">
+<meta itemprop="keywords" content="Java多线程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Java中的线程池"/>
 <meta name="twitter:description" content="ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用"/>
 
@@ -243,7 +237,6 @@
     <div class="post-content">
       <p>　　ThreadPoolExecutor继承了AbstractExecutorService类，并提供了四个构造函数，实际上，其中的三个都是调用的剩下一个
 ，现在分析一下其中几个参数的含义，充分理解后，可以尝试调整一下特征库服务中的那个线程池的参数。</p>
-
 <pre><code>    public ThreadPoolExecutor(int corePoolSize,
                               int maximumPoolSize,
                               long keepAliveTime,
@@ -268,96 +261,85 @@
         this.threadFactory = threadFactory;
         this.handler = handler;
     }
-</code></pre>
-
-<ul>
-<li>int corePoolSize：核心线程池的大小。在创建了线程池以后，默认情况下线程池中没有任何线程，而是等到有任务提交上来后才会
+</code></pre><ul>
+<li>
+<p>int corePoolSize：核心线程池的大小。在创建了线程池以后，默认情况下线程池中没有任何线程，而是等到有任务提交上来后才会
 新建线程，除非显示的调用prestartAllCoreThreads()或者prestartCoreThread()方法，这两个方法是预先创建
 corePoolSize个线程或者一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执
-行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；</li>
-<li>int maximumPoolSize：线程池的最大线程数，指的是这个线程池最多能够创建多少个线程；</li>
-<li>long keepAliveTime：表示线程没有任务执行时，最多<strong>存活多长时间就终止</strong>。默认情况下，只有当线程池中的线程数大于
+行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；</p>
+</li>
+<li>
+<p>int maximumPoolSize：线程池的最大线程数，指的是这个线程池最多能够创建多少个线程；</p>
+</li>
+<li>
+<p>long keepAliveTime：表示线程没有任务执行时，最多<strong>存活多长时间就终止</strong>。默认情况下，只有当线程池中的线程数大于
 corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize：即如果线程池中的线程数目大于
 corePoolSize时，如果一个线程空闲的时间达到keepAliveTime，则会终止，直到线程池中的线程数不超过corePoolSize。
 <strong>除非</strong>显示调用allowCoreThreadTimeOut方法，则在线程池中的线程数目不大于corePoolSize时，keepAliveTime参数也
-会起作用，直到线程池中的线程数目为0。</li>
-<li>TimeUnit unit：参数keepAliveTime的时间单位，在TimeUnit类中的静态变量，共有7种单位。</li>
-
-<li><p>BlockingQueue<Runnable> workQueue：一个阻塞队列，用来存放提交的待执行任务，这个参数的选择会对你的线程池运行效果
+会起作用，直到线程池中的线程数目为0。</p>
+</li>
+<li>
+<p>TimeUnit unit：参数keepAliveTime的时间单位，在TimeUnit类中的静态变量，共有7种单位。</p>
+</li>
+<li>
+<p>BlockingQueue<!-- raw HTML omitted --> workQueue：一个阻塞队列，用来存放提交的待执行任务，这个参数的选择会对你的线程池运行效果
 产生很大影响，一般来说，阻塞队列有以下几种选择：</p>
-
 <ul>
 <li>ArrayBlockingQueue，有界阻塞队列</li>
 <li>LinkedBlockingQueue(比较常用)，链表结构理论上可以无界，但一般我们也指定一个大小，使其成为有界阻塞队列。静态工厂方法Executors.newFixedThreadPool()使用了这个队列。</li>
-<li>SynchronousQueue，内部不进行任何存储，当前线程添加一个任务入队时，当前线程和后续添加任务的线程都会被阻塞，直到有一个线程从队列中取出任务。Executors.newCachedThreadPool使用了这个队列
-<br /></li>
+<li>SynchronousQueue，内部不进行任何存储，当前线程添加一个任务入队时，当前线程和后续添加任务的线程都会被阻塞，直到有一个线程从队列中取出任务。Executors.newCachedThreadPool使用了这个队列</li>
 </ul>
-
-<p><strong>一个思考：你能说出上面几种阻塞队列的区别吗？</strong></p></li>
-
-<li><p>ThreadFactory threadFactory：线程工厂，主要用来创建线程。</p></li>
-
-<li><p>RejectedExecutionHandler handler：拒绝策略。表示当拒绝处理任务时的策略：当任务提交过来以后，发现线程池中的所有
+<p><strong>一个思考：你能说出上面几种阻塞队列的区别吗？</strong></p>
+</li>
+<li>
+<p>ThreadFactory threadFactory：线程工厂，主要用来创建线程。</p>
+</li>
+<li>
+<p>RejectedExecutionHandler handler：拒绝策略。表示当拒绝处理任务时的策略：当任务提交过来以后，发现线程池中的所有
 线程都处于工作中，找不到一个空闲的线程(<strong>此时意味着阻塞队列已满</strong>)，就会将这个任务拒绝，主要策略有以下几种，都是
 ThreadPoolExecutor的内部类：</p>
-
 <ul>
 <li>ThreadPoolExecutor.AbortPolicy：丢弃该任务并抛出RejectedExecutionException异常</li>
 <li>ThreadPoolExecutor.DiscardPolicy：仅丢弃任务，不抛出异常</li>
 <li>ThreadPoolExecutor.DiscardOldestPolicy：丢弃<strong>队列最前面的任务</strong>，然后重新执行该任务</li>
 <li>ThreadPoolExecutor.CallerRunsPolicy：由调用线程直接处理该任务</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <p>　　这就是ThreadPoolExecutor类的构造函数的参数含义，我们再来看一下这个类继承的一些父类以及父接口的内容，理解一下它们
 之间的关系。</p>
-
 <p>　　Executor是一个顶层接口，在它里面只声明了一个方法execute(Runnable)，返回值为void，参数为Runnable类型，从字面
 意思可以理解，就是用来执行传进去的任务的；
 　　
 　　然后ExecutorService接口继承了Executor接口，并声明了一些方法：submit、invokeAll、invokeAny以及shutDown等；</p>
-
 <p>　　抽象类AbstractExecutorService实现了ExecutorService接口，基本实现了ExecutorService中声明的所有方法；</p>
-
 <p>　　然后ThreadPoolExecutor继承了类AbstractExecutorService。</p>
-
 <p>　　在ThreadPoolExecutor类中有几个非常重要的方法：</p>
-
 <ul>
 <li>execute()</li>
 <li>submit()</li>
 <li>shutdown()</li>
 <li>shutdownNow()</li>
 </ul>
-
 <p>　　execute()方法其实是顶层接口Executor声明的方法，ThreadPoolExecutor类提供了实现，这也是我们今天研究的类的核心
 方法，通过这个方法可以向线程池提交一个任务，交由线程池去执行。</p>
-
 <p>　　submit()方法是在ExecutorService中声明的方法，在AbstractExecutorService就已经有了具体的实现，在
 ThreadPoolExecutor中并没有对其进行重写，这个方法也是用来向线程池提交任务的，去看submit()方法的实现，会发现它实际上
 还是调用的execute()方法，只不过它利用了Future来获取任务执行结果。</p>
-
 <p>　　shutdown()和shutdownNow()是用来关闭线程池的。</p>
-
 <p>　　有了上面的基础后，我们再来深入分析一下线程池的具体实现原理。</p>
-
 <p><strong>一、线程池状态</strong></p>
-
 <p>　　在ThreadPoolExecutor中定义了一个volatile变量runState，保证线程之间可见，表示线程池的状态，可以有以下几种取值：</p>
-
 <ul>
 <li>RUNNING    创建线程池时，线程池处于running状态</li>
 <li>SHUTDOWN   如果调用了shutdown()方法，则线程池处于SHUTDOWN状态，此时线程池不接受新的任务，然后等待所有任务执行完毕</li>
 <li>STOP       如果调用了shutdownNow()方法，则线程池处于STOP状态，此时线程池不接受新的任务，并且会尝试终止正在执行的任务</li>
-<li>TIDYING    当所有任务已经终止时，ctl记录的&rdquo;任务数量&rdquo;为0，线程池就会变成TIDYING状态。当线程池变为此状态时，会执行
+<li>TIDYING    当所有任务已经终止时，ctl记录的&quot;任务数量&quot;为0，线程池就会变成TIDYING状态。当线程池变为此状态时，会执行
 钩子函数terminated()，terminated()函数在ThreadPoolExecutor中是空的，可以自己覆盖，定义想要的行为。</li>
 <li>TERMINATED 线程池彻底终止，执行完terminated()方法后，就会从TIDYING—&gt;TERMINATED。</li>
 </ul>
-
 <p><strong>二、任务的执行</strong></p>
-
 <p>　　我们先再来看一下ThreadPoolExecutor中的一些成员变量：</p>
-
 <pre><code>private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));   //ctl是一个32位的整形数字，高三位用来存储线程池的状态，其余位的数值表示线程池中正在运行的线程数
 private final BlockingQueue&lt;Runnable&gt; workQueue;         //任务缓存队列，用来存放等待执行的任务
 private final ReentrantLock mainLock = new ReentrantLock();   //线程池的主要状态锁，对线程池状态（比如线程池大、runState等）的改变都要使用这个锁
@@ -377,10 +359,7 @@ private volatile ThreadFactory threadFactory;   //线程工厂，用来创建线
 private int largestPoolSize;   //用来记录线程池中曾经出现过的最大线程数
  
 private long completedTaskCount;   //用来记录已经执行完毕的任务个数
-</code></pre>
-
-<p>　　下面我们看一下ThreadPoolExecutor的核心方法execute()，源码如下：</p>
-
+</code></pre><p>　　下面我们看一下ThreadPoolExecutor的核心方法execute()，源码如下：</p>
 <pre><code>    public void execute(Runnable command) {
         if (command == null)
             throw new NullPointerException();
@@ -402,12 +381,9 @@ private long completedTaskCount;   //用来记录已经执行完毕的任务个�
         else if (!addWorker(command, false))           //线程池处于shutdown以上的状态，拒绝。
             reject(command);
     }
-</code></pre>
-
-<p>　　上面execute()方法中，首先判断当前运行的线程数是否小于核心线程数，小于则直接创建一个核心线程来执行该任务；否则就尝试将其添加至阻塞队列中，添加成功后，再次判断一下当前有没有正在执行任务的
+</code></pre><p>　　上面execute()方法中，首先判断当前运行的线程数是否小于核心线程数，小于则直接创建一个核心线程来执行该任务；否则就尝试将其添加至阻塞队列中，添加成功后，再次判断一下当前有没有正在执行任务的
 线程，<strong>防止刚添加进来就没有工作线程worker了</strong>，如果添加不成功，则队列已满，会直接拒绝该任务。execute()的核心方法是addWorker()方法，这里面确保了每一个工作线程worker，在执行完任务以后
 ，就直接去队列头部取任务了。代码如下：</p>
-
 <pre><code>    private boolean addWorker(Runnable firstTask, boolean core) {
         retry:
         for (;;) {
@@ -475,7 +451,6 @@ private long completedTaskCount;   //用来记录已经执行完毕的任务个�
         return workerStarted;
     }
 </code></pre>
-
     </div>
 
     
@@ -580,7 +555,7 @@ private long completedTaskCount;   //用来记录已经执行完毕的任务个�
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Records</title>
@@ -6,10 +6,42 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 23 Nov 2020 21:54:30 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jan 2021 16:09:15 +0800</lastBuildDate><atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java基础-并发</title>
+      <link>https://monkback.github.io/post/java/basic-concurrency/</link>
+      <pubDate>Wed, 20 Jan 2021 16:09:15 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/java/basic-concurrency/</guid>
+      <description>线程 blocked状态往往是进入同步代码块之前获取锁失败而导致的，也就是进入一段synchronized方法块；而ReentrantLock</description>
+    </item>
     
-	<atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>学习HashMap</title>
+      <link>https://monkback.github.io/post/java/hashmap/</link>
+      <pubDate>Tue, 19 Jan 2021 10:14:49 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/java/hashmap/</guid>
+      <description></description>
+    </item>
     
+    <item>
+      <title>一些关于Java的基础知识</title>
+      <link>https://monkback.github.io/post/java/basic/</link>
+      <pubDate>Fri, 15 Jan 2021 10:56:53 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/java/basic/</guid>
+      <description>最近开始看Java guide的基础知识，作为查漏补缺使用，发现还是有听过概念之前没有搞德特别清楚的，下面做一些记录。 一些Java中的关键字 final</description>
+    </item>
+    
+    <item>
+      <title>Mysql 45讲读书笔记</title>
+      <link>https://monkback.github.io/post/mysql/mysql-45/</link>
+      <pubDate>Mon, 21 Dec 2020 15:14:32 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/mysql/mysql-45/</guid>
+      <description>第一讲：MySQL基础架构 这一章主要还是将MySQL的几个部分：首先是连接器负责连接管理，权限校验等；然后是分析器负责语法分析、词法分析；优</description>
+    </item>
     
     <item>
       <title>读MySQL相关书</title>
@@ -71,7 +103,7 @@
       <pubDate>Mon, 10 Aug 2020 15:24:03 +0800</pubDate>
       
       <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-stack/</guid>
-      <description>这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &amp;lsquo;(&amp;lsquo;，&amp;rsquo;</description>
+      <description>这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &amp;lsquo;(&#39;，&#39;)&#39;，&#39;{&#39;，&#39;}&#39;，&#39;</description>
     </item>
     
     <item>

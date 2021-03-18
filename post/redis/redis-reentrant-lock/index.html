@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/redis/redis-reentrant-lock/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="Redis 分布式锁的可重入" />
 <meta property="og:description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/redis/redis-reentrant-lock/" />
-<meta property="article:published_time" content="2019-12-25T15:38:33+08:00" />
-<meta property="article:modified_time" content="2019-12-25T15:38:33+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/redis/redis-reentrant-lock/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-12-25T15:38:33&#43;08:00" />
+<meta property="article:modified_time" content="2019-12-25T15:38:33&#43;08:00" />
+
 <meta itemprop="name" content="Redis 分布式锁的可重入">
-<meta itemprop="description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位">
-
-
-<meta itemprop="datePublished" content="2019-12-25T15:38:33&#43;08:00" />
+<meta itemprop="description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位"><meta itemprop="datePublished" content="2019-12-25T15:38:33&#43;08:00" />
 <meta itemprop="dateModified" content="2019-12-25T15:38:33&#43;08:00" />
 <meta itemprop="wordCount" content="714">
-
-
-
-<meta itemprop="keywords" content="工作,Redis," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="工作,Redis," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Redis 分布式锁的可重入"/>
 <meta name="twitter:description" content="最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上 就是用命令setnx ex来占据一个坑位"/>
 
@@ -243,14 +237,11 @@
     <div class="post-content">
       <p>最近在看《Redis 深度历险》这本书，我们都知道Redis用来实现分布式锁是一种常用的技术方案，本质上
 就是用命令setnx ex来占据一个坑位。在Java里面体现出来可能是这样一行代码</p>
-
 <pre><code>jedis.set(lockKey, lockValue, &quot;NX&quot;, &quot;PX&quot;, expireTime);
 </code></pre>
-
 <p>但是这样在加锁方式是不支持线程重入的，即同一个线程在持有锁的情况下再次请求加锁，此时是会失败
 的。需要在set外层加一个包装，使其支持可重入。既然需要同一个线程再次持有，那么往往都需要引入
 一个ThreadLocal&lt;&gt;。我先实现一个简单版的，在ThreadLocal里保存当前线程的线程id。如下代码</p>
-
 <pre><code>package deregister;
 
 import redis.clients.jedis.Jedis;
@@ -285,16 +276,13 @@ public class ReentrantLockRedis {
 
 }
 </code></pre>
-
 <p>上述代码其实就能实现分布式锁的可重入。下面我们来看一下稍微复杂一点的，他在ThreadLocal里面
 保存一个Map，即每个线程都持有一个自己的Map；Map的key就是Redis的key，value是这个key被
 获取的次数。代码如下，其实也挺容易理解的。不过这本书的作者不建议在Redis操作的外层封装，来支持
 线程重入，应该在业务角度考虑，是否有其他替代方案。原话为</p>
-
 <blockquote>
 <p>它加重了客户端的复杂性，在编写业务方法时注意在逻辑结构上进行调整完全可以不使用可重入锁</p>
 </blockquote>
-
 <pre><code>package deregister;
 
 import redis.clients.jedis.Jedis;
@@ -467,7 +455,7 @@ public class ReentrantLockRedisMore {
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

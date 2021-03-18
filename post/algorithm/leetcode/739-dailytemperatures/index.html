@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/algorithm/leetcode/739-dailytemperatures/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="739 Daily Temperatures" />
 <meta property="og:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76," />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/algorithm/leetcode/739-dailytemperatures/" />
-<meta property="article:published_time" content="2019-10-22T20:19:40+08:00" />
-<meta property="article:modified_time" content="2019-10-22T20:19:40+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/leetcode/739-dailytemperatures/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-10-22T20:19:40&#43;08:00" />
+<meta property="article:modified_time" content="2019-10-22T20:19:40&#43;08:00" />
+
 <meta itemprop="name" content="739 Daily Temperatures">
-<meta itemprop="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,">
-
-
-<meta itemprop="datePublished" content="2019-10-22T20:19:40&#43;08:00" />
+<meta itemprop="description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,"><meta itemprop="datePublished" content="2019-10-22T20:19:40&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-22T20:19:40&#43;08:00" />
 <meta itemprop="wordCount" content="1407">
-
-
-
-<meta itemprop="keywords" content="Leetcode," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Leetcode," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="739 Daily Temperatures"/>
 <meta name="twitter:description" content="739-dailyTemperatures 题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead. For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76,"/>
 
@@ -241,25 +235,15 @@
 
     
     <div class="post-content">
-      
-
-<h4 id="739-dailytemperatures">739-dailyTemperatures</h4>
-
+      <h4 id="739-dailytemperatures">739-dailyTemperatures</h4>
 <p>题目：Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.</p>
-
 <p>For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].</p>
-
 <p>Note:
-     The length of temperatures will be in the range [1, 30000].</p>
-
+The length of temperatures will be in the range [1, 30000].</p>
 <p>Each temperature will be an integer in the range [30, 100].</p>
-
 <p>Related Topics Hash Table Stack</p>
-
 <p>题目本身很容易理解，找到当前数字右边第一个比它大的数，求一个距离。最先想到的就是一个暴力求解，两次for循环可以搞定，但时间复杂度是O(n^2)。</p>
-
 <p>解法一：</p>
-
 <pre><code>public int[] dailyTemperatures(int[] T) {
 
     int[] result = new int[T.length];
@@ -276,34 +260,22 @@
     return result;
 }
 </code></pre>
-
 <p>这个解法用LeetCode插件提交的结果是：</p>
-
 <p>执行耗时:221 ms,击败了12.97% 的Java用户     内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
 <p>解法二：使用一个栈。栈中存放的是当前数字在数组中的index。遍历数组：如果栈为空或者当前数字小于栈顶索引对应的数字，则将当前索引入栈；否则，栈顶元素弹出，表明此索引对应的数字遇到了一个更大的，
 当前索引和栈顶元素的差值即是栈顶元素的天数。例如数组[73, 74, 75, 71, 69, 72, 76, 73]：假设for (int i = 0; i &lt; T.length; i++)
 首先i = 0，栈为空，0入栈；</p>
-
 <p>第二轮i = 1，发现74 &gt; 73，将0弹出，i和栈顶元素0差值为1，result[栈顶元素0] = 1；栈已空，将1入栈；</p>
-
 <p>第三轮i = 2，发现75 &gt; 当前栈顶元素1对应的数字74，将1弹出，i和栈顶元素1的差值为1，result[栈顶元素1] = 1；栈已空，将2入栈；</p>
-
 <p>第三轮i = 3，发现71 &lt; 当前栈顶元素2对应的数字75，将3入栈，此时栈元素为3,2</p>
-
 <p>第四轮i = 4，发现69 &lt; 当前栈顶元素3对应的数字71，将4入栈，此时栈元素为4,3,2</p>
-
 <p>第五轮i = 5，发现72 &gt; 当前栈顶元素4对应的数字69，将4弹出，i和栈顶元素4的差值为1，result[栈顶元素4] = 1；此时栈元素还有3,2
-   继续判断，发现72 &gt; 当前栈顶元素3对应的数字71，将3弹出，i和栈顶元素3的差值为2，result[栈顶元素3] = 2；此时栈元素还有2
-   继续判断，发现72 &lt; 当前栈顶元素2对应的数字75，将5入栈，此时栈元素为5,2</p>
-
+继续判断，发现72 &gt; 当前栈顶元素3对应的数字71，将3弹出，i和栈顶元素3的差值为2，result[栈顶元素3] = 2；此时栈元素还有2
+继续判断，发现72 &lt; 当前栈顶元素2对应的数字75，将5入栈，此时栈元素为5,2</p>
 <p>第六轮i = 6，发现76 &gt; 当前栈顶元素5对应的数字72，将5弹出，i和栈顶元素5的差值为1，result[栈顶元素5] = 1；此时栈元素还有2
-   继续判断，发现76 &gt; 当前栈顶元素2对应的数字75，将2弹出，i和栈顶元素2的差值为4，result[栈顶元素2] = 4；此时栈已空，将6入栈</p>
-
+继续判断，发现76 &gt; 当前栈顶元素2对应的数字75，将2弹出，i和栈顶元素2的差值为4，result[栈顶元素2] = 4；此时栈已空，将6入栈</p>
 <p>第七轮i = 7，发现73 &lt; 当前栈顶元素6对应的数字76，将7入栈，此时栈元素为7,6</p>
-
 <p>遍历结束，此时已经求出result[]中的结果，没有的则默认为0。代码如下：</p>
-
 <pre><code>int[] result = new int[T.length];
 Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
 for (int i = 0; i &lt; T.length; i++) {
@@ -318,9 +290,7 @@ for (int i = 0; i &lt; T.length; i++) {
     }
 }
 </code></pre>
-
 <p>简化一下就是下面的代码：</p>
-
 <pre><code>int[] result = new int[T.length];
 Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
 for (int i = 0; i &lt; T.length; i++) {
@@ -331,13 +301,9 @@ for (int i = 0; i &lt; T.length; i++) {
     stack.push(i);
 }
 </code></pre>
-
 <p>解法二的运行结果是：</p>
-
 <p>执行耗时:52 ms,击败了49.58% 的Java用户    内存消耗:42.7 MB,击败了91.53% 的Java用户</p>
-
 <p>对于Java程序来说，把stack替换成ArrayDeque，会使得效率更高，任何使用stack的地方都可以考虑ArrayDeque是否可以替代，具体差异我还没有仔细研究过，替换后的运行结果是：</p>
-
 <p>执行耗时:42 ms,击败了63.21% 的Java用户    内存消耗:42.3 MB,击败了94.92% 的Java用户</p>
 
     </div>
@@ -444,7 +410,7 @@ for (int i = 0; i &lt; T.length; i++) {
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

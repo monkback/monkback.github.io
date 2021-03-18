@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/juc/object/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="对象的初始化安全—论static和final" />
 <meta property="og:description" content="我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null ，boolean变" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/juc/object/" />
-<meta property="article:published_time" content="2020-04-19T18:13:56+08:00" />
-<meta property="article:modified_time" content="2020-04-19T18:13:56+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/juc/object/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-04-19T18:13:56&#43;08:00" />
+<meta property="article:modified_time" content="2020-04-19T18:13:56&#43;08:00" />
+
 <meta itemprop="name" content="对象的初始化安全—论static和final">
-<meta itemprop="description" content="我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null ，boolean变">
-
-
-<meta itemprop="datePublished" content="2020-04-19T18:13:56&#43;08:00" />
+<meta itemprop="description" content="我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null ，boolean变"><meta itemprop="datePublished" content="2020-04-19T18:13:56&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-19T18:13:56&#43;08:00" />
 <meta itemprop="wordCount" content="637">
-
-
-
-<meta itemprop="keywords" content="Java多线程,JVM," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Java多线程,JVM," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="对象的初始化安全—论static和final"/>
 <meta name="twitter:description" content="我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null ，boolean变"/>
 
@@ -244,13 +238,10 @@
       <p>我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null
 ，boolean变量就是false)，直到有个线程首次访问了该类的任意一个静态变量才使得这个类被初始化，然后类的静态初始化块
 (static{})会执行，接下来类的所有静态变量被赋予初始值。（即延迟加载）</p>
-
 <p>final附带的语义是：当一个对象被发布到其他线程的时候，该对象的所有final字段（实例变量）都是初始化完毕的，即其他
 线程读取这些字段的时候所读取到的值都是相应字段的初始值（而不是默认值），而非final字段没有这种保障。对于引用型final
 字段，final关键字还进一步确保该字段所引用的对象已经初始化完毕。</p>
-
 <p>一个严格意义上的不可变对象需要同时满足以下几个条件：</p>
-
 <ul>
 <li>类本身用final修饰：防止通过创建子类从而改变其行为</li>
 <li>所有字段都是用final修饰的：一方面从语义上说明被修饰字段不可变；另一个更重要的是，这个语义在多线程环境下
@@ -259,7 +250,6 @@
 <li>任何字段，如果引用了其他状态可变的对象（数组，集合等），则这些字段必须为private，并且这些字段值不能对外
 暴露。若有相关方法返回这些字段值，则应该进行防御性复制(defensive copy)</li>
 </ul>
-
 <p>ThreadLocal变量通常会被声明为某个类的静态变量</p>
 
     </div>
@@ -367,7 +357,7 @@
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

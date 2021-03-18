@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/algorithm/sortalgorithm/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="常用排序算法" />
 <meta property="og:description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/algorithm/sortalgorithm/" />
-<meta property="article:published_time" content="2020-05-15T10:57:50+08:00" />
-<meta property="article:modified_time" content="2020-05-15T10:57:50+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/sortalgorithm/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-15T10:57:50&#43;08:00" />
+<meta property="article:modified_time" content="2020-05-15T10:57:50&#43;08:00" />
+
 <meta itemprop="name" content="常用排序算法">
-<meta itemprop="description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个">
-
-
-<meta itemprop="datePublished" content="2020-05-15T10:57:50&#43;08:00" />
+<meta itemprop="description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个"><meta itemprop="datePublished" content="2020-05-15T10:57:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-15T10:57:50&#43;08:00" />
-<meta itemprop="wordCount" content="6915">
-
-
-
-<meta itemprop="keywords" content="算法," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="6911">
+<meta itemprop="keywords" content="算法," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="常用排序算法"/>
 <meta name="twitter:description" content="一 冒泡排序 通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个"/>
 
@@ -241,11 +235,9 @@
 
     
     <div class="post-content">
-      <p><big><strong>一　冒泡排序</strong></big></p>
-
+      <p><!-- raw HTML omitted --><!-- raw HTML omitted -->一　冒泡排序<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>　　通过n次冒泡的过程，让每个元素放到合适的位置。第一次冒泡，让将最大的元素放在最后一个位置；第二次冒泡，让第二大的元素放在倒数第二个位置，以此类推。每一次冒泡的过程是：依次比较相邻的两个
 元素，如果前一个较大就交换，思路比较清晰，代码如下：</p>
-
 <pre><code>private static void bubbleSort(int[] arr) {
     for (int i = 0; i &lt; arr.length; i++) {   //外层循环控制n次冒泡
         for (int j = 1; j &lt; arr.length - i; j++) {  //内层循环无需到底，因为最末尾的元素已经有序了
@@ -258,11 +250,9 @@
     }
 }
 </code></pre>
-
 <p>　　每一次比较冒泡都是在比较两两相邻元素的关系，事实上，在这个里面还有一个优化空间。比如数组[3,2,4,6]，你第一次冒泡后变成了[2,3,4,6]，这时候已经是有序的了，你进行第二次冒泡，发现没有
 进行元素交换的操作，那么你就没有必要进行后面的冒泡操作了，因此可以在上面代码里面增加一个标识位，标识本次冒泡操作是否进行了数据交换：如果没有，那么意味着数组已经有序，无需进行后面的冒泡操作；
 如果有，那么下面的冒泡操作仍需进行，代码如下，也比较简单，这是一种减少了后续比较操作的思路!</p>
-
 <pre><code>private static void bubbleSort2(int[] arr) {
 
     for (int i = 0; i &lt; arr.length; i++) {   //外层循环控制n次冒泡
@@ -279,33 +269,26 @@
     }
 }
 </code></pre>
-
 <p>　　冒泡排序都是在元数组上进行两两交换，空间复杂度为O(1),因此是原地排序。而且，只有在前一个元素大于后面元素的时候，我们才进行交换操作，而不是大于等于，因此它也是稳定的。对于最好情况下的
 时间复杂度，可以看到优化前，你是需要n次冒泡的，所以还是O(n^2)，但是优化后，由于可以提前退出外层for循环了，所以最好情况下(原数组已经有序)，你只需要一次冒泡操作，时间复杂度只有O(n)，所以
 这个标识还是比较有用的。最坏情况下，加不加提前退出标识都一样，时间复杂度都是O(n^2)。</p>
-
 <p>　　平均情况下的时间复杂度，一种思维模式是，看这个数组究竟有多少种排列方式(其实是n!种)，对于每一种排列方式，它的时间复杂度
 也有所不同，会比较复杂。这里提供一个所有排序算法通用的思路，即逆序对，你所有的排序算法本质上都是在消除逆序对，逆序对越少，
 原数组越接近有序。即对于数组中任意两个元素，如果i &lt; j且a[i] &gt; a[j]，那么这两个元素构成一个逆序对。后面我们会看到，有些
 排序算法高效的地方就在于，它<strong>一次交换操作可以消除多个逆序对</strong>。有序对的定义就是正好相反的。</p>
-
 <p>　　举一个例子，一个数组[4,5,6,3,2,1]，它的有序对有(4,5)、(4,6)、(5,6)，一共3个，一共6个元素，那么排好序以后，
 <strong>满有序对</strong>就是15个，你可以自己算一下。逆序对为15-3 = 12个，你排序的目的就是要消除这12个逆序对。而对于冒泡排序来说，
 你每一次交换操作，就消除了一个逆序对。也就是 交换次数恒等于逆序对的数目。</p>
-
 <p>　　对于包含n个元素的数组，最好情况下，初识时候逆序对已经是0了，那么你就不需要交换操作了，一次冒泡搞定；最坏情况下，初识时
 完全逆序，逆序对为n*(n-1)/2，那么就需要这么多次交换操作。所以平均情况下可以简单取一个两者的平均，即平均情况下时间复杂度
 也是O(n^2)。</p>
-
-<p><big><strong>二　插入排序</strong></big></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->二　插入排序<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>　　插入排序就是从数组的第二个元素开始，依次和前半段的元素比较，找到合适的位置，向后移动元素腾出位置，再把待插入的元素填
 进去，这里有一个核心思维是，你如果要把一组元素后移，那么你肯定是要从最后一个元素开始，一个一个移动，腾出的位置前一个就能填
 进来，你要从第一个开始就会比较麻烦，涉及到先保存后面一个元素。插入排序的思想其实比较简单，就是找位置，移动，然后填充进去，
 找位置就是从前半段有序的数组中找到合适的插入位置，可以从前向后找，也可以从后往前找，当你实际写代码的时候就会发现，从后往
 前找要容易实现得多。
 但是要写出一个bug-free的插入排序并不那么容易。可以先看下代码：</p>
-
 <pre><code>private static void insertionSort(int[] arr) {
     for (int i = 1; i &lt; arr.length; i++) {
         int value = arr[i];        //这一步的先行保存下待比较的元素，最后需要把它放到合适的位置去  
@@ -322,21 +305,16 @@
     }
 }
 </code></pre>
-
 <p>　　针对每一个元素，都和前面已经排好序的数组元素一一比较，从后往前比较，如果比最后一个还大，那就不用动了；这一点上是
 减少了比较次数的，而且从后往前比较，方便从后往前移动元素。同理，这也是一个原地排序，不需要开辟新的内存空间；而且这也是一个
 稳定的排序，只有在后面元素更小的时候才会移动，否则是不动的；最好情况下，数组已经有序，不需要移动元素，是O(n)的时间复杂度，
 这次是因为需要从前往后遍历一次元素，比较一次就break了；最坏情况下，要移动每一个元素，时间复杂度为O(n^2)；平均情况下的
 时间复杂度也是O(n^2)，因为我们总是需要向一个有序数组中插入新的元素。</p>
-
 <p>　　插入排序的数据移动次数也是就等于逆序对的数目，你有多少个逆序对，就需要移动多少次元素。</p>
-
-<p><big><strong>三　选择排序</strong></big></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->三　选择排序<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>　　插入排序相当于是将整个数组分为前半部分的已排序数组和后半部分的未排序数组，每次从后面拿一个元素，插入到前面已经排好序的
 数组中；而选择排序也是将整个数组分为两半部分，但是每次是在后半部分的数组中<strong>选择最小的元素</strong>，放入到前半部分数组的末尾。
 代码如下：</p>
-
 <pre><code>private static void selectionSort(int[] arr) {
     for (int i = 0; i &lt; arr.length; i++) {
         int min = i;         //用min来保存内层循环中找到的最小元素的索引，在外层循环进行这一次交换操作
@@ -353,27 +331,21 @@
     }
 }
 </code></pre>
-
 <p>　　上面就是选择排序的代码了，其实思路很容易理解；就是永远在后半数组中找最小的元素，然后和它交换，这次交换其实就是在<strong>挑选出最小的元素</strong>，放在有序数组的末尾，这里的思路是使用min在记录
 后面数组中最小元素的位置，如果找到了就交换。显然，选择排序也是一个原地排序算法，空间复杂度O(1)；而且<strong>最好、最坏、平均情况下的时间复杂度都是O(n^2)</strong>，即使原数组已经有序，你还是少不了
 内层遍历后续元素去进行比较。那么你再推导一下就发现，选择排序并不是一个稳定的排序算法，比如对于数组[5,3,5,7,4]，会经历[3,5,5,7,4]-&gt;[3,4,5,7,5]-&gt;[3,4,5,5,7]。在第二次选择的时候
 第一个5已经跑到最后面去了，两个5的先后顺序发生了变化。</p>
-
 <p>　　思考两个问题：1、复杂度都是O(n^2)，插入排序和冒泡排序哪一种更好？  2、插入排序是否还有优化空间？</p>
-
 <p>　　答案：1、我们前面看到对于一个数组来讲，冒泡排序的交换次数等于数组中的逆序对数目，交换是通过一个临时变量来做的，一共三次
 赋值操作；插入排序的数据移动次数也<strong>等于数组中逆序对的数目</strong>，移动是通过arr[j + 1] = arr[j]这一步赋值操作来做的；
 可以看到插入排序所需要的操作明显更少，因此其效率会更高。2、插入排序每次移动操作都是在消除一个逆序对，事实上，能不能在此基础
 一次移动操作消除多个逆序对呢？，学习一下
 <strong><a href="https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F">希尔排序</a></strong>。</p>
-
-<p><big><strong>四　归并排序</strong></big></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->四　归并排序<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>　　归并排序的核心思想是分治，分而治之，将大问题分解为子问题进行求解，先将待排序数组从中间分为两部分，依次对前后两部分
 数组分别排序，再将两个有序数组进行合并，使得数组整体有序。回想一下之前什么问题可以使用递归来解决？一要原问题可以分解为子
 问题，二是子问题的求解方式和原问题是一样的，三是这个过程存在终止条件，即子问题分解到多细粒度以后就可以停止分解了，直接
 求解。这个和分治思维是很相似的，简单来说，分治是一种解决问题的处理思想，而递归是一种编程技巧。</p>
-
 <pre><code>
 private static void mergeSort(int[] arr, int start, int end) {
     if (start &gt;= end) return;
@@ -406,24 +378,17 @@ private static void merge(int[] arr, int start, int middle, int end) {
     }
 }
 
-</code></pre>
-
-<p>　　上面是归并排序代码的Java实现，你需要注意的是，在merge函数中，最后拷贝的那一步，将temp数组中的元素复制给原数组中
+</code></pre><p>　　上面是归并排序代码的Java实现，你需要注意的是，在merge函数中，最后拷贝的那一步，将temp数组中的元素复制给原数组中
 <strong>相应位置上</strong>，arr[index + start] = temp[index]，这一步是其核心。归并排序也是一个稳定的排序算法，因为我们在
 比较前后两半部分数组的元素大小时，前面的小我们就拷贝前面的，否则拷贝后面的，两个相等元素的前后位置并不会发生变化。</p>
-
-<p>　　归并排序的时间复杂度是O(n*log(n))，而且，最好、最坏以及平均情况下的时间复杂度都是O(n*log(n))，这一点，即使是快排
+<p>　　归并排序的时间复杂度是O(n<em>log(n))，而且，最好、最坏以及平均情况下的时间复杂度都是O(n</em>log(n))，这一点，即使是快排
 也无法做到，快排在最坏情况下的时间复杂度是O(n^2)，但是归并排序并没有快排应用那么广泛，因为归并排序并非一个原地排序算法，
 它在排序过程中需要额外的存储空间，空间复杂度为O(n)。</p>
-
-<p><big><strong>五　快速排序</strong></big></p>
-
-<p>　　快速排序也利用了&rdquo;分治&rdquo;的思想，即把大问题分解为小问题来解决，它的思路是这样的：如果我们要排序数组中从下标p到下标r之间
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->五　快速排序<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>　　快速排序也利用了&quot;分治&quot;的思想，即把大问题分解为小问题来解决，它的思路是这样的：如果我们要排序数组中从下标p到下标r之间
 的一组数据，我们选择p到r之间的任意一个数据作为pivot(分区点)，然后遍历数组，将值小于pivot的放在左边，大于pivot的放在
 右边，这样下标p到r之间的数据就被分为了三个部分：左边的是小于pivot的数据，中间是pivot，右边的都是大于pivot的数据。</p>
-
 <p>　　将上面的步骤递归下去，直到区间缩小为1，就最终得到了整个有序的数组。伪代码如下：</p>
-
 <pre><code>    // 快速排序，A是数组，n表示数组的大小
     quick_sort(A, n) {
         quick_sort_c(A, 0, n-1)
@@ -435,25 +400,19 @@ private static void merge(int[] arr, int start, int middle, int end) {
         quick_sort_c(A, p, q-1)
         quick_sort_c(A, q+1, r)
     }
-</code></pre>
-
-<p>　　整体流程上和归并排序比较相似，归并排序的核心函数在于merge函数，快排的核心函数在于partition()函数，它的作用就是随机
+</code></pre><p>　　整体流程上和归并排序比较相似，归并排序的核心函数在于merge函数，快排的核心函数在于partition()函数，它的作用就是随机
 选择一个分区点pivot（往往我们在代码实现的时候选取的数组最后一个元素），对整个数组进行分区，然后返回pivot的下标。</p>
-
 <p>　　１） 仿照归并排序，在不考虑内存消耗的情况下，假如我们可以开辟新的内存空间，那么我们在partition()函数中，可以分别
 创建出两个新的数组，遍历原数组，将小于pivot的元素拷贝到数组A，大于pivot的元素拷贝到数组B，最后再将数组A和数组B的元素
 拷贝回原数组。</p>
-
 <p>　　２） 按照上面的思路，快排就不是一个原地排序了，我们想尽量让快排的空间复杂度是O(1)，因此我们需要在原地完成数组的
 分区操作。</p>
-
 <p>　　看一下王争提供的这种快速排序算法的代码，不过我个人认为这种不太容易理解：这里的处理有点类似选择排序：
 通过游标i把A[p…r-1]分成两部分。A[p…i-1]的元素都是小于pivot的，我们暂且叫它“已处理区间”，A[i…r-1]是“未处理区间”。
 我们每次都从未处理的区间A[i…r-1]中取一个元素A[j]，与pivot对比，如果小于pivot，则将其加入到已处理区间的尾部，也就
 是A[i]的位置。数组的插入操作还记得吗？在数组某个位置插入元素，需要搬移数据，非常耗时。当时我们也讲了一种处理技巧，就是
 交换，在O(1)的时间复杂度内完成插入操作。这里我们也借助这个思想，只需要将A[i]与A[j]交换，就可以在O(1)时间复杂度内
 将A[j]放到下标为i的位置。</p>
-
 <pre><code>    private static void quickSort(int[] arr, int start, int end) {
         if (start &gt;= end) return;
         int pivot = partition(arr, start, end);
@@ -477,23 +436,18 @@ private static void merge(int[] arr, int start, int middle, int end) {
         arr[r] = temp;
         return i;
     }
-</code></pre>
-
-<p>　　从上面的过程中，可以看出来快排是一个不稳定的排序算法。如果每次分区操作，都能恰好将数组一分为二，两个区间的元素个数
+</code></pre><p>　　从上面的过程中，可以看出来快排是一个不稳定的排序算法。如果每次分区操作，都能恰好将数组一分为二，两个区间的元素个数
 接近相等，那么我们的快排时间复杂度也是O(n*log(n))，但是实际上这种情况比较难以实现：如果在极端情况下，一个已经有序的
 数组，我们每次区间划分都是极不均等的，就会需要进行大约n次划分，才能完成整个过程，这样时间复杂度就会退化到O(n^2)，平均情
 况下的时间复杂度为O(n * log(n))。</p>
-
 <p>　　对比归并排序，我们发现，归并排序是自底向上的，先处理子问题，再进行合并；快排恰好相反，它的处理过程是由上向下的，先进行
 分区，然后再处理子分区。</p>
-
 <p>　　现在我们来思考这一个问题：如何求一个无序数组中的第K大的元素？，很显然，你要是用一个排序算法把这个数组排序一下就没有
 意义了，至少也需要O(n * log(n))的时间复杂度，有了上面的思路，我们就可以用partition分区函数，将整个过程的时间复杂度
 降为O(n)，简单来说，就是选择数组区间A[0…n-1]的最后一个元素A[n-1]作为pivot，对数组A[0…n-1]原地分区，这样数组就
 分成了三部分，A[0…p-1]、A[p]、A[p+1…n-1]。如果p+1=K，那A[p]就是要求解的元素；如果K&gt;p+1, 说明第K大元素出现
 在A[p+1…n-1]区间，我们再按照上面的思路递归地在A[p+1…n-1]这个区间内查找。同理，如果K&lt;p+1，那我们就在A[0…p-1]
 区间查找。复用前面的分区函数，代码如下：</p>
-
 <pre><code>    private static int partition(int[] arr, int p, int r) {
         int pivot = arr[r];
         int i = p;
@@ -523,31 +477,21 @@ private static void merge(int[] arr, int start, int middle, int end) {
         }
         return result;
     }
-</code></pre>
-
-<p><big><strong>六　桶排序</strong></big></p>
-
+</code></pre><p><!-- raw HTML omitted --><!-- raw HTML omitted -->六　桶排序<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>　　桶排序，即这是一个理想情况下接近O(n)时间复杂度的排序算法，核心思想就是将待排序的数据划分到几个<strong>有序的桶</strong>里面，每个桶里的数据再进行单独排序，桶内数据排好序以后，再按顺序将各个桶的数据
 取出即可。但是接近O(n)的时间复杂度也是有条件的，首先，数据在各个桶内要分布均匀；其次，只有在桶的个数接近于数据数目时，复杂度才会退化到O(n)。</p>
-
 <p>　　桶排序多用于外部排序的情况，即数据量较大，无法一次将数据全部load到内存中进行排序。</p>
-
-<p><big><strong>七　计数排序</strong></big></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->七　计数排序<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>　　计数排序，本质上是一种特殊的桶排序。比如，当待排序的n个数据，所处范围并不大时，比如最大值为k，那么我们就可以将数据划分为k + 1个桶，每个桶内的数据都是相等的，这样相比于桶排序，还省去了
 桶内一次排序的时间。这个思想有点像我们使用位图来存储某些数据时，比如我需要存储记录一年中每一天是否是晴天，你可以用一个map，key为日期，value是true或false。；也可以使用一个位图，一共只
 需要365位，每一位都是0或1，这样可以节省存储。</p>
-
 <p>　　这里举了一个计数排序的例子，比如，现在假设有500w考生的高考成绩，我们需要对其进行排序（忽略事实上500w直接load到内存排的情况）。这里就很适用我们的计数排序了，因为分数的范围并不大，是
 0-900，那么我们可以将分数划分到901个桶内，每个桶内存储的都是等于这个当前这个分数的人数，计数排序非常适用这种数据量远大于数据范围的情况，王争在这一章中提供了一种非常容易实现的算法，但是
 需要较多的图才比较容易理解，这里就不总结了。反正我跟着理解一遍后，实现的代码是很容易写出来的，这里也没太大的必要把代码贴出来。</p>
-
-<p><big><strong>总结</strong></big></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted -->总结<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>　　上面大概介绍了几种常用的排序算法，事实上，堆排序也比较常用；我们最常用的其实是快排，前面提到如果分区点pivot选择的不好，
 快排就会退化为O(n^2)的时间复杂度，所以我们可以通过尽量采用合理的分区点，来避免这种情况，理想的分区点，应该是分成的两个区域
 数据量差距不大。比较常用的方法有下面两种：</p>
-
 <ul>
 <li>1） 三数取中法：前面的快排实现代码中，我们为了简单总是选择最后一个元素作为分区点，如果数组本身就已经接近有序，这样就会划分
 的不够好，所以我们每次取pivot的时候，从区间的首、尾和中间各自取一个数，选取这三个数的中间值作为pivot，这样肯定会比简单的每次
@@ -556,11 +500,9 @@ private static void merge(int[] arr, int start, int middle, int end) {
 的角度来看，也不大可能会出现每次分区点都选的很差的情况，所以平均情况下，这样选的分区点是比较好的。时间复杂度退化为最糟糕
 的O(n2)的情况，出现的可能性不大。</li>
 </ul>
-
 <p>　　事实上，很多标准库里面实现的排序算法，比如C的qsort()，Java的Arrays.sort()，实现的时候都不只使用一种排序算法，往往在
 数据量较小的时候，优先使用归并排序来完成，因为此时的空间耗费是可以接受的；数据量较大时，才使用快速排序，在快速排序中对小区间再
 排序时，又可能使用插入排序。你最好花时间分析一下Java的默认sort实现方式，体会一下对性能的压榨。</p>
-
 <p>　　在Java8中的Arrays.sort()方法源码中，当数据量小于47时，采用插入排序；大于47而小于286时，使用<strong>双轴快排</strong>；大于286的
 时候使用TimSort，值得研究一番。</p>
 
@@ -668,7 +610,7 @@ private static void merge(int[] arr, int start, int middle, int end) {
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

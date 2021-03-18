@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/algorithm/binarysearch/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="BinarySearch及其变种" />
 <meta property="og:description" content="终于看到了王争的二分查找章节了，这其实是我一直以来的一个痛点，因为二分查找听起来简单，但它有各种变种，记得我之前找工作的时候 ，就没有掌握到二" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/algorithm/binarysearch/" />
-<meta property="article:published_time" content="2020-05-27T23:07:37+08:00" />
-<meta property="article:modified_time" content="2020-05-27T23:07:37+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/binarysearch/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-27T23:07:37&#43;08:00" />
+<meta property="article:modified_time" content="2020-05-27T23:07:37&#43;08:00" />
+
 <meta itemprop="name" content="BinarySearch及其变种">
-<meta itemprop="description" content="终于看到了王争的二分查找章节了，这其实是我一直以来的一个痛点，因为二分查找听起来简单，但它有各种变种，记得我之前找工作的时候 ，就没有掌握到二">
-
-
-<meta itemprop="datePublished" content="2020-05-27T23:07:37&#43;08:00" />
+<meta itemprop="description" content="终于看到了王争的二分查找章节了，这其实是我一直以来的一个痛点，因为二分查找听起来简单，但它有各种变种，记得我之前找工作的时候 ，就没有掌握到二"><meta itemprop="datePublished" content="2020-05-27T23:07:37&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-27T23:07:37&#43;08:00" />
 <meta itemprop="wordCount" content="3284">
-
-
-
-<meta itemprop="keywords" content="算法," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="算法," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="BinarySearch及其变种"/>
 <meta name="twitter:description" content="终于看到了王争的二分查找章节了，这其实是我一直以来的一个痛点，因为二分查找听起来简单，但它有各种变种，记得我之前找工作的时候 ，就没有掌握到二"/>
 
@@ -243,12 +237,9 @@
     <div class="post-content">
       <p>　　终于看到了王争的二分查找章节了，这其实是我一直以来的一个痛点，因为二分查找听起来简单，但它有各种变种，记得我之前找工作的时候
 ，就没有掌握到二分查找变种的精髓，面小米的时候二面被二分查找狠狠的虐了一次，这次一定要搞明白了。</p>
-
 <p>　　<strong>零、最简单版本二分查找</strong></p>
-
 <p>　　我们先来看最简单版本的二分查找，就是在一个无重复元素的有序数组中，查找值等于给定值的数据，并返回其下标，如果不存在则返回-1。
 直接看代码吧：</p>
-
 <pre><code>    private static int binarySearch(int[] arr, int value) {
         int low = 0;
         int high = arr.length - 1;
@@ -265,21 +256,16 @@
         }
         return -1;
     }
-</code></pre>
-
-<p>　　先来说明一下上述代码容易出错的几个地方，也就是二分查找的核心代码：</p>
-
+</code></pre><p>　　先来说明一下上述代码容易出错的几个地方，也就是二分查找的核心代码：</p>
 <ul>
 <li>1） low和high表示的是当前查找的范围，while循环退出的条件一定是low &gt; high 的时候；代码中的判断条件必须是while (left &lt;= right)，否则的话判断条件不完整，比如：
 array[3] = {1, 3, 5};待查找的键为5，此时在(low &lt; high)条件下就会找不到，因为low和high相等时，指向元素5，但是此时条件不成立，没有进入while()中。</li>
 <li>2） 取中间位置时，int middle = (low + high) / 2; 这行代码是会有问题的，如果low和high都比较大的话，可能发生溢出；
 因此这里正确的写法应该是<strong>int middle = low + (high - low)/ 2;</strong> 更进一步，这里我们可以不用除法，而是用位运算，但是需要
-注意<strong>位运算符的优先级</strong>，int middle = low + ((high - low) &gt;&gt; 1);</li>
+注意<strong>位运算符的优先级</strong>，int middle = low + ((high - low) &raquo; 1);</li>
 <li>3） high和low的更新，low需要middle - 1，high需要middle + 1，必须加减1。</li>
 </ul>
-
 <p>　　上面是我们使用循环实现的二分查找，当然也可以使用递归的代码，如下：</p>
-
 <pre><code>    private static int binarySearch(int[] arr, int value, int low, int high) {
         if (low &gt; high) return -1;
         int middle = low + ((high - low) &gt;&gt; 1);
@@ -291,17 +277,12 @@ array[3] = {1, 3, 5};待查找的键为5，此时在(low &lt; high)条件下就�
             return binarySearch(arr, value, low, middle - 1);
         }
     }
-</code></pre>
-
-<p>　　显然，二分查找很依赖底层数据的有序性，而且，存储结构必须是数组，因为我们需要支持随机访问，如果底层存储使用链表，那么就达不到
+</code></pre><p>　　显然，二分查找很依赖底层数据的有序性，而且，存储结构必须是数组，因为我们需要支持随机访问，如果底层存储使用链表，那么就达不到
 O(log(n))的查找时间复杂度了。再者，如果数组元素特别少，那么直接顺序遍历就可以了；如果元素特别多，那么要考虑是否能加载到内存中，
 毕竟我们底层需要一个数组来存储这些元素，这就意味着需要连续的内存空间。</p>
-
 <p>　　<strong>一、变种一：查找第一个值等于给定值的元素</strong></p>
-
 <p>　　第一部分我们学习了一下最简单的二分查找，数组中不存在重复元素，查找值等于给定值的元素位置。现在假设数组中存在重复元素，那么就不太一样了，我们先来看如何查找第一个值等于给定值的元素。
 比如数组[1,2,3,3,3,5,7]，在这个数组中查找3，那么应该返回2，第一个等于3的元素的下标是2。先看下代码：这个代码非常容易理解。</p>
-
 <pre><code>    private static int searchFirst(int[] arr, int value) {
         int low = 0;
         int high = arr.length - 1;
@@ -321,21 +302,15 @@ O(log(n))的查找时间复杂度了。再者，如果数组元素特别少，�
         }
         return -1;
     }
-</code></pre>
-
-<p>　　上面的代码是找第一个等于给定值的元素，可以看到，再判断arr[middle]和value的大小关系时，大于和小于都是不变的，但是当
+</code></pre><p>　　上面的代码是找第一个等于给定值的元素，可以看到，再判断arr[middle]和value的大小关系时，大于和小于都是不变的，但是当
 arr[middle]和value相等时，这下我们不能直接返回了，需要分情况讨论：如果middle等于0，表示数组中第一个元素就等于value，
 那么可以直接返回middle，或者arr[middle - 1] != value，那么有序数组中第一个等于value的肯定是middle，也是直接返回；</p>
-
 <p>　　但是如果arr[middle - 1] == value，那么说明在middle之前还有和value相等的元素，有几个我们不知道。那么我们还需要将
 缩小查找范围，继续在前半段区间内查找，将high赋值为middle - 1。本质上，上面这种写法就是在确定当arr[middle]等于value时，
 这个middle是不是我们要查找的第一个元素。</p>
-
 <p>　　<strong>二、变种二：查找最后一个值等于给定值的元素</strong></p>
-
 <p>　　这个和上面的是类似的，找第一个的时候，我们找到相等时还可能在前半段区间内查找，找最后一个的话，那我们还可能在后半段区间去查找
 ，代码如下：</p>
-
 <pre><code>    private static int searchLast(int[] arr, int value) {
         int low = 0;
         int high = arr.length - 1;
@@ -355,21 +330,16 @@ arr[middle]和value相等时，这下我们不能直接返回了，需要分情�
         }
         return -1;
     }
-</code></pre>
-
-<p>　　和找第一个等于的思维是一样的，这样是不是就相对容易理解多了？当arr[middle] == value的时候，如果middle已经是数组中最后
+</code></pre><p>　　和找第一个等于的思维是一样的，这样是不是就相对容易理解多了？当arr[middle] == value的时候，如果middle已经是数组中最后
 一个元素的下标了，那么就可以直接返回了，如果不是但arr[middle + 1]已经不等于value了，也可以直接返回middle。但是如果
 arr[middle + 1]也等于value，那么说明我们需要去数组的后半段中寻找，更新low为middle + 1。
 这两种要改造成递归代码也比较简单。</p>
-
 <p>　　<strong>三、变种三：查找第一个大于等于给定值的元素</strong></p>
-
 <p>　　还是一样的思路，不同之处在于：当arr[middle] &lt; value的时候，我们知道肯定需要在数组后半段去查找，low = middle + 1没
 问题；但是当arr[middle] &gt;= value时，我们就需要看这个arr[middle]是不是我们想要找的元素了，简单来说，如果middle等于0，
 那这个肯定是第一个大于等于value的；如果middle不等于0，不过arr[middle - 1] &lt; value，那middle也是符合我们查找条件的，
 可以直接返回middle；但是如果arr[middle - 1]也不小于value，那说明middle不是我们要找的第一个大于等于value的，要继续在
 数组的前半段区间中查找，high = middle - 1。是不是发现梳理清楚以后并没有那么难？</p>
-
 <pre><code>    private static int searchFirstLarger(int[] arr, int value) {
         int low = 0;
         int high = arr.length - 1;
@@ -387,16 +357,12 @@ arr[middle + 1]也等于value，那么说明我们需要去数组的后半段中
         }
         return -1;
     }
-</code></pre>
-
-<p>　　<strong>四、变种四：查找最后一个小于等于给定值的元素</strong></p>
-
+</code></pre><p>　　<strong>四、变种四：查找最后一个小于等于给定值的元素</strong></p>
 <p>　　这个和变种三是类似的，看下代码。不同之处就是判断条件了。如果arr[middle] &gt; value了，那肯定需要在数组的前半段区间去查找，
 high = middle - 1；如果arr[middle] &lt;= value，那又需要分情况讨论了：如果middle已经是数组中最后一个元素了，可以直接返
 回；如果middle不是数组中最后一个元素，但是arr[middle + 1] &gt;　value，那说明middle就是最后一个小于等于value的元素，直接
 返回middle；但是如果arr[middle + 1]也是小于等于value的，那说明middle肯定不是最后一个小于等于的，继续在后半段区间中去
 查找，low = middle + 1。</p>
-
 <pre><code>    private static int searchLastSmaller(int[] arr, int value) {
         int low = 0;
         int high = arr.length - 1;
@@ -414,13 +380,9 @@ high = middle - 1；如果arr[middle] &lt;= value，那又需要分情况讨论�
         }
         return -1;
     }
-</code></pre>
-
-<p>　　<strong>五、变种五：在一个循环数组中查找等于给定值的元素</strong></p>
-
+</code></pre><p>　　<strong>五、变种五：在一个循环数组中查找等于给定值的元素</strong></p>
 <p>　　循环数组意味着数组本身是两部分有序的，比如{6, 7, 9, 10, 14, 15, 1, 2, 4}，这样的数组两部分都是有序的，只不过从中间断开了，不过还是一样的思想，只不过你取到middle的时候，会有两种情况：
 前半部分有序，后半部分是一个更小的循环数组；或者相反，这下可以看代码了：</p>
-
 <pre><code>    private static int searchInLoopArr(int[] arr, int value) {
         int low = 0;
         int high = arr.length - 1;
@@ -445,12 +407,9 @@ high = middle - 1；如果arr[middle] &lt;= value，那又需要分情况讨论�
         }
         return -1;
     }
-</code></pre>
-
-<p>　　首先判断如果arr[middle] == value，那么直接返回。接下来就需要分情况讨论了，通过判断arr[low] 和 arr[middle]的大小关系，就能确定数组到底是前半段有序还是后半段有序了。假设arr[low] &lt;
+</code></pre><p>　　首先判断如果arr[middle] == value，那么直接返回。接下来就需要分情况讨论了，通过判断arr[low] 和 arr[middle]的大小关系，就能确定数组到底是前半段有序还是后半段有序了。假设arr[low] &lt;
 arr[middle]，那么意味着数组的前半段是有序的：接下来就是判断value在不在前半段区间中了，value &lt; arr[middle] &amp;&amp; value &gt;= arr[low]，这样就说明value确实在前半段区间中，改变high的值
 即可，否则就去后半段中查找。如果arr[low] &gt; arr[middle]，那就意味着数组的后半段是有序的，和尚庙一样的原理，接着划分一半的区间去查找。仔细梳理这个逻辑后，其实并不复杂。</p>
-
 <p>　　<strong>六、变种六：LeetCode第4题，这个题比较复杂，求两个有序数组的中位数</strong></p>
 
     </div>
@@ -557,7 +516,7 @@ arr[middle]，那么意味着数组的前半段是有序的：接下来就是判
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

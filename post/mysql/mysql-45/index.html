@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Mysql 45讲读书笔记 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="第一讲：MySQL基础架构 这一章主要还是将MySQL的几个部分：首先是连接器负责连接管理，权限校验等；然后是分析器负责语法分析、词法分析；优" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/mysql/mysql-45/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Mysql 45讲读书笔记" />
+<meta property="og:description" content="第一讲：MySQL基础架构 这一章主要还是将MySQL的几个部分：首先是连接器负责连接管理，权限校验等；然后是分析器负责语法分析、词法分析；优" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/mysql/mysql-45/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-12-21T15:14:32&#43;08:00" />
+<meta property="article:modified_time" content="2020-12-21T15:14:32&#43;08:00" />
+
+<meta itemprop="name" content="Mysql 45讲读书笔记">
+<meta itemprop="description" content="第一讲：MySQL基础架构 这一章主要还是将MySQL的几个部分：首先是连接器负责连接管理，权限校验等；然后是分析器负责语法分析、词法分析；优"><meta itemprop="datePublished" content="2020-12-21T15:14:32&#43;08:00" />
+<meta itemprop="dateModified" content="2020-12-21T15:14:32&#43;08:00" />
+<meta itemprop="wordCount" content="18733">
+<meta itemprop="keywords" content="MySQL," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mysql 45讲读书笔记"/>
+<meta name="twitter:description" content="第一讲：MySQL基础架构 这一章主要还是将MySQL的几个部分：首先是连接器负责连接管理，权限校验等；然后是分析器负责语法分析、词法分析；优"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Mysql 45讲读书笔记</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-12-21" class="post-time">
+          2020-12-21
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <h1 id="第一讲mysql基础架构">第一讲：MySQL基础架构</h1>
+<p>　　这一章主要还是将MySQL的几个部分：首先是连接器负责连接管理，权限校验等；然后是分析器负责语法分析、词法分析；优化器负责优化你的sql语句，执行器负责操作合适的存储引擎，然后返回结果。这里作者提出了一个比较
+有意思的问题：如果表T中没有字段k，而你执行了这个语句 select * from T where k = 1, 那肯定是会报“不存在这个列”的错误： “Unknown column ‘k’ in ‘where clause’”。这个错误是在前面提到的哪个阶段报出来的呢？</p>
+<p>　　答案是分析器，MySQL会在分析阶段判断语句是否正确，表是否存在，列是否存在等。《高性能MySQL》里面也提到了，解析器处理语法和解析查询，生成一棵对应的解析树。预处理器进一步检查解析树是否合法，比如表名和列名是否
+存在，别名是否有歧义等；如果通过则生成新的解析树，再提交给优化器。</p>
+<h1 id="第二讲粗讲日志系统">第二讲：粗讲日志系统</h1>
+<p>　　修改语句（包括INSERT UPDATE DELETE）和查询语句最大的不同之处在于：修改语句涉及到两个比较重要的日志模块——redo log和binlog。redo 日志我们在前面一本书里已经学习的比较多了，它主要是为了保证持久性的。
+redo 日志的这一套方案也就是WAL（Write-Ahead Logging）技术，它的关键点就是先写日志（redo log），再写磁盘（脏页刷新到磁盘）。</p>
+<p>　　而binlog是MySQL Server层面的归档日志，redo log是 InnoDB特有的。这两种日志的主要不同之处在于：</p>
+<ul>
+<li>
+<p>1、redo log是InnoDB特有的，binlog是MySQL的Server层实现的，所有的引擎都通用；这是binlog目前还不能去掉的一个原因。</p>
+</li>
+<li>
+<p>2、redo log是物理日志，记录的是<strong>在某个数据页上做了什么修改</strong>；binlog是逻辑日志，记录的是修改语句的原始逻辑。Binlog有两种模式，statement 格式的话是记sql语句， row格式会记录行的内容，记两条，更新前
+和更新后都有。一般采用row格式，因为由于时钟问题，从库可能出现不一致问题，row格式是更新前后的记录都有，但这也会导致binlog比较大。</p>
+</li>
+<li>
+<p>3、redo log的空间是有限的，会被循环写入（checkpoint点之前的redo log占用的空间是可以被覆盖的）；binlog是一直追加写入的，binlog文件写到一定大小后会切换到下一个，并不会覆盖以前的日志。这是binlog目前
+还不能去掉的另一个原因。</p>
+</li>
+<li>
+<p>4、redo log适用于崩溃恢复(crash-safe)，binlog适用于主从复制和数据恢复。</p>
+</li>
+</ul>
+<p>　　这里需要注意的是，InnoDB在修改了内存中的数据以后（数据页成为了脏页），然后将更新操作记录到redo log中，此时redo log处于<strong>prepare</strong>状态（这时redo log已经写入到磁盘了）；然后告知执行器执行完成了，
+可以提交事务。执行器再接着生成这次更新记录的binlog，并把binlog写入磁盘。最后执行器调用InnoDB的提交事务接口，InnoDB将刚刚写入的redo log修改为<strong>commit</strong>状态。</p>
+<p>　　这里需要注意一个问题：在事务执行期间redo log 是存在redo log buffer中的（即内存中），事务提交后就落盘了。</p>
+<h3 id="两阶段提交">两阶段提交</h3>
+<p>　　前面的过程将redo log的写入拆成了prepare和commit两个步骤，这个主要是防止直接写完redo log后再直接写binlog（或者反过来顺序），在这个gap中间出现宕机等问题，导致了数据的不一致。
+redo log和binlog都可以用于表示事务的提交状态，而两阶段提交就是让这两个状态保持逻辑上的一致。也就是写redo log 和写 binlog这两个操作，要么都成功，要么都失败。</p>
+<p>　　1、prepare阶段； 2、写binlog； 3、commit。当在2之前崩溃时重启恢复：后发现没有commit，回滚。备份恢复：没有binlog 。当在3之前崩溃重启恢复：虽没有commit，但满足prepare和binlog完整，所以重启后会
+自动commit。备份：有binlog。也就是Binlog如果已经接受，redo log是prepare, binlog已经完整了，这时候崩溃恢复过程会认可这个事务，提交掉。</p>
+<h3 id="总结">总结</h3>
+<p>　　redo log用于保证crash-safe能力。innodb_flush_log_at_trx_commit这个参数设置成1的时候，表示每次事务的redo log都直接持久化到磁盘。这个参数一般设置成1，这样可以保证MySQL异常重启之后数据不丢失。
+sync_binlog这个参数设置成1的时候，表示每次事务的binlog都持久化到磁盘。这个参数一般也设置成1，这样可以保证MySQL异常重启之后binlog不丢失。</p>
+<p>　　正常情况下，MySQL只有在redo log commit之后才会将数据真实写入（即脏页刷盘），但是在崩溃恢复过程中，也是可以接受<strong>redo log prepare且binlog完整的情况下</strong>。</p>
+<h1 id="第三讲事务隔离">第三讲：事务隔离</h1>
+<p>　　这个前面已经讲得比较清楚了，数据库里面会创建一个视图（ReadView），访问的时候以视图的逻辑结果为准。在“可重复读”隔离级别下，这个视图是在事务启动时创建的，整个事务存在期间都用这个视图。在“读提交”隔离级别下，
+这个视图是在每个SQL语句开始执行的时候创建的。这里需要注意的是，“读未提交”隔离级别下直接返回记录上的最新值，没有视图概念；而“串行化”隔离级别下直接用加锁的方式来避免并行访问。</p>
+<h1 id="第四五讲索引">第四、五讲：索引</h1>
+<p>　　索引的出现是为了提高查询效率，但是实现索引的方式却有很多种，这就是索引模型的概念。可以用于提高读写效率的数据结构很多，这里有三种常见的比较简单的数据结构，分别是哈希表、有序数组和搜索树。</p>
+<ul>
+<li>
+<p>1、哈希表往往只适用于只有等值查询的场景，比如Memcached及其他一些NoSQL引擎，而对于区间查询or范围查询，由于没有维护key的顺序，所以只能全表扫描。</p>
+</li>
+<li>
+<p>2、有序数组在等值查询和范围查询场景中的性能就都非常优秀。但是在需要更新数据的时候会比较麻烦，你往中间插入一个记录就必须得挪动后面所有的记录，成本太高。因此有序数组索引只适用于静态存储引擎。</p>
+</li>
+<li>
+<p>3、普通的二叉树的问题在于层数过多，每访问一层都有可能会形成磁盘IO。为了避免这种情况，B+树就产生了。</p>
+</li>
+</ul>
+<h3 id="索引下推">索引下推</h3>
+<p>　　MySQL在5.6的版本引入了<strong>索引下推优化（Index Condition Pushdown）</strong>，在遍历索引的过程中，对索引中包含的字段先做判断，直接过滤掉不满足条件
+的记录，减少回表次数。比如对于这个sql：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> tuser <span style="color:#66d9ef">where</span> name <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;张%&#39;</span> <span style="color:#66d9ef">and</span> age<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> <span style="color:#66d9ef">and</span> ismale<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;
+</code></pre></div><p>　　由于有一个联合索引(name, age)，现在我们利用索引找到以张开头的name的记录后，先行判断age是否等于10；然后再回表，去聚簇索引中查找完整数据；
+但是在5.6之前，只能用到name索引，然后就去回表，到聚簇索引中去找到记录，再判断条件。这就是索引下推优化。</p>
+<p>　　attention：不论是删除主键还是创建主键，都会将整个表重建。所以要重建主键索引的话，用这个语句代替：alter table T engine=InnoDB。</p>
+<p>　　评论区提到了一个比较有意思的问题：&ldquo;用索引&quot;和&quot;用索引快速定位记录&quot;的区别，后面的章节关注一下。</p>
+<h1 id="第六讲全局锁和表锁">第六讲：全局锁和表锁</h1>
+<p>　　根据加锁的范围不同，MySQL里面的锁大致可以分为全局锁、表锁和行锁三类。</p>
+<h3 id="全局锁">全局锁</h3>
+<p>　　全局锁就是对整个数据库实例加锁，MySQL提供的命令是： Flush tables with read lock (FTWRL)，加锁后，数据库处于只读状态，之后其他线程
+的数据更新语句（增删改）、数据定义语句（建表、修改表结构等）、更新类事务的提交语句都会被阻塞。它的典型使用场景是做全库逻辑备份。</p>
+<p>　　事实上，对于支持事务的存储引擎来说，还有一个方法就是在可重复读的隔离级别下开启一个事务，确保在这个事务内部拿到一个一致的数据库快照。官方自带
+的逻辑备份工具是mysqldump。当mysqldump使用参数–single-transaction的时候，导数据之前就会启动一个事务，来确保拿到一致性视图。而由于MVCC
+的支持，这个过程中数据是可以正常更新的。</p>
+<p>　　这个功能其实比加全局锁要好，因为并不阻塞后面的写请求。但是前提就是存储引擎需要支持这个隔离级别。比如，对于MyISAM这种不支持事务的引擎，如果
+备份过程中有更新，总是只能取到最新的数据，那么就破坏了备份的一致性。这时，我们就需要使用FTWRL命令了。</p>
+<p>　　综上，<strong>single-transaction方法只适用于所有的表使用事务引擎的库。</strong></p>
+<h3 id="表级锁">表级锁</h3>
+<p>　　MySQL中的表级锁有两种：一种是表锁，另一种是元数据锁（meta data lock，MDL）。</p>
+<ul>
+<li>表锁的语法是 lock tables &hellip; read/write，也可以使用unlock tables主动释放表锁，这里需要注意的是，lock tables 语法除了会限制别的线
+程的读写以外，也限制了本线程接下来的操作对象。</li>
+</ul>
+<p>　　比如说：如果在某个线程A中执行lock tables t1 read, t2 write; 这个语句，则其他线程写t1、读写t2的语句都会被阻塞。同时，线程A在执行
+unlock tables之前，也只能执行读t1、读写t2的操作。但是InnoDB支持行锁，所以一般不会使用到表锁，影响范围过大。</p>
+<ul>
+<li>
+<p>另一类表级别的锁是MDL。MDL不需要显示使用，在访问一个表时会被自动加上，MDL的作用是，保证读写格式的正确性。MySQL在5.5版本中引入了MDL，当对
+一个表进行增删改查操作的时候，加MDL读锁；当要对表的结构进行修改时，加MDL写锁。其中：</p>
+<ul>
+<li>读锁之间不互斥，也就是允许多个线程对同一张表进行增删改查；</li>
+<li>读-写，写-写之间是互斥的，用来保证变更表结构操作的安全性；如果有两个线程要同时给一个表加字段，其中一个要等另一个执行完才能开始执行。</li>
+</ul>
+</li>
+</ul>
+<p>　　原文章还讲解了，如何安全的给一个表增加字段，即在alter table语句里面设定等待时间。现在MySQL5.6支持Online DDL了，它的过程是这样的：</p>
+<p>（1） 拿MDL写锁</p>
+<p>（2） 降级为MDL读锁</p>
+<p>（3） 真正做DDL</p>
+<p>（4） 升级为MDL写锁</p>
+<p>（5） 释放MDL锁</p>
+<h1 id="第七讲行锁">第七讲：行锁</h1>
+<p>　　和表锁不一样，MySQL的行锁是在存储引擎层由各个引擎各自实现的，并不是所有的存储引擎都支持行锁（比如MyISAM），也就是它们只能用表锁。</p>
+<p>　　在InnoDB事务中，行锁是在需要的时候才加上的，但并不是不需要了就立刻释放，而是要等到事务结束时才释放。这个就是两阶段锁协议。也就是两个事物在同时update同一行的时候，一个先获取到了该行的行锁，另一个事务就会被
+阻塞住，直到前面的事务<strong>提交</strong>后锁才会释放。也就是，如果你的事务中需要锁多个行，要把最可能造成锁冲突、最可能影响并发度的锁尽量往后放。</p>
+<h3 id="死锁和死锁检测">死锁和死锁检测</h3>
+<p>　　两个事务在互相等待对方的资源释放，就是进入了死锁状态。当出现死锁以后，有两种策略：</p>
+<ul>
+<li>
+<p>1、直接进入等待，直到超时，超时时间通过innodb_lock_wait_timeout来设置，默认是50s，也就是说当出现死锁以后，第一个被锁住的线程要过50s才会超时退出，然后其他线程才有可能继续执行。这个超时时间也不能设置得
+太短，因为有时候并不是死锁，只是简单的锁等待，太短就会发生误伤。</p>
+</li>
+<li>
+<p>2、发起死锁检测，发现死锁后，主动回滚死锁链条中的某一个事务，让其他事务得以继续执行。将参数innodb_deadlock_detect设置为on，表示开启这个逻辑，默认都是开启的。正常情况下我们都采用主动检测死锁这个策略。</p>
+</li>
+</ul>
+<p>　　死锁检测是一个比较耗时的过程。每个新来的被堵住的线程，都要判断会不会由于自己的加入导致了死锁，这是一个时间复杂度是O(n)的操作。假设有1000个并发线程要同时更新同一行，那么死锁检测操作就是100万这个量级的。虽然
+最终检测的结果是没有死锁，但是这期间要消耗大量的CPU资源。因此，你就会看到CPU利用率很高，但是每秒却执行不了几个事务。主要的解决方案是从业务层面，控制并发度。</p>
+<p>　　上一期留下了一个问题：当备库在使用–single-transaction做逻辑备份的时候，从主库的binlog同步过来了一个DDL语句会发生什么？假设这个DDL是针对表t1的，在备份过程中有几个关键的语句如下：</p>
+<pre><code>Q1:SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+Q2:START TRANSACTION  WITH CONSISTENT SNAPSHOT；
+/* other tables */
+Q3:SAVEPOINT sp;
+/* 时刻 1 */
+Q4:show create table `t1`;
+/* 时刻 2 */
+Q5:SELECT * FROM `t1`;
+/* 时刻 3 */
+Q6:ROLLBACK TO SAVEPOINT sp;
+/* 时刻 4 */
+/* other tables */
+</code></pre>
+<p>　　Q1：在备份开始的时候，为了确保RR隔离级别，再设置一次RR隔离级别；</p>
+<p>　　Q2：启动事务，使用了WITH CONSISTENT语句确保得到一个一致性视图；</p>
+<p>　　Q3：设置一个保存点SAVEPOINT；</p>
+<p>　　Q4：show create table是为了拿到表结构； Q5开始正式导数据； Q6回滚到前面的保存点，主要作用是释放对表t1的MDL锁。</p>
+<p>　　DDL语句按照到达备库的时间不同，最终产生的结果也不同。主要是：</p>
+<ul>
+<li>
+<p>（1） 如果是在Q4之前到达，那么备库拿到的是DDL后的表结构；</p>
+</li>
+<li>
+<p>（2） 如果是在时刻2的时候到达，也就是表结构已经被修改过了，Q5执行导数据时，报 Table definition has changed, please retry transaction，现象：mysqldump终止；</p>
+</li>
+<li>
+<p>（3） 如果是在时刻2和时刻3之间到达，即在导数据的过程中DDL语句到达了，此时mysqldump占用着表t1的MDL读锁，binlog被阻塞，现象就是主从延迟，直到dump完成。也就是说，MDL读锁是在Q5加上的；</p>
+</li>
+<li>
+<p>（4） 从“时刻4”开始，mysqldump释放了MDL读锁，现象：没有影响，备份拿到的是DDL前的表结构。</p>
+</li>
+</ul>
+<h3 id="评论区">评论区</h3>
+<p>　　innodb行级锁是通过<strong>锁索引记录</strong>实现的。如果update的列没建索引，即使只update一条记录也会锁定整张表，比如update t set t.name=&lsquo;abc&rsquo; where t.name=&lsquo;cde&rsquo;; name字段无索引。</p>
+<h1 id="第八讲事务的隔离性">第八讲：事务的隔离性</h1>
+<p>　　在上一本书里面已经提到了，READ COMMITTED和REPEATABLE READ隔离级别的一个最大的区别就是<strong>它们生成ReadView的时机不同</strong>。READ COMMITTED是每次读取数据前都生成一个ReadView，而REPEATABLE READ
+只在第一次读取数据前生成ReadView，注意这里说的时机都是<strong>读取数据前</strong>，更准确的说是<strong>事务启动时</strong>，这里需要注意的就是事务的启动时机。</p>
+<p>　　BEGIN/START TRANSACTION并不是事务的起点，在执行到这条语句之后的第一个操作InnoDB表的语句，事务才真正启动，也就是前面说的读取数据前才会生成ReadView。如果你想要马上启动一个事务，可以使用
+start transaction with consistent snapshot 这个命令。也就是这个命令后就会生成一个ReadView。</p>
+<p>　　这里用到了这样一条规则：更新数据都是先读后写的，而这个读，只能读当前的值（即最新值，也就是在最新的值的版本上进行更新），称为“当前读”（current read）。如果当前记录的行锁被其他事务占用了，也就是其他事务还
+没有提交，那么就需要阻塞等待。。这个当前读是和我们RR隔离级别下普通的select来对比的，为了保证可重复读，这个读也叫作快照读。其实，除了update语句外，select语句如果加锁，也是当前读。</p>
+<p>　　所以，如果把事务A的查询语句select * from t where id=1修改一下，加上lock in share mode 或 for update，也都可以读到最新版本的数据，返回的k的值是3。</p>
+<p>　　这里需要注意的是，start transaction with consistent snapshot; 的意思是从这个语句开始，创建一个持续整个事务的一致性快照。所以在读已提交的隔离级别下，这个语句就没有什么意义了，等同于BEGIN。</p>
+<p>　　<strong>这一章的内容值得再细看一遍</strong>。</p>
+<h3 id="评论区-1">评论区</h3>
+<p>　　Innodb要保证这个规则：事务启动以前所有还没提交的事务，它都不可见。但是只存一个已经提交事务的最大值是不够的。因为存在一个问题，那些比最大值小的事务，之后也可能更新，所以事务启动的时候还要保存“现在正在
+执行的所有事务ID列表”，如果一个row trx_id在这列表中，也要不可见。这就是ReadView的m_ids列表的作用。</p>
+<h1 id="第九讲普通索引和唯一索引">第九讲：普通索引和唯一索引</h1>
+<p>　　我们在平时的开发过程中，总是喜欢尽量多加限定条件，比如明确一个列为NOT NULL，设置某个列为unique（等同于加了唯一索引）。但是这篇文章提出了一个很有意思的问题，是之前没有学习到的，到底选择普通索引和唯一
+索引有什么不同？尤其从性能的角度来看。我们从查询过程和更新过程两个方面来看二者的不同。</p>
+<h3 id="查询过程">查询过程</h3>
+<p>　　几乎没有差别，普通索引在于找到后，还会继续往下找到不符合条件的；而唯一索引只用定位到一条即可。</p>
+<h3 id="更新过程">更新过程</h3>
+<p>　　对于更新一个数据页，之前我们一直没有学习到的概念是<strong>change buffer</strong>。当需要更新一个数据页的时候，如果数据页在内存中（也就是Buffer Pool）
+就直接更新，然后这个页就成为了脏页，并且组成flush链表等&hellip;&hellip;但是如果数据页不在内存中，在不影响数据一致性的前提下，InnoDB会将这些更新操作缓存在
+change buffer中，这样就不需要从磁盘中读取这个数据页了，从而提高更新的速度。在下次查询到这个数据页时，再将数据页读入内存，然后执行change buffer
+中与这个页有关的操作。change buffer也会被写入到磁盘上进行持久化。</p>
+<p>　　将change buffer中的操作应用到原数据页，得到最新结果的过程叫做<strong>merge</strong>。除了访问这个数据页会触发merge操作以外，后台还会有线程定期merge。
+以及在数据库关闭的时候，也会执行merge操作。</p>
+<p>　　什么情况下可以使用change buffer呢？对于唯一索引来说，所有的更新操作都需要判断这个索引的唯一性，这个过程必须要将数据加载到内存中进行判断；既然
+已经将数据页读取到内存中了，那么就可以直接更新内存了，没有必要使用change buffer了。因此，唯一索引的更新不能使用change buffer，只有普通索引才
+可以使用。</p>
+<p>　　change buffer使用的是Buffer Pool中的内存，change buffer的大小，可以通过参数innodb_change_buffer_max_size来动态设置。这个参数设置
+为50的时候，表示change buffer的大小最多只能占用buffer pool的50%。</p>
+<p>　　现在再来看下如果要在某张表中插入一个新记录(4,400)的话，InnoDB的处理流程是怎样的：</p>
+<ul>
+<li>
+<p>这个记录要更新的目标数据页在内存中，这时流程如下：</p>
+<ul>
+<li>对于唯一索引来说，找到3和5之间的位置，判断到没有冲突，插入这个值，语句执行结束；</li>
+<li>对于普通索引来说，找到3和5之间的位置，插入这个值，语句执行结束。</li>
+</ul>
+</li>
+<li>
+<p>这个记录要更新的目标数据页不在内存中，这时流程如下：</p>
+<ul>
+<li>对于唯一索引来说，需要将数据页读入内存，判断到没有冲突，插入这个值，语句执行结束；</li>
+<li>对于普通索引来说，则不需要将数据页读入内存中，将更新记录在change buffer中，然后更新语句就执行结束了。</li>
+</ul>
+</li>
+</ul>
+<p>　　也就是说，对于更新语句来说，change buffer确实可以减少磁盘的IO，可以提升性能；但是这个对于唯一索引是无效的，只限于用在普通索引的场景下。</p>
+<h3 id="change-buffer的使用场景">change buffer的使用场景</h3>
+<p>　　这里提出了一个问题：对于普通索引来说，是否是所有场景使用change buffer都能提高效率？我们可以思考这样一个问题，change buffer记录的是修改语句，merge操作才是真正更新数据的时刻，那么假设数据更新后马上就要
+读取它，这样就会先写change buffer，然后立马磁盘IO读取出数据到内存页（可能还涉及到内存页的淘汰），然后进行merge操作，这样对比来说不仅没有减少磁盘IO的次数，还得去维护change buffer，反而加重了负担，也就是
+对于这种读多写少的场景，change buffer作用不大，甚至可能有副作用。</p>
+<p>　　如果对于读少写多的场景，也就是在一个数据页真正做merge的时候（被访问，读），已经写了很多了，change buffer上记录的变更比较多，这样收益会比较大。</p>
+<h3 id="索引的选择">索引的选择</h3>
+<p>　　通过这一章的学习，我们发现唯一索引并没有那么好，这两类索引在查询能力上没有什么区别，主要是更新性能的影响，因此需要尽量选择普通索引。</p>
+<p>　　如果所有的更新后面，都马上伴随着对这个记录的查询，那么应该关闭change buffer。而在其他情况下，change buffer都能提升更新性能。</p>
+<p>　　对数据的修改记录在change buffer里的时候，内存里是没有这个物理页的，不存在脏页。redo log主要节省的是随机写磁盘的IO消耗(转成顺序写)，而change buffer主要节省的则是<strong>随机读磁盘</strong>的IO消耗。</p>
+<h3 id="评论区-2">评论区</h3>
+<p>　　这里再明确一遍change buffer的merge操作的流程，</p>
+<ul>
+<li>
+<p>1、从磁盘读入数据页到内存（老版本的数据页）；</p>
+</li>
+<li>
+<p>2、从change buffer里找出这个数据页的change buffer 记录(可能有多个），依次应用，得到新版数据页；</p>
+</li>
+<li>
+<p>3、写redo log。这个redo log包含了数据的变更和change buffer的变更（因为change buffer也是一种页，但是不是常规的数据页类型）。</p>
+</li>
+<li>
+<p>4、到这里merge过程就结束了。这时候，数据页和内存中change buffer对应的磁盘位置都还没有修改，属于脏页，之后各自刷回自己的物理数据，就是另外一个过程了。</p>
+</li>
+</ul>
+<h1 id="第十讲mysql选错索引">第十讲：MySQL选错索引</h1>
+<p>　　这一章简单介绍了MySQL可能选错索引的场景，也就是它的优化器可能选择一条实际执行时间更长的执行计划，这里面涉及到MySQL的各种预估问题，不再详细学习了。</p>
+<h1 id="第十一讲怎么给字符串加索引">第十一讲：怎么给字符串加索引</h1>
+<p>　　这一章比较简单，主要是讲了可以给一个字符串的前缀加索引（而不是针对整个字符串），但是使用前缀索引后，索引覆盖就失效了，也就是必须要去回表（因为你的索引里记录的只是字符串的前缀，<strong>即使你把前缀定义成整个字符串的长
+度</strong>，因为这时系统并不确定前缀索引的定义是否截断了完整的字符串）。当然，你也可以对字符串创建倒排索引（比如某个字符串的前几位都是一样的情况下，身份证号这种），或者是hash索引，比如给字符串加一个crc32函数。但是这两种
+就不支持范围查询了。</p>
+<h1 id="第十二讲为什么mysql偶尔会抖动一下">第十二讲：为什么MySQL偶尔会抖动一下</h1>
+<p>　　这里先直接抛出结论吧，偶尔抖动的那一下，很可能就是在刷脏页到磁盘（flush）。这篇文章主要帮我们梳理一下刷新脏页的时机，或者说什么操作会触发flush操作：</p>
+<ul>
+<li>
+<p>1、redo log写满了，因为前面我们知道redo log的空间大小是有限制的，会被循环写入。这时候MySQL系统会停止所有更新，把checkpoint往前推（也就是原来的脏页刷新到磁盘后，那么这些脏页对应的redo log就没有用了，这部分
+空间就可以被复用了），这样以此来腾出空间。这是一种非常糟糕的情况。</p>
+</li>
+<li>
+<p>2、系统内存不足时，这时候就需要淘汰掉一些旧的内存页，如果被淘汰的恰好是脏页，那么需要先将脏页flush到磁盘。</p>
+</li>
+<li>
+<p>3、MySQL认为系统比较空闲的时候，利用后台线程将脏页刷新到磁盘。</p>
+</li>
+<li>
+<p>4、MySQL正常关闭的时候，会将所有的脏页刷新到磁盘。</p>
+</li>
+</ul>
+<p>　　上面这四种情况都会导致脏页刷盘，其中第3、4种情况一般不会对系统的性能造成什么影响，主要分析前面两种场景。第一种是“redo log写满了，要flush脏页”，这种情况是InnoDB要尽量避免的。因为出现这种情况的时候，整个系统就
+不能再接受更新了，所有的更新都必须堵住。如果从监控上看，这时候更新数会跌为0。第二种是“内存不够用了，要先将脏页写到磁盘”，这种情况其实是常态。InnoDB用缓冲池（buffer pool）管理内存，缓冲池中的内存页有三种状态：
+这三种本质上对应了上一本书讲到的链表</p>
+<ul>
+<li>还没有使用到的页，对应free链表</li>
+<li>使用过了并且是干净的页（对应数据页构成的普通链表）</li>
+<li>使用过了并且是脏页（对应flush链表）</li>
+</ul>
+<p>　　结论就是，一个查询要淘汰的脏页个数太多，会导致查询的响应时间明显变长（情况2）；日志写满，更新全部堵住，写性能跌为0，这种情况对敏感业务来说，是不能接受的。（情况1）</p>
+<h3 id="innodb刷脏页的控制策略">InnoDB刷脏页的控制策略</h3>
+<p>　　首先是这个参数innodb_io_capacity，这个值告诉了InnoDB你的磁盘能力，这个值一般建议设置成磁盘的IOPS，总之就是不能太小。平时要多关注脏页比例，不要让它经常接近75%。除此以外，MySQL还有一个比较有趣的策略：</p>
+<p>　　一旦一个查询请求需要在执行过程中先flush掉一个脏页时，这个查询就可能要比平时慢了。而MySQL中的一个机制，可能让你的查询会更慢：在准备刷一个脏页的时候，如果这个数据页旁边的数据页刚好是脏页，就会把这个“邻居”也带着
+一起刷掉；而且这个把“邻居”拖下水的逻辑还可以继续蔓延，也就是对于每个邻居数据页，如果跟它相邻的数据页也还是脏页的话，也会被放到一起刷。在InnoDB中，innodb_flush_neighbors 参数就是用来控制这个行为的，值为1的时候
+会有上述的“连坐”机制，值为0时表示不找邻居，自己刷自己的。</p>
+<p>　　找“邻居”这个优化在机械硬盘时代是很有意义的，可以减少很多随机IO。机械硬盘的随机IOPS一般只有几百，相同的逻辑操作减少随机IO就意味着系统性能的大幅度提升。</p>
+<p>　　而如果使用的是SSD这类IOPS比较高的设备的话，我就建议你把innodb_flush_neighbors的值设置成0。因为这时候IOPS往往不是瓶颈，而“只刷自己”，就能更快地执行完必要的刷脏页操作，减少SQL语句响应时间。</p>
+<p>　　在MySQL 8.0中，innodb_flush_neighbors参数的默认值已经是0了。</p>
+<h1 id="第十三讲为什么表数据删掉一半表文件大小不变">第十三讲：为什么表数据删掉一半，表文件大小不变</h1>
+<p>　　这个可以直接从上一本书的知识里回答：因为delete操作只是把某个记录的记录头中的delete_mask设置为1，但它实际上可能还在磁盘上，因为如果直接从磁盘上移除然后重排其他记录会比较消耗性能，这部分空间是可以被重用的，
+这些记录会组成一个垃圾链表。这就是答案，但是我们还是再来学习一下这篇文章提到的其他知识点。</p>
+<p>　　一个InnoDB表包含两个部分：表结构定义和表数据。在MySQL 8.0之前，表结构是存放在以.frm为后缀的文件中的，从8.0及以后版本，MySQL允许将表结构定义也存放在系统数据表中了，表结构定义占用的空间非常小。</p>
+<p>　　表数据既可以存放在共享表空间中，也可以是单独的文件，这个行为是由参数innodb_file_per_table控制的。设置为OFF表示的是，表的数据放在系统共享表空间，也就是跟数据字典放在一起；设置为ON表示的是，每
+个InnoDB表数据存储在一个以 .ibd为后缀的文件中。一般都设置为ON。因为，一个表单独存储为一个文件更容易管理，而且在你不需要这个表的时候，通过drop table命令，系统就会直接删除这个文件。而如果是放在共享表空间中，
+即使表删掉了，空间也是不会回收的。</p>
+<p>　　这里需要注意的是，删除行记录后，我们前面说这个位置的空间是可以被复用的，既然是这个位置，那么就是有条件的，简单理解就是必须符合索引的有序性，比如主键必须仍然在这个区间中。如果你删除了一个数据页上的所有记录，那
+么这个数据页整体就可以被复用了。但是数据页被复用是没有条件限制的，因为你回忆一下就会发现，数据页之间是用链表串起来的。之前提到的插入操作可能发生页分裂（除非一直按照主键顺序插入），也就是说，经过大量增删改的表，都是
+可能是存在空洞的。所以，如果能够把这些空洞去掉，就能达到收缩表空间的目的。重建表就是来收缩表空间的。</p>
+<h3 id="重建表">重建表</h3>
+<p>　　可以使用alter table A engine=InnoDB命令来重建表。这个过程大概是：新建一个与表A（原表）一样的结构的表B（新表），然后按照主键id递增的顺序，依次将记录插入到表B中。这样在表B中就不再有空洞了。MySQL
+5.5版本之前这个命令就是这样执行的，当然你不需要手动创建这个临时表B，MySQL会自动完成这个过程，并删除临时表B。</p>
+<p>　　显然，在上面这个过程中，往临时表中插入数据的时候，原表是不能写入的，也就是说，这个DDL过程并不是Online的。而在<strong>MySQL 5.6版本开始引入的Online DDL</strong>，对这个操作流程做了优化。优化后的流程如下：</p>
+<ul>
+<li>
+<p>1、建立一个临时文件，扫描表A主键的所有数据页；</p>
+</li>
+<li>
+<p>2、用数据页中表A的记录生成B+树，存储到临时文件中；</p>
+</li>
+<li>
+<p>3、生成临时文件的过程中，将所有对A的操作记录在一个日志文件（row log）中；</p>
+</li>
+<li>
+<p>4、临时文件生成后，将日志文件中的操作应用到临时文件，得到一个逻辑数据上与表A相同的数据文件；</p>
+</li>
+<li>
+<p>5、用临时文件替换表A的数据文件。　　</p>
+</li>
+</ul>
+<p>　　在上面的过程中，我们用日志文件记录了在生成临时文件的过程中，对原表的增删改操作，通过重放这个操作就可以实现Online DDL了。前面一章提到过，在对表结构做修改时，即alert table xxx，是需要获取MDL写锁的，这个写
+锁会阻塞所有对表数据的增删改查（因为它需要获取MDL读锁），确实，在alert语句启动的时候需要获取MDL写锁，但是<strong>这个写锁在真正执行数据拷贝的时候就退化为MDL读锁了</strong>，这个退化的原因就是为了实现Online，不阻塞其他的
+增删改查操作。</p>
+<p>　　事实上，这个重建表的操作，在你真正的线上环境理论上不会用到，即使用也是DBA操作。</p>
+<p>　　再对比一下，发现在MySQL 5.5之前时，我们是使用了一张临时表B的，但是在Online DDL的重建表过程中，是不需要使用临时表的（虽然临时数据文件是必不可少的），对于 MySQL server层来说，这是一个原地的操作，即
+inplace。重建表的这个语句alter table t engine=InnoDB，其实隐含的意思是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> t engine<span style="color:#f92672">=</span>innodb,ALGORITHM<span style="color:#f92672">=</span>inplace;
+</code></pre></div><p>　　与inplace相对应的就是拷贝表的方式了，对应：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> t engine<span style="color:#f92672">=</span>innodb,ALGORITHM<span style="color:#f92672">=</span><span style="color:#66d9ef">copy</span>;
+</code></pre></div><p>　　当使用ALGORITHM=copy的时候，表示的是强制拷贝表，对应的流程就是非online的操作过程。如果要对表的一个字段加全文索引，写法是</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> t <span style="color:#66d9ef">add</span> FULLTEXT(field_name);
+</code></pre></div><p>　　这个过程是inplace的，但是它会阻塞增删改操作，是非Online的。DDL过程如果是Online的，就一定是inplace的；但是反过来则不一定，截止到MySQL 8.0，添加全文索引（FULLTEXT index）和空间索引(SPATIAL index)
+就属于这种情况。也就是说，并不是所有alert操作（增删字段、增删索引）都支持online DDL</p>
+<p>　　最终结论：如果要收缩一个表，只是delete掉表里面不用的数据的话，表文件的大小是不会变的，还要通过alter table命令重建表，才能达到表文件变小的目的。</p>
+<h3 id="评论区-3">评论区</h3>
+<p>　　一、在InnoDB中b+树的每个节点都是一页，比如最上层的根节点就是一页。下层有5个节点就是5页。</p>
+<p>　　二、什么时候使用alter table t engine=InnoDB会让一个表占用的空间反而变大？这里主要可能会有两个原因：</p>
+<ul>
+<li>
+<p>1、这个表本身就没有什么空洞了，可能刚刚才做过一次重建表操作，在这一次DDL期间，刚好有外部的DML语句在执行，比如插入了一条语句这样，导致重建后得到的表反而更大了；</p>
+</li>
+<li>
+<p>2、这个原因更深层次一些：在重建表的时候，InnoDB不会把每个数据页都用完，一般会默认留1/16的空间，用于后续的更新，也就是重建表之后并不是一个最&quot;紧凑&quot;的样式。这时候你连续重建两次反而可能会更大。</p>
+</li>
+</ul>
+<h1 id="第十四讲count为什么慢">第十四讲：count为什么慢</h1>
+<p>　　这篇文章主要讲count(*)的实现方式以及与其他count的不同，首先需要明确的是，不同的存储引擎对于其有不同的实现方式：</p>
+<ul>
+<li>
+<p>MyISAM存储引擎把表的总行数存储在了磁盘上，执行count(<em>)就直接返回这个数，效率比较高（当然这里说的是没有加过滤条件的count(</em>)，如果有where条件，MyISAM也不会这么快）；</p>
+</li>
+<li>
+<p>InnoDB执行count(*)需要把数据一行一行的从存储引擎中读取出，在server层累积计数。</p>
+</li>
+</ul>
+<p>　　为什么InnoDB不把这个总行数记录到磁盘上呢？本质上是因为InnoDB为了支持事务，设计了MVCC，因此对于当前的select count(<em>)语句，我们都需要判断每一行对于当前事务是否可见，可见的才累计计数。对于一个InnoDB表，
+可能有多个索引（一个聚簇索引和多个二级索引），聚簇索引的叶子节点存储的是完整的数据，二级索引的叶子节点存储的是索引列 + 主键。所以二级索引这棵B+树一般比聚簇索引要小得多，对于count(</em>)这种操作来说，遍历任意一个
+索引树得到的结果都是一样的（除非包含了其他where条件），因此在保证逻辑正确的前提下，MySQL优化器会找到最小的那棵树来遍历，尽量减少扫描的数据量。</p>
+<p>　　这里需要注意的是，show table status命令显示的行数是不能直接使用的，因为它是一个采样估计的值，可能会非常不准确。</p>
+<h3 id="不同count用法的区别">不同count用法的区别</h3>
+<p>　　这里主要讨论在InnoDB引擎中count(<em>)、count(主键)、count(字段)和count(1)等不同用法的区别，首先，count()的语义：count()是一个聚合函数，对于返回的结果集，一行行地判断，如果count函数的参数不是NULL，
+累计值就加1，否则不加。最后返回累计值。所以，count(</em>)和count(主键)以及count(1)的含义是一样的，都是计算表的行数；而count(字段)是判断字段不为NULL的行数。</p>
+<ul>
+<li>
+<p>count(主键)：InnoDB会遍历整张表，把每一行的主键id取出来，返回给server层。server层拿到主键id后，判断不可能为空的（这里其实肯定不为空，但是server层目前还会做一个判断逻辑），就按行累加。注意，这里即使count
+的是主键，也是可能会走普通索引得到的，MySQL优化器会选择最先的B+树。</p>
+</li>
+<li>
+<p>count(1)：InnoDB会遍历整张表，<strong>但是不取值</strong>，server层对返回的每一行，放一个数字1进去，然后判断不可能为空的（也是肯定不为空，但是仍然做了判断），按行累加。</p>
+</li>
+<li>
+<p>count(字段)：</p>
+<ul>
+<li>如果这个字段定义为了NOT NULL的话，即本身就不允许插入空值，那就一行行的从记录中读取出这个字段，server判断不能为空（同样肯定不为空&hellip;），按行累加。</li>
+<li>如果这个字段定义允许NULL，那么执行的时候，判断到有可能是NULL，还会把具体的值取出来，判断是否为空，不为NULL才累加。也就是server层需要什么字段，InnoDB就把什么字段取出来，不会多取。</li>
+</ul>
+</li>
+<li>
+<p>count(*)是个例外，这里InnoDB并不会把全部字段取出来，而是专门做了优化，不取值，直接累加。</p>
+</li>
+</ul>
+<p><strong>最终结论</strong>：按照效率排序的话，count(字段) &lt; count(主键id) &lt; count(1)≈count(<em>)，所以尽量使用count(</em>)。</p>
+<h1 id="第十五讲认真阅读答疑文章部分">第十五讲：认真阅读答疑文章部分</h1>
+<p>　　这一讲的末尾提出的了一个比较有意思的问题：如果表t里有一行数据(1,2)。分别对应主键id和列c。假设，现在执行了：update t set c = 2 where id = 1;也就是最终结果表现出来是没有什么修改的。那么仅从现象上来
+看，MySQL内部在处理这个更像语句时，可以有以下三种选择：</p>
+<ul>
+<li>
+<p>1、更像都是先读（而且是当前读，即读取最新版本）后写的，MySQL读出数据发现列c的值本身就是2了，不再调用存储引擎的更新接口，直接返回；</p>
+</li>
+<li>
+<p>2、MySQL调用了InnoDB引擎提供的“修改为(1,2)”这个接口，但是引擎发现值与原来相同，不更新，直接返回；</p>
+</li>
+<li>
+<p>3、InnoDB真正执行了这个更新语句。</p>
+</li>
+</ul>
+<p>　　通过我在MySQL上的模拟发现，真实情况是3，会真正执行这个更新语句，会产生redo log（前面两种并不会），会加行锁。方法比较简单，开启两个session，都开启事务，对这一行都进行更新，发现后update的那个语句会被阻塞，
+也就是加锁了，所以是真正执行了。</p>
+<p>　　原因：需要记录下每一个事务的更新版本，以维持事务内部的可见性。假设事务C将值从1修改为2，现在数据是2了，事务B执行UPDATE t SET a=2 WHERE id=1;语句时，不更新不加锁。那么事务B在接下来的查询时，拿到的值就成了
+1，因为事务C的修改对我是不可见的，那这样就违背了事务内部的当前读（也就是我肯定可以读到自己的更新）。</p>
+<p>　　这里我再贴一下<strong>原文章答案</strong>，会有一些更有意思的事情发生了：</p>
+<ul>
+<li>1、第一个选项是MySQL读出数据，发现值与原值相同，就不更新直接返回了。看一下下面这个流程：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">SESSION A</th>
+<th style="text-align:center">SESSION B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">BEGIN; UPDATE t SET a = 2 where id = 1;</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">BEGIN; UPDATE t SET a = 2 where id = 1;(blocked)</td>
+</tr>
+</tbody>
+</table>
+<p>　　SESSION B中的update语句会被阻塞，而加锁这个动作只有InnoDB才能执行，因此排除这个选项。</p>
+<ul>
+<li>2、第二个选项是，MySQL调用了InnoDB引擎提供的更新接口，InnoDB发现与原值相同，则不更新直接返回。再来看这个流程：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">SESSION A</th>
+<th style="text-align:center">SESSION B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">BEGIN; SELECT * FROM t where id = 1; /<em>返回(1, 2)</em>/</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">UPDATE t SET a = 3 where id = 1;</td>
+</tr>
+<tr>
+<td style="text-align:center">UPDATE t SET a = 3 where id = 1; /<em>0 row affected, 1Changed</em>/</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">SELECT * FROM t where id = 1; /<em>返回(1, 3)</em>/</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<p>　　这是一个可见性的实验，SESSION A的第二个select语句是无法看见SESSION B的更新的，但是确返回了(1, 3)，说明它看见了自己事务内部的更新的版本。所以说明InnoDB真的执行了这个更新语句。</p>
+<ul>
+<li>3、我们发现确实执行了更新后，会思考这样一个问题，MySQL为什么不先判断一下新的值与原值是否相同呢？这里就引出了一个有意思的问题，事实上，MySQL是
+会进行确认的，但是在这个select语句中，MySQL只能读取到id= 1这个信息，而我们需要写入的是a = 3；结合这两个信息是无法确认&quot;不需要修改&quot;的。
+可以看下面这个流程：
+<table>
+<thead>
+<tr>
+<th style="text-align:center">SESSION A</th>
+<th style="text-align:center">SESSION B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">BEGIN; SELECT * FROM t where id = 1; /<em>返回(1, 2)</em>/</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">UPDATE t SET a = 3 where id = 1;</td>
+</tr>
+<tr>
+<td style="text-align:center">UPDATE t SET a = 3 where id = 1 and a = 3; /<em>0 row affected, 1Changed</em>/</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">SELECT * FROM t where id = 1; /<em>返回(1, 2)</em>/</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>　　也就是UPDATE t SET a = 3 where id = 1 and a = 3;这个语句是无效的，where条件查不出来。</p>
+<ul>
+<li>4、需要注意的是，前面说的这种情况都是在binlog_format=statement格式下进行的。如果是<strong>binlog_format=row 并且binlog_row_image=FULL</strong>的时候（这也是很多情况的默认配置，umc），由于MySQL需要
+在binlog里面记录所有的字段，所以在读数据的时候就会把所有数据都读出来了。这时候就不会发生更新。</li>
+</ul>
+<h1 id="第十六讲order-by是怎么工作的">第十六讲：order by是怎么工作的</h1>
+<p>　　这一章好好看一下细则，回顾一下知识点即可。</p>
+<h1 id="第十七讲如何使用rand随机函数">第十七讲：如何使用rand随机函数</h1>
+<h1 id="第十八讲逻辑相同的sql语句性能差距非常大">第十八讲：逻辑相同的sql语句，性能差距非常大</h1>
+<h3 id="case1索引上面使用了函数">case1：索引上面使用了函数</h3>
+<p>　　对索引字段做函数操作，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能。但是，这<strong>并不意味着放弃使用这个索引</strong>，还可以遍历这个索引，
+只不过是一个一个对比而已，只是无法用到B+树的特性。也就是说，由于加了month()函数操作，MySQL无法再使用索引快速定位功能，而只能使用全索引扫描。
+一般说全表扫描默认是指的“扫描主键索引”（聚簇索引）。</p>
+<h3 id="case2隐式类型转换">case2：隐式类型转换</h3>
+<p>　　在MySQL中，字符串和数字做比较的话，是将字符串转换成数字。这一点，可以使用sql语句：select &ldquo;10&rdquo; &gt; 9; 来确认，它会返回1。本质上，还是因为加
+了一个convert函数。索引字段不能进行函数操作，但是索引字段的参数可以加函数。</p>
+<h3 id="case3隐式字符编码转换">case3：隐式字符编码转换</h3>
+<h1 id="第十九讲为什么我只查一行的语句也执行这么慢">第十九讲：为什么我只查一行的语句，也执行这么慢</h1>
+<h3 id="第一类查询长时间不返回">第一类：查询长时间不返回</h3>
+<p>　　这种情况一般是表被锁住了，比如等MDL锁、等flush、等行锁。值得注意的是：带lock in share mode的SQL语句，执行的是当前读，普通select是快照读。</p>
+<h1 id="第二十讲幻读">第二十讲：幻读</h1>
+<p>　　select&hellip;for update语句是当前读，并且会加写锁。这个写锁是加在了表的所有行上，而不只是符合where条件的行。</p>
+<p>　　幻读指的是，同一个事务的前后两次查询同一个范围时（同一个where语句），后一次查询查到了前一次没有看到的行（是新增加的，不是修改的），幻读有两点
+需要注意：</p>
+<ul>
+<li>
+<p>1、在可重复读隔离级别下，普通的select是快照读，是不会看到别的事务插入的数据的，因此，幻读<strong>只会在当前读下才出现</strong>。</p>
+</li>
+<li>
+<p>2、另一个事务的修改结果被当前事务再次查询到，不是幻读，幻读专门指的是<strong>新插入的行</strong>。</p>
+</li>
+</ul>
+<h3 id="如何解决幻读">如何解决幻读？</h3>
+<p>　　现在我们发现了，产生幻读的原因是，行锁只能锁住行，但是新插入一条记录这个操作，是更新的记录之间的间隙，因为你不能对一个还不存在的行加上行锁，所以
+InnoDB引入了间隙锁（Gap Lock），间隙锁锁住的是两个值之间的空隙。这样，在执行select&hellip;for update语句时，不止是将所有的行加上了行写锁，还增加了
+一些间隙锁，锁住了每两个记录之间的间隙。</p>
+<p>　　也就是说，数据行本身是可以加锁的实体（行锁），数据行之间的间隙，也是可以加锁的实体（间隙锁）。但是和行锁不一样的是，行锁存在着读锁和写锁的互斥
+关系，跟行锁有冲突的是另一个行锁，但是间隙锁之间并不互斥，跟间隙锁存在冲突关系的是——<strong>“往这个间隙中插入一个记录”这个操作</strong>。</p>
+<p>　　比如session A加的是间隙锁(5,10)。而session B也是在这个间隙加的间隙锁。它们有共同的目标，即：保护这个间隙，不允许插入值。但，它们之间是不冲突
+的。</p>
+<p>　　间隙锁和行锁合称next-key lock，每个next-key lock是前开后闭区间，间隙锁和next-key lock的引入，解决了幻读，但也带来了一些“新的问题”。间隙锁
+只会在RR隔离级别下才会生效。</p>
+<p>　　这一章以及下一章，同样需要好好再看一遍。</p>
+<h1 id="第二十一讲加锁规则">第二十一讲：加锁规则</h1>
+<p>　　加锁的规则主要包括下面几点：</p>
+<ul>
+<li>
+<p>1、加锁的基本单位是next-key lock，前开后闭区间。</p>
+</li>
+<li>
+<p>2、查找过程中访问到的对象才会加锁。</p>
+</li>
+<li>
+<p>3、索引上的等值查询，给唯一索引加锁时，next-key lock会退化成行锁。</p>
+</li>
+<li>
+<p>4、索引上的等值查询，向右遍历时且最后一个值不满足等值条件时，next-key lock退化为间隙锁。</p>
+</li>
+<li>
+<p>5、一个bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止。</p>
+</li>
+</ul>
+<p>　　锁是加在索引上的，需要注意覆盖索引和聚簇索引。</p>
+<h1 id="第二十二讲提高性能的一些方法">第二十二讲：提高性能的一些方法</h1>
+<p>　　这一章偏重实战，感觉更多需要DBA的一些知识，即MySQL运维实战一类。</p>
+<h1 id="第二十三讲mysql保证数据不丢失">第二十三讲：MySQL保证数据不丢失</h1>
+<p>　　这一章继续回顾MySQL写入binlog和redo log的流程。</p>
+<h3 id="binlog的写入机制">binlog的写入机制</h3>
+<p>　　binlog的写入逻辑是：事务执行过程中，先把日志写入到binlog cache，事务提交时，再把binlog cache写到binlog文件中（这个过程和redo log是一样
+的），都是先写内存，事务提交时再刷新磁盘。一个事务的binlog是不能被拆开的，因此不论这个事务多大，也要确保一次性写入。</p>
+<p>　　系统给binlog cache分配了一块内存空间，每个线程都有一个自己的cache，有一个参数binlog_cache_size表示单个线程内binlog cache所占用的大小，
+如果超过就需要暂存到磁盘。事务提交的时候，执行器把binlog cache里的完整事务写入到binlog中，并清空binlog cache。</p>
+<p>　　每个线程都有自己的binlog cache，但是共用一份binlog文件。write指的是把日志写入到文件系统（os）的page cache，并没有把数据持久化到磁盘，速度
+比较快；fsync才是将数据持久化到磁盘。write和fsync的时机，是由参数sync_binlog控制的：</p>
+<ul>
+<li>
+<p>1、sync_binlog=0的时候，表示每次提交事务都只write，不fsync；</p>
+</li>
+<li>
+<p>2、sync_binlog=1的时候，表示每次事务提交都会执行fsync；</p>
+</li>
+<li>
+<p>3、sync_binlog=N的时候，表示每次提交事务都会write，但是累积N个事务后再执行fsync。</p>
+</li>
+</ul>
+<p>　　这个值，我们的业务一般设置为1。</p>
+<h3 id="redo-log的写入机制">redo log的写入机制</h3>
+<p>　　在事务的执行过程中，生成的redo log也是先写入到redo log buffer中的，redo log buffer里面的内容，并不是每次生成后都要持久化到磁盘中的；如果
+事务执行期间MySQL异常重启了，那么这部分日志就丢失了；但是这时候事务并没有提交，所以没有损失。但是在事务还没有提交的时候，redo log buffer中的部分
+日志是有可能持久化到磁盘中的。</p>
+<p>　　redo log有三种状态：</p>
+<ul>
+<li>
+<p>1、存在redo log buffer中，也就是在MySQL进程的内存中；</p>
+</li>
+<li>
+<p>2、写到磁盘（write），但是还没有持久化（fsync），物理上是在文件系统的page cache里面；</p>
+</li>
+<li>
+<p>3、持久化到磁盘上。这一步永远是最慢的（相对前两步）。</p>
+</li>
+</ul>
+<p>　　为了控制redo log的写入策略，InnoDB提供了innodb_flush_log_at_trx_commit参数，它有三种可能取值（和binlog的几乎一样）：</p>
+<ul>
+<li>
+<p>1、设置为0，表示每次事务提交只是把redo log写入到redo log buffer中；</p>
+</li>
+<li>
+<p>2、设置为1，表示每次提交事务都将redo log直接持久化到磁盘（我们的业务一般都设置为1，和sync_binlog一样）；</p>
+</li>
+<li>
+<p>3、设置为2，表示每次提交事务时都只是写入到操作系统的page cache。</p>
+</li>
+</ul>
+<p>　　InnoDB有一个后台线程，每隔1s，就会把redo log buffer中的日志，调用write写入到操作系统的page cache，然后调用fsync持久化到磁盘。所以这里
+值得注意的是，事务执行中间过程的redo log也是直接写在redo log buffer中的，这些redo log也会被后台线程一起持久化到磁盘。也就是说，一个没
+有提交的事务的redo log，<strong>也是可能已经持久化到磁盘的</strong>。</p>
+<p>　　实际上，除了后台线程可能会将没有提交的事务产生的redo log写入到磁盘以外，还有两个场景有可能导致这一情况的发生：</p>
+<ul>
+<li>
+<p>1、redo log buffer占用的空间即将到达innodb_log_buffer_size的一半时，后台线程会主动刷盘；这个时候事务并未提交，所以这个刷盘操作只是调用了
+write，并未调用fsync。</p>
+</li>
+<li>
+<p>2、并行事务提交的时候，顺带将这个事务的redo log持久化到磁盘。也就是事务A执行了一半，已经写入了一些redo log到buffer中，这时候有另外一个事务B
+提交，如果innodb_flush_log_at_trx_commit设置的是1，那么按照这个参数的逻辑，事务B要把redo log buffer里的日志全部持久化到磁盘。这时候，就会
+带上事务A在redo log buffer里的日志一起持久化到磁盘。</p>
+</li>
+</ul>
+<p>　　通常我们说MySQL的“双1”配置，指的就是sync_binlog和innodb_flush_log_at_trx_commit都设置成 1。也就是说，一个事务完整提交前，需要等待两次刷
+盘，一次是redo log（prepare 阶段），一次是binlog。</p>
+<h3 id="lsnlog-sequence-number">LSN（log sequence number）</h3>
+<p>　　LSN是单调递增的，用来对应redo log的一个个写入点。每次写入长度为length的redo log， LSN的值就会加上length。</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/mysql/">MySQL</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/java/basic/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">一些关于Java的基础知识</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/mysql/highperformancemysql/">
+            <span class="next-text nav-default">读MySQL相关书</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

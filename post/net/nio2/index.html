@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/net/nio2/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="NIO-2" />
 <meta property="og:description" content="传统的BIO 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/net/nio2/" />
-<meta property="article:published_time" content="2019-09-03T18:10:06+08:00" />
-<meta property="article:modified_time" content="2019-09-03T18:10:06+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/net/nio2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-09-03T18:10:06&#43;08:00" />
+<meta property="article:modified_time" content="2019-09-03T18:10:06&#43;08:00" />
+
 <meta itemprop="name" content="NIO-2">
-<meta itemprop="description" content="传统的BIO 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监">
-
-
-<meta itemprop="datePublished" content="2019-09-03T18:10:06&#43;08:00" />
+<meta itemprop="description" content="传统的BIO 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监"><meta itemprop="datePublished" content="2019-09-03T18:10:06&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-03T18:10:06&#43;08:00" />
 <meta itemprop="wordCount" content="880">
-
-
-
-<meta itemprop="keywords" content="Java NIO," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Java NIO," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="NIO-2"/>
 <meta name="twitter:description" content="传统的BIO 我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监"/>
 
@@ -241,26 +235,16 @@
 
     
     <div class="post-content">
-      
-
-<h3 id="传统的bio">传统的BIO</h3>
-
+      <h3 id="传统的bio">传统的BIO</h3>
 <p>我们先使用一个传统的client/server模式来编写了一段两个进程之间通信的代码。ServerSocke负责绑定ip地址、监听相关的端口，Socket负责发起连接操作；这就是一次典型的tcp三次握手。传统的ServerSocket会阻塞在其accept方法上，直到一个客户端发起了连接，然后accept方法返回一个socket，这个socket就负责和我们客户端进行通信。
 本例中，书上采用了每返回一个socket（代表每收到一个客户端的连接），就创建并启动一个线程，去做这些具体的通信操作。这样的坏处很明显，当客户端连接增多时，创建大量的线程，这显然是极大的耗费性能的，不满足我们的高并发需求。很容易，我们就想到了一个解决方案——线程池</p>
-
-<h3 id="伪异步i-o">伪异步I/O</h3>
-
+<h3 id="伪异步io">伪异步I/O</h3>
 <p>一个看起来可以解决上面问题的方案——线程池，确实在现实中，无脑上线程池是一个能解决很多问题的方案。即我们在服务端放一个线程池，里面有一定数量的线程，来一个客户端的连接，我们就拿出一个线程去和客户端进行通信。这样看起来就已经很美好了，我们下面来分析一下线程池的弊端，或者这么说，线程池并没有解决本质上处理连接时的阻塞问题。</p>
-
 <h4 id="弊端">弊端：</h4>
-
 <p>1、首先，当对socket输入流进行读取操作时，它会一直阻塞，直到有数据可读或者可用数据读完或者抛异常后才会终止；这意味着如果发送方发送请求消息比较慢、或者网络传输比较慢的时候，读取输入流一方的线程将一直被阻塞；（类似于I/O模型中，需要等待操作系统将数据拷贝至内核缓冲区中）。值得注意的是，输入是针对客户端和服务端双方的，大家都既是输入又是输出。</p>
-
 <p>2、当调用outputstream的write方法时写输出流时，它也将被阻塞，直到<strong>所有要发送的字节流被写入完毕，或者发生异常</strong>，这里我们需要认识到以前学过的TCP拥塞控制，这就是知识的相关性。
 所以，我们的线程池只是治标不治本，并不能完全解决底层的同步阻塞问题。</p>
-
 <h3 id="nio编程">NIO编程</h3>
-
 <p>Non-blocking I/O，NIO是Java提供的一个包，里面封装了一些新的概念，让我们可以直接使用，从而无需关心底层I/O的细节。和它相对应的就是之前的java.io包，</p>
 
     </div>
@@ -354,7 +338,7 @@
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

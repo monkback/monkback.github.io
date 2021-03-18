@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>MySQL on Records</title>
@@ -6,10 +6,15 @@
     <description>Recent content in MySQL on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 23 Nov 2020 21:54:30 +0800</lastBuildDate>
-    
-	<atom:link href="https://monkback.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Mon, 21 Dec 2020 15:14:32 +0800</lastBuildDate><atom:link href="https://monkback.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mysql 45讲读书笔记</title>
+      <link>https://monkback.github.io/post/mysql/mysql-45/</link>
+      <pubDate>Mon, 21 Dec 2020 15:14:32 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/mysql/mysql-45/</guid>
+      <description>第一讲：MySQL基础架构 这一章主要还是将MySQL的几个部分：首先是连接器负责连接管理，权限校验等；然后是分析器负责语法分析、词法分析；优</description>
+    </item>
     
     <item>
       <title>读MySQL相关书</title>

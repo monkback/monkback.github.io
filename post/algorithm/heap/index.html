@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/algorithm/heap/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="堆和堆排序" />
 <meta property="og:description" content="堆是一种特殊的树，或者说，一种特殊的完全二叉树，一棵树只要满足下面两个条件， 那么它就是一个堆。 1） 它是一棵完全二叉树，即叶子节点都在最下面两" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/algorithm/heap/" />
-<meta property="article:published_time" content="2020-07-01T09:56:33+08:00" />
-<meta property="article:modified_time" content="2020-07-01T09:56:33+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/heap/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-07-01T09:56:33&#43;08:00" />
+<meta property="article:modified_time" content="2020-07-01T09:56:33&#43;08:00" />
+
 <meta itemprop="name" content="堆和堆排序">
-<meta itemprop="description" content="堆是一种特殊的树，或者说，一种特殊的完全二叉树，一棵树只要满足下面两个条件， 那么它就是一个堆。 1） 它是一棵完全二叉树，即叶子节点都在最下面两">
-
-
-<meta itemprop="datePublished" content="2020-07-01T09:56:33&#43;08:00" />
+<meta itemprop="description" content="堆是一种特殊的树，或者说，一种特殊的完全二叉树，一棵树只要满足下面两个条件， 那么它就是一个堆。 1） 它是一棵完全二叉树，即叶子节点都在最下面两"><meta itemprop="datePublished" content="2020-07-01T09:56:33&#43;08:00" />
 <meta itemprop="dateModified" content="2020-07-01T09:56:33&#43;08:00" />
-<meta itemprop="wordCount" content="3234">
-
-
-
-<meta itemprop="keywords" content="算法,树,堆," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="3232">
+<meta itemprop="keywords" content="算法,树,堆," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="堆和堆排序"/>
 <meta name="twitter:description" content="堆是一种特殊的树，或者说，一种特殊的完全二叉树，一棵树只要满足下面两个条件， 那么它就是一个堆。 1） 它是一棵完全二叉树，即叶子节点都在最下面两"/>
 
@@ -243,30 +237,23 @@
     <div class="post-content">
       <p>　　堆是一种特殊的树，或者说，一种特殊的<strong>完全二叉树</strong>，一棵树只要满足下面两个条件，
 那么它就是一个堆。</p>
-
 <ul>
 <li>1） 它是一棵完全二叉树，即叶子节点都在最下面两层，且最后一层的叶子节点都是靠左排列的；</li>
 <li>2） 每一个节点的值都大于等于（或者小于等于）其子树中每个节点的值，也就是其左右子节点的值。</li>
 </ul>
-
 <p>　　对于每个节点的值都大于等于子节点值的树，叫做<strong>大顶堆</strong>，反过来叫做<strong>小顶堆</strong>。之前也
 提到过，完全二叉树是非常适合用数组来存储的，通过数组下标即可找到任意一个节点的左右子节点，
 不再需要单独的两个指针。现在看一下，堆的主要操作有什么？</p>
-
 <p>　　<strong>1、往堆中插入一个元素</strong></p>
-
 <p>　　一般，我们将元素直接插入到堆的最后，也就是数组的末尾，那么这样一个堆可能就不满足特性了，
 这个重新调整让整个堆满足特性的操作叫做<strong>堆化</strong>，堆化也有两种思路，都比较简单，就是顺着节点
 所在的路径，向上或者向下，让新插入的节点与父节点对比大小，如果不满足应该有的大小关系（大顶堆
 ），那么就交换两个节点，一直重复这个过程，直到满足大小关系。</p>
-
 <ul>
 <li>（1）自上而下调整（相对复杂一些）</li>
 <li>（2）自下而上调整</li>
 </ul>
-
 <p>　　先来看一下自下而上的调整方式的代码，以大顶堆为例，理清思路以后其实并不难。</p>
-
 <pre><code>    public class Heap {
     
         private int[] a;     //用于存储元素的数组，从下标1开始
@@ -293,23 +280,17 @@
             }
         }
     }
-</code></pre>
-
-<p>　　<strong>2、删除堆顶的元素</strong></p>
-
+</code></pre><p>　　<strong>2、删除堆顶的元素</strong></p>
 <p>　　从堆的定义我们可以看出来，堆顶的元素存储的就是堆中元素的<strong>最大值或者最小值</strong>，大顶堆就
 是最大值，小顶堆存储的就是最小值。删除堆顶的元素以后，就需要将第二大的元素重新放入堆顶，
 可能是左子节点或者右子节点，那么我们可能的一种做法就是先比较左右子节点，把更大的那个放入到
 其父节点的位置（即堆顶），然后持续往下，重复这个过程。</p>
-
 <p>　　上面这个过程结束后，可能会导致一个问题<strong>最后调整出的堆不满足完全二叉树的条件</strong>，所以
 需要换成另一种思路——<strong>把最后一个节点放到堆顶</strong>，然后利用同样的父子节点对比方法。对于不满
 足父子节点大小关系的，互换两个节点，并且重复进行这个过程，直到父子节点之间满足大小关系为止。
 这就是前面提到的<strong>从上往下的堆化方法。</strong></p>
-
 <p>　　因为我们移除的是数组中的最后一个元素，而在堆化的过程中，都是交换操作，不会出现数组中的
 “空洞”，所以这种方法堆化之后的结果，肯定满足完全二叉树的特性。参考代码如下：</p>
-
 <pre><code>    public void removeMax() {
         if (count == 0) return; //堆中没有数据
         a[1] = a[count];        //先将最后一个元素放到堆顶
@@ -329,20 +310,14 @@
             i = maxPos;
         }
     }
-</code></pre>
-
-<p>　　这里值得注意的是，在从上往下的堆化过程中，比如从堆顶元素开始，那么<strong>你永远都应该是找
+</code></pre><p>　　这里值得注意的是，在从上往下的堆化过程中，比如从堆顶元素开始，那么<strong>你永远都应该是找
 左子节点和右子节点中的相对更大的那个节点来和堆顶元素进行交换</strong>，所以这里的一个trick是先用
 maxPos记录出下标，要么是左子节点，要么是右子节点，注意这一行代码
 if (maxPos == i) break;说明左右子节点都不比根节点大了，直接返回即可。</p>
-
-<p>　　<strong><big>基于堆实现堆排序</big></strong></p>
-
+<p>　　<strong><!-- raw HTML omitted -->基于堆实现堆排序<!-- raw HTML omitted --></strong></p>
 <p>　　首先，堆排序的时间复杂度稳定在O(n*long(n))，不会像快排可能退化到O(n^2)的时间复杂度，
 堆排序是一个原地排序算法，空间复杂度是O(1)，堆排序的过程大致可以分为两个步骤：</p>
-
 <p>　　1、建堆。首先将数组原地建成一个堆，即不依赖其他空间的情况下，这里建堆也有两种思路：</p>
-
 <ul>
 <li>1） 将数组中的元素一个个插入到堆中，这里可以一直调用前面我们写的insert函数，这个思路
 比较简洁明了，但是过程耗时会更多；</li>
@@ -350,15 +325,12 @@ if (maxPos == i) break;说明左右子节点都不比根节点大了，直接返
 堆化。而第二种实现思路，是<strong>从后往前处理数组，并且每个数据都是从上往下堆化</strong>。
 从<strong>从后往前数的第一个非叶子节点</strong>开始，依次堆化。</li>
 </ul>
-
 <p>　　实际上，如果一共有n个节点的话，那么第n个就是最后一个叶子节点，它的父节点第n/2个节点是
 最后一个父节点，这个结论很重要，因为你想不会再有更靠后的了（完全二叉树的性质），所以从第
 n/2 + 1到第n个节点，全是叶子节点。我们看一下这个过程的代码，这个从上往下堆化的过程和之前
 一模一样，这一段代码值得充分了解。 <strong>这个建堆的过程的时间复杂度是O(n)</strong></p>
-
 <p>　　下面这个建堆的过程，有一个比较关键的一点是，你的数组大小必须要是 n + 1，也就是必须要
 留一个位置出来。</p>
-
 <pre><code>    public void makeHeap(int [] arr, int n) {
         for (int i = n/2; i &gt;= 1; i--) {
             while (true) {
@@ -375,12 +347,9 @@ n/2 + 1到第n个节点，全是叶子节点。我们看一下这个过程的代
             }
         }
     }
-</code></pre>
-
-<p>　　2、排序。这里排序的过程就是不断移除堆顶的元素，将堆顶元素和最后一个位置元素交换，然后
+</code></pre><p>　　2、排序。这里排序的过程就是不断移除堆顶的元素，将堆顶元素和最后一个位置元素交换，然后
 从上而下的堆化，重复这个过程，直到堆中只剩下一个元素后，排序就完成了。你看，基本代码还是
 我们之前写的removeMax方法。</p>
-
 <pre><code>    public void sort(int[] arr, int n) {
         makeHeap(arr, n);  //现在大顶堆已经构建完成，堆顶元素是堆中的最大元素
         int k = n;
@@ -406,12 +375,9 @@ n/2 + 1到第n个节点，全是叶子节点。我们看一下这个过程的代
             }
         }
     }
-</code></pre>
-
-<p>　　可以看到，这些所有的自顶而下的堆化操作，都是一样的思想，那么我们可以抽象成一个单独的函数
+</code></pre><p>　　可以看到，这些所有的自顶而下的堆化操作，都是一样的思想，那么我们可以抽象成一个单独的函数
 ，这个方法代表我们要对一个堆进行堆化，需要堆化的元素个数是 n，从第i个元素开始堆化，这个
 i如果取1，那么我就从根节点开始堆化，如果等于其他值，那么代表我可能堆化的就是子树。</p>
-
 <pre><code>    private void heaplify(int[] arr, int n, int i) {
         while (true) {
             int maxPos = i;
@@ -426,10 +392,7 @@ i如果取1，那么我就从根节点开始堆化，如果等于其他值，那
             i = maxPos;
         }
     }
-</code></pre>
-
-<p>　　<strong><big>为什么堆排序不如快速排序性能好？</big></strong></p>
-
+</code></pre><p>　　<strong><!-- raw HTML omitted -->为什么堆排序不如快速排序性能好？<!-- raw HTML omitted --></strong></p>
 <ul>
 <li>1） 堆排序数据访问的方式没有快速排序友好。对于快速排序来说，数据是顺序访问的。而对于
 堆排序来说，数据是跳着访问的，对CPU缓存不友好。</li>
@@ -439,16 +402,12 @@ i如果取1，那么我就从根节点开始堆化，如果等于其他值，那
 步是建堆，建堆的过程会打乱数据原有的相对先后顺序，导致原数据的有序度降低。比如，对于一组已经
 有序的数据来说，经过建堆之后，数据反而变得更无序了。</li>
 </ul>
-
 <p>　　attention：在前面的讲解以及代码中，我都假设，堆中的数据是从数组下标为1的位置开始存
 储。那如果从0开始存储，实际上处理思路是没有任何变化的，唯一变化的，可能就是，代码实现的时
 候，计算子节点和父节点的下标的公式改变了。</p>
-
-<p>　　如果节点的下标是i，那左子节点的下标就是2*i+1，右子节点的下标就是2*i+2，父节点的下
+<p>　　如果节点的下标是i，那左子节点的下标就是2<em>i+1，右子节点的下标就是2</em>i+2，父节点的下
 标就是(i-1)/2。</p>
-
-<p>　　<strong><big>堆的应用场景</big></strong></p>
-
+<p>　　<strong><!-- raw HTML omitted -->堆的应用场景<!-- raw HTML omitted --></strong></p>
 <ul>
 <li>1、取top K元素，没必要将所有元素都排序，注意取top K元素用小顶堆，这个我们在从umc的
 日志中获取访问量top 100w的地方用到了，当然你没有必要自己实现一个堆，直接使用Java的优先
@@ -457,10 +416,8 @@ i如果取1，那么我就从根节点开始堆化，如果等于其他值，那
 <li>3、优先队列，优先队列可以用堆来实现，入队就相当于向堆中插入一个元素，出队呢，则是出
 优先级最高的那个元素，这个元素我们就放在堆顶，也就是删除堆顶元素。</li>
 </ul>
-
 <p>　　赫夫曼编码、图的最短路径、最小生成树算法等等都用到了优先队列。不仅如此，很多语言中，都
 提供了优先级队列的实现，比如，Java的PriorityQueue，C++的priority_queue等。</p>
-
 <ul>
 <li>4、利用堆求中位数，99分位数等。主要的做法是维护两个堆，一个小顶堆和一个大顶堆。大顶堆
 存储前半部分数据，小顶堆存储后半部分数据，且<strong>小顶堆中的数据都大于大顶堆中的数据</strong>。
@@ -573,7 +530,7 @@ i如果取1，那么我就从根节点开始堆化，如果等于其他值，那
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

@@ -1,23 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>并发“ on Records</title>
+    <title>并发 on Records</title>
     <link>https://monkback.github.io/tags/%E5%B9%B6%E5%8F%91/</link>
-    <description>Recent content in 并发“ on Records</description>
+    <description>Recent content in 并发 on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 31 Oct 2019 20:03:31 +0800</lastBuildDate>
-    
-	<atom:link href="https://monkback.github.io/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 20 Jan 2021 16:09:15 +0800</lastBuildDate><atom:link href="https://monkback.github.io/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>一次关于CompletionService的使用</title>
-      <link>https://monkback.github.io/post/work/completionservice/</link>
-      <pubDate>Thu, 31 Oct 2019 20:03:31 +0800</pubDate>
+      <title>Java基础-并发</title>
+      <link>https://monkback.github.io/post/java/basic-concurrency/</link>
+      <pubDate>Wed, 20 Jan 2021 16:09:15 +0800</pubDate>
       
-      <guid>https://monkback.github.io/post/work/completionservice/</guid>
-      <description>背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段</description>
+      <guid>https://monkback.github.io/post/java/basic-concurrency/</guid>
+      <description>线程 blocked状态往往是进入同步代码块之前获取锁失败而导致的，也就是进入一段synchronized方法块；而ReentrantLock</description>
     </item>
     
   </channel>

@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/work/completionservice/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="一次关于CompletionService的使用" />
 <meta property="og:description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/work/completionservice/" />
-<meta property="article:published_time" content="2019-10-31T20:03:31+08:00" />
-<meta property="article:modified_time" content="2019-10-31T20:03:31+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/work/completionservice/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-10-31T20:03:31&#43;08:00" />
+<meta property="article:modified_time" content="2019-10-31T20:03:31&#43;08:00" />
+
 <meta itemprop="name" content="一次关于CompletionService的使用">
-<meta itemprop="description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段">
-
-
-<meta itemprop="datePublished" content="2019-10-31T20:03:31&#43;08:00" />
+<meta itemprop="description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段"><meta itemprop="datePublished" content="2019-10-31T20:03:31&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-31T20:03:31&#43;08:00" />
 <meta itemprop="wordCount" content="1508">
-
-
-
-<meta itemprop="keywords" content="工作,Java并发“," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="工作,Java并发“," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="一次关于CompletionService的使用"/>
 <meta name="twitter:description" content="背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段"/>
 
@@ -242,17 +236,13 @@
     
     <div class="post-content">
       <p><strong>背景</strong></p>
-
 <p>最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段代码需要维护在服务端中，服务端本身在公司的
 RPC框架下，就是被多个客户端并发调用的。现在的情况就是，服务端线程A和线程B分别在处理客户端A和B发送过来的请求，同时，线程A又开启了多个线程去并发查询各自的数据，B也一样。</p>
-
 <p>我考虑用一个公共的线程池，将查询数据的过程封装成各种任务，然后提交到线程池中，获取返回的各个future。最基本的想法就是在你的接口内部维护一个list或者类似的容器，主线程将提交的任务
 的结果都保存在list中。提交完所有的任务后，再遍历list里的各个future，去get结果，这种做法的最大坏处就是你只能按照任务提交的顺序去依次get，很可能你阻塞在get的时候，其他任务结果
 已经返回了，但你不得不等待着；当然这种你也需要为不同的任务设置不同的超时时间，不能一直阻塞，从而影响最终结果的返回。</p>
-
 <p>不过我之前在《Java 并发编程实战》中看到过CompletionService，知道这个东西可以用于提交一组任务，本质上还是委托给了一个线程池，然后在其take()或者poll方法中，取返回结果。所以
 我当时毫不犹豫的选择了这个，从此开启了挖坑之旅。伪代码大致如下(实际封装的比这个复杂)：</p>
-
 <pre><code>for(int i = 0; i &lt; n; i++) {
     completionService.submit(callable);
 }
@@ -264,39 +254,28 @@ for(int i = 0; i &lt; n; i++) {
     }
 }
 </code></pre>
-
 <p>completionService是这样构造的</p>
-
 <pre><code>private static java.util.concurrent.ExecutorService executor = new ThreadPoolExecutor(32, 64,
         30, TimeUnit.MINUTES, new ArrayBlockingQueue&lt;&gt;(1000), new ThreadRenameFactory(&quot;FeatureGet&quot;));
 
 private CompletionService&lt;Result&gt; completionService = new ExecutorCompletionService&lt;&gt;(executor);
 </code></pre>
-
 <p>注意，我们肯定是要对所有请求都复用一个线程池的，这个线程池做的工作就是从各个不同的数据源查询相关的数据，进行相关的逻辑处理，然后返回。要注意的是，我们这现在是一个RPC服务，实现类
 本身在服务启动的时候，只会产生一个proxy实例，后面所有的调用方请求都是通过这同一个实例来调用的。</p>
-
 <p><strong>RPC实现类</strong></p>
-
 <p>这儿就是问题的关键了，可以看到上面的代码。executor和completionService我都是定义为了这个实现类的成员变量(不管
 静态or非静态的)，刚刚提到实现类的proxy实例只有一个，那么内存中也只有一个completionService对象，调用方A的请求和
 调用方B的请求都使用这个对象。它们各自起的查询线程返回的结果都保存在了同一个completionService内部维护的一个LinkedBlockingQueue
 中。如果因为某种原因(底层db查询耗时长，我poll等100ms就不等了)，第一个请求的结果没有全部返回，第二次请求就可能拿到
 第一次请求的结果，从而导致结果的乱序。</p>
-
 <p><strong>关键</strong></p>
-
 <p>只要意识到RPC实现类的proxy实例只有一个，那么这里应该做的就是executor不变，设置为类的成员变量(此处是否为static都
 可以)，completionService必须在方法内部定义，即每个处理调用方请求的线程都拥有一个自己的completionService，才能
 保证数据的正确性。</p>
-
 <p><strong>CompletionService</strong></p>
-
 <p>关于这个接口，其实在JDK 1.5就已经出现了，它内部维护了一个队列来保存已完成任务的结果future，因此不同的线程只要使用
 不同的completionService对象是没有问题的。注意在实际使用的时候，往往用poll方法而不是take方法取数据，防止一直阻塞。</p>
-
 <p><strong>CompletableFuture</strong></p>
-
 <p>CompletableFuture在Java 8中才出现，但是其功能非常强大，上面的功能完全可以用CompletableFuture.allOf来实现，
 关于CompletableFuture的API内容挺多的，但是其功能都很有意思，可以下次在项目中用一下其中的功能。</p>
 
@@ -404,7 +383,7 @@ private CompletionService&lt;Result&gt; completionService = new ExecutorCompleti
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

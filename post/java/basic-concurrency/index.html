@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Java基础-并发 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="线程 blocked状态往往是进入同步代码块之前获取锁失败而导致的，也就是进入一段synchronized方法块；而ReentrantLock" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/java/basic-concurrency/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Java基础-并发" />
+<meta property="og:description" content="线程 blocked状态往往是进入同步代码块之前获取锁失败而导致的，也就是进入一段synchronized方法块；而ReentrantLock" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/java/basic-concurrency/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-01-20T16:09:15&#43;08:00" />
+<meta property="article:modified_time" content="2021-01-20T16:09:15&#43;08:00" />
+
+<meta itemprop="name" content="Java基础-并发">
+<meta itemprop="description" content="线程 blocked状态往往是进入同步代码块之前获取锁失败而导致的，也就是进入一段synchronized方法块；而ReentrantLock"><meta itemprop="datePublished" content="2021-01-20T16:09:15&#43;08:00" />
+<meta itemprop="dateModified" content="2021-01-20T16:09:15&#43;08:00" />
+<meta itemprop="wordCount" content="3805">
+<meta itemprop="keywords" content="Java基础,并发," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java基础-并发"/>
+<meta name="twitter:description" content="线程 blocked状态往往是进入同步代码块之前获取锁失败而导致的，也就是进入一段synchronized方法块；而ReentrantLock"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Java基础-并发</h1>
+      
+      <div class="post-meta">
+        <time datetime="2021-01-20" class="post-time">
+          2021-01-20
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <h1 id="线程">线程</h1>
+<p>　　blocked状态往往是进入同步代码块之前获取锁失败而导致的，也就是进入一段synchronized方法块；而ReentrantLock.lock()操作后进入的是
+WAITING状态，其内部调用的是LockSupport.park()方法，线程是进入waiting状态。事实上，java.concurrent包中Lock接口对于阻塞的实现都是
+使用LockSupport类中的相关方法。也就是这里的&quot;阻塞&quot;线程都是进入了waiting状态。</p>
+<p>　　<strong>一道面试题：</strong> 两个线程交替打印奇数和偶数。这是一道经典题目，还有一些变种，就是考察你是用wait和notify。这里的核心在于线程一，先打印第一个
+奇数后，需要通知另一个阻塞在当前锁上的线程，然后<strong>自己主动调用wait释放锁</strong>，否则只有等同步块代码执行完成后，才会释放锁。注意到这一点写代码就没
+那么难了，参考：</p>
+<pre><code>public class WaitNotifyPrint {
+
+    private static Object object = new Object();
+
+    static class ThreadA implements Runnable {
+
+        @Override
+        public void run() {
+            synchronized (object) {
+                for (int i = 1; i &lt; 10; i++) {
+                    if (i % 2 == 1) {
+                        System.out.println(&quot;ThreadA: &quot; + i);
+                        try {
+                        //注意，这两行代码的位置是可以交换的，但是两个线程至少得有一个先notify，不能都先调用wait，否则这样会死锁
+                            object.wait();
+                            object.notify();
+                        }
+                        catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                object.notify();
+            }
+        }
+    }
+
+    static class ThreadB implements Runnable {
+
+        @Override
+        public void run() {
+            synchronized (object) {
+                for (int i = 1; i &lt; 10; i++) {
+                    if (i % 2 == 0) {
+                        System.out.println(&quot;ThreadB: &quot; + i);
+                        try {
+                            object.notify();
+                            object.wait();
+
+                        }catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                //注意，这一行代码是必须的，要不你的进程不会结束，因为两个线程还一直处于wait状态
+                object.notify();
+                
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new Thread(new ThreadA()).start();
+        new Thread(new ThreadB()).start();
+    }
+}
+
+</code></pre><ul>
+<li>
+<p>wait方法可以不指定时间，sleep方法必须制定时间。</p>
+</li>
+<li>
+<p>wait会释放占用的CPU资源，同时会释放锁；但是sleep方法不会释放锁，只是释放CPU资源。</p>
+</li>
+<li>
+<p>wait方法必须放在同步块代码中，即必须先获取当前object的锁。</p>
+</li>
+</ul>
+<h1 id="内存模型">内存模型</h1>
+<p>　　我们都知道，在Java程序运行时，内存是划分为几个区域的：本地方法栈、虚拟机栈和程序计数器（线程私有），堆和方法区（线程共享）。堆既然是共享的，
+为什么在堆中的变量还存在内存可见性呢？</p>
+<p>　　这是因为高速缓存，CPU往往直接访问的是高速缓存，而不是内存；这里Java内存模型（JMM）定义了主内存和本地内存（<strong>这两个是抽象概念</strong>），
+主内存就是堆内存，线程之间的共享变量存在主内存中；而每个线程都有一个自己私有的本地内存（实际并不存在，抽象概念），存储了该线程读写的共享变量
+的<strong>副本</strong>，这个本地内存涵盖了<strong>缓存、写缓冲区、寄存器等一堆东西</strong>。</p>
+<p>　　所谓线程之间的通信是通过<strong>共享内存（Java中）</strong>，就是JMM控制的这一套体系，多个线程读取同一个共享变量时，需要经过主内存。线程A无法直接
+访问线程B的工作内存，线程间通信必须经过主内存。这里JMM有一条规定：线程对共享变量的操作（读写）都必须在自己的本地内存中进行，<strong>不能直接读写
+主内存中的变量</strong>。</p>
+<p>　　所以这里，线程B并不是直接去主内存中读取共享变量的值，而是先在本地内存B（线程私有的）找到这个共享变量，然后发现这个共享变量已经被更新过了，然后
+<strong>本地内存B去主内存中读取这个共享变量的最新值</strong>，并拷贝到本地内存B中；最后线程B再去读取本地内存B中的新值。那么这里是如何发现我本地内存中的这个
+变量已经是脏的呢？这里就依赖JMM，JMM通过控制主内存和各个线程的本地内存之间的交互，来提供内存可见性保证。</p>
+<p>　　这一段的核心在于：线程只能和自己的本地内存交互，而本地内存才是和主内存进行交互。</p>
+<p>　　一般来说，JMM中的主内存属于共享数据区域，他是包含了堆和方法区；同样，JMM中的本地内存属于私有数据区域，包含了程序计数器、本地方法栈、虚拟机栈。</p>
+<h1 id="volatile">volatile</h1>
+<p>　　volatile修饰的变量保证了线程A对其的修改，会立即刷新到主内存；同时线程B的读取会将其本地内存中的值设置为无效，从而需要本地内存强制从主内存中
+读取最新的值，这样线程B也就获取到了最新的值。但是这里需要注意的是：普通（非volatile）变量的修改虽然短暂是不可见的，但是并不意味着一定就获取
+不到，JVM会尽可能的将修改后的值刷新回主内存，但是这个时间gap就不那么可控了。</p>
+<p>　　volatile的原理是内存屏障，是编译器在生成字节码的时候，会在指令序列中插入特定类型的内存屏障来禁止指令重排序。</p>
+<h1 id="锁">锁</h1>
+<p>　　锁都是基于对象的（实例或者Class对象），锁信息存放在对象头中，一个对象其实是有4种锁状态的：</p>
+<ul>
+<li>
+<p>无锁状态</p>
+</li>
+<li>
+<p>偏向锁状态</p>
+</li>
+<li>
+<p>轻量级锁状态</p>
+</li>
+<li>
+<p>重量级锁状态</p>
+</li>
+</ul>
+<p>　　这几种状态会随着竞争而逐渐升级，不过锁也是可以降级的（HotSpot JVM就支持），降级发生在STW期间，当JVM进入安全点时，会检查是否有闲置的锁，
+然后进行降级。</p>
+<p>　　每个Java对象都有对象头。如果是非数组类型，则用2个字宽来存储对象头，如果是数组，则会用3个字宽来存储对象头。在32位处理器中，一个字宽是32位；
+在64位虚拟机中，一个字宽是64位。</p>
+<p>　　当对象状态是偏向锁时，Mark Word存储的是偏向的线程ID；如果是轻量级锁，Mark Word存储的是指向线程栈中锁记录（Lock Record）的指针；如果
+是重量级锁，Mark Word存储的是指向互斥量（堆中的monitor对象）的指针。</p>
+<h1 id="锁升级的过程">锁升级的过程</h1>
+<p>　　一、偏向锁：一个线程在第一次进入同步块时，会在对象头和线程的栈帧中的锁记录里存储当前的线程ID，当这个线程再次进入这个同步块时，会先检测对象
+头中的Mark Word里面是不是存放的自己的线程ID，如果是，就代表该线程之前已经获取到了锁，那么后续将不再花费CAS操作来加锁和解锁；如果不是，那么意味着
+这个锁已经被其他线程持有过（或者持有中），就尝试使用CAS操作（自旋）来替换对象头中的Mark Word里面的线程ID，替换成自己的：</p>
+<ul>
+<li>
+<p>如果替换成功，那么表示之前的线程已经不存在了，锁不会升级，还是偏向锁；</p>
+</li>
+<li>
+<p>如果替换失败，那么意味着这个锁仍然被持有，表示之前的线程还存在；那么<strong>暂停之前的线程</strong>，设置偏向锁标识为0，并设置锁标志位是00，升级为
+轻量级锁，将对象头Mark Word中锁记录的指针指向当前堆栈中最近的一个lock record，接着按照轻量级锁的方式进行竞争。</p>
+</li>
+</ul>
+<p>　　二、撤销偏向锁：偏向锁的撤销机制是<strong>等到竞争出现才释放锁</strong>，也就是如果一直没有竞争，那么一直都只维持着偏向锁的状态。偏向锁升级为轻量级锁的时，
+会暂停拥有偏向锁的线程，重置偏向锁标识，开销并不算小，过程如下：</p>
+<ul>
+<li>
+<p>1、在一个安全点（在这个时间点上没有字节码在执行）停止拥有锁的线程；</p>
+</li>
+<li>
+<p>2、遍历全部的线程栈（每一个线程栈），如果存在锁记录的话，需要修复锁记录和对象头中的Mark Word，使其变为无锁状态；</p>
+</li>
+<li>
+<p>3、唤醒被停止的线程，将当前锁升级为轻量级锁。</p>
+</li>
+</ul>
+<p>　　所以，如果应用程序里所有的锁通常处于竞争状态，那么偏向锁就会是一种累赘，对于这种情况，我们可以一开始就把偏向锁这个默认功能给关闭：
+-XX:UseBiasedLocking=false。</p>
+<p>　　三、轻量级锁：多个线程在<strong>不同的时间</strong>去尝试获取同一个对象锁，这时是不存在锁竞争的情况的，也就是是没有线程阻塞的。针对这种情况，JVM采用
+轻量级锁来避免线程的阻塞与唤醒。</p>
+<p>　　1、轻量级锁的加锁：JVM在每个线程的栈帧中创建了用于存储锁记录的空间，称之为Displaced Mark Word。如果一个线程获得锁时，发现锁的状态是轻量
+级锁，就会把锁的Mark Word复制到自己的Displaced Mark Word里面。</p>
+<p>　　然后线程尝试用CAS将锁的Mark Word替换为指向锁记录的指针。如果成功，当前线程获得锁，如果失败，表示Mark Word已经被替换成了其他线程的锁记录，
+说明在与其它线程竞争锁，当前线程就尝试使用自旋来获取锁。自旋一直在消耗CPU资源，JDK采用了适应性自旋，简单来说就是线程如果自旋成功了，则下次自旋的
+次数会更多，如果自旋失败了，则自旋的次数就会减少。</p>
+<p>　　自旋也不是一直进行下去的，如果自旋到一定程度（和JVM、操作系统相关），依然没有获取到锁，称为自旋失败，那么这个线程会阻塞。同时这个锁就会升级成
+<strong>重量级锁</strong>。</p>
+<p>　　2、轻量级锁的释放：在释放锁时，当前线程会使用CAS操作将Displaced Mark Word的内容复制回锁的Mark Word里面。如果没有发生竞争，那么这个复制
+的操作会成功。如果有其他线程因为自旋多次导致轻量级锁升级成了重量级锁，那么CAS操作会失败，此时会释放锁并唤醒被阻塞的线程。</p>
+<p>　　四、重量级锁：它是基于操作系统的互斥量实现的，效率会比较低，但是被阻塞的线程不会消耗CPU。</p>
+<p>　　总结锁的升级流程：</p>
+<ul>
+<li>
+<p>每一个线程在准备获取共享资源时： 第一步，检查MarkWord里面是不是放的自己的ThreadId ,如果是，表示当前线程是处于偏向锁” 。</p>
+</li>
+<li>
+<p>第二步，如果MarkWord不是自己的ThreadId，锁升级，这时候，用CAS来执行切换，新的线程根据MarkWord里面现有的ThreadId，通知之前线程暂停，之前
+线程将Markword的内容置为空。</p>
+</li>
+<li>
+<p>第三步，两个线程都把锁对象的HashCode复制到自己新建的用于存储锁的记录空间，接着开始通过CAS操作， 把锁对象的MarKword的内容修改为自己新建的记录
+空间的地址的方式竞争MarkWord。</p>
+</li>
+<li>
+<p>第四步，第三步中成功执行CAS的获得资源，失败的则进入自旋 。</p>
+</li>
+<li>
+<p>第五步，自旋的线程在自旋过程中，成功获得资源(即之前获的资源的线程执行完成并释放了共享资源)，则整个状态依然处于轻量级锁的状态，如果自旋失败。</p>
+</li>
+<li>
+<p>第六步，进入重量级锁的状态，这个时候，自旋的线程进行阻塞，等待之前线程执行完成并唤醒自己。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/java%E5%9F%BA%E7%A1%80/">Java基础</a>
+          <a href="https://monkback.github.io/tags/%E5%B9%B6%E5%8F%91/">并发</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/java/hashmap/">
+            <span class="next-text nav-default">学习HashMap</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

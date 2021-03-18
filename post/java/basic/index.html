@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>一些关于Java的基础知识 - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="最近开始看Java guide的基础知识，作为查漏补缺使用，发现还是有听过概念之前没有搞德特别清楚的，下面做一些记录。 一些Java中的关键字 final" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/java/basic/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="一些关于Java的基础知识" />
+<meta property="og:description" content="最近开始看Java guide的基础知识，作为查漏补缺使用，发现还是有听过概念之前没有搞德特别清楚的，下面做一些记录。 一些Java中的关键字 final" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/java/basic/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-01-15T10:56:53&#43;08:00" />
+<meta property="article:modified_time" content="2021-01-15T10:56:53&#43;08:00" />
+
+<meta itemprop="name" content="一些关于Java的基础知识">
+<meta itemprop="description" content="最近开始看Java guide的基础知识，作为查漏补缺使用，发现还是有听过概念之前没有搞德特别清楚的，下面做一些记录。 一些Java中的关键字 final"><meta itemprop="datePublished" content="2021-01-15T10:56:53&#43;08:00" />
+<meta itemprop="dateModified" content="2021-01-15T10:56:53&#43;08:00" />
+<meta itemprop="wordCount" content="5872">
+<meta itemprop="keywords" content="Java基础," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="一些关于Java的基础知识"/>
+<meta name="twitter:description" content="最近开始看Java guide的基础知识，作为查漏补缺使用，发现还是有听过概念之前没有搞德特别清楚的，下面做一些记录。 一些Java中的关键字 final"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">一些关于Java的基础知识</h1>
+      
+      <div class="post-meta">
+        <time datetime="2021-01-15" class="post-time">
+          2021-01-15
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>　　最近开始看Java guide的基础知识，作为查漏补缺使用，发现还是有听过概念之前没有搞德特别清楚的，下面做一些记录。</p>
+<h1 id="一些java中的关键字">一些Java中的关键字</h1>
+<h3 id="final">final</h3>
+<p>　　1、final修饰的变量是常量，如果是基本数据类型的变量，则其数值在初始化后就不可改变；如果是引用类型的变量，则对其初始化后就不能再执行其他对象（但是指向的对象本身是可变的）。</p>
+<p>　　2、类中所有的private方法都隐式地指定为final。</p>
+<h3 id="static">static</h3>
+<p>　　1、对于静态代码块来说，它定义在类的方法之外，静态代码块最先执行（静态代码块—&gt;非静态代码块—&gt;构造函数）。这个类不论创建多少个对象，静态代码块只执行一次。一个类中的静态代码块可以有多个，它们都不在任何
+方法体内，JVM在加载类时会执行这些静态代码块（按照它们在类中的出现顺序）。<strong>静态代码块对于定义在它之后的静态变量，可以赋值，但是不能访问。</strong> 类似这样：</p>
+<pre><code>static {
+        i = 4;
+        System.out.println(i); //error
+    }
+
+    private static int i;
+</code></pre><p>　　静态代码块（static {}）与非静态代码块（{}，也叫构造代码块）：它们都是在JVM在加载类时且在构造方法之前执行，在类中都可以定义多个，按照定义的顺序执行，一般在代码块中对一些static变量进行赋值。
+不同之处在于：静态代码块在非静态代码块之前执行；静态代码块只在第一次new时执行一次，而非静态代码块在每一次new都会执行一次。非静态代码块可在普通方法中定义(不过作用不大)；而静态代码块不行。</p>
+<p>　　一般情况下，如果有些代码比如一些项目最常用的变量或对象必须在项目启动的时候就执行的时候，需要使用静态代码块，这种代码是主动执行的。比如监听某个配置的代码。</p>
+<p>　　<strong>attention：</strong> 静态代码块不一定只是在第一次new时执行，这里第一次new本质上是初始化阶段，但是类初始化除了第一次new，还有其他可能性，比如通过 Class.forName(&ldquo;ClassDemo&rdquo;)创建 Class
+对象的时候也会执行。但是呢，也不能简单认为JAVA静态代码块在类被加载时就会自动执行。我们后续会继续深入学习一个类的运行过程（装载、连接和初始化）。</p>
+<p>　　这里还需要注意的是，非静态代码块和构造函数的区别：非静态代码块是负责给所有的对象进行统一初始化，而构造函数是给对应的对象初始化，因为不同的构造函数创建的对象是不一样的，但是无论创建哪个对象，
+都会先执行相同的非静态代码块，也就是说，非静态代码块中定义的是不同对象的共性的初始化内容。</p>
+<p>　　2、static修饰的成员变量存放在Java 内存区域的方法区。方法区和堆一样，也是多个线程共享的区域，它用于存储被虚拟机加载的类信息，常量，静态变量以及即时编译器（JIT）编译后的代码等。</p>
+<p>　　3、静态内部类（static修饰类的话，只能修饰内部类）。静态内部类和非静态内部类的最大区别在于：非静态内部类在编译完成后会隐含保存一个引用，该引用指向创建它的外围类，但是静态内部类是没有的。也就是说，静态
+内部类的创建不需要依赖外围类的创建；它也不能使用任何外围类的非static成员变量和方法。这个特点经常被我们用来实现单例模式，代码如下：</p>
+<pre><code>public class Singleton {
+
+    //声明为 private 避免调用默认构造方法创建对象
+    private Singleton() {
+    }
+
+   // 声明为 private 表明静态内部该类只能在该 Singleton 类中被访问
+    private static class SingletonHolder {
+        private static final Singleton INSTANCE = new Singleton();
+    }
+
+    public static Singleton getUniqueInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+}
+</code></pre><p>　　当上面的Singleton类被JVM加载时，静态内部类SingletonHolder并没有被加载到内存（延迟加载），只有当调用getUniqueInstance()方法时，才会触发访问SingletonHolder.INSTANCE，这时SingletonHolder才
+会被加载到JVM内存，此时初始化INSTANCE实例，并且只会被JVM初始化一次（这一点是由JVM保证的线程安全，即使有多个线程调用的情况下）。</p>
+<h1 id="反射">反射</h1>
+<h3 id="获取class对象的四种方式">获取Class对象的四种方式</h3>
+<p>1、在知道具体类型时，可以使用TargetObject.class方式获取Class对象，注意“：<strong>通过这种方式获取Class对象不会针对这个类进行初始化，也就是不会执行这个类的static方法块。</strong> 这种方式适用于在编译时已经知道具体的类。</p>
+<p>2、通过Class.forName(&ldquo;cn.javaguide.TargetObject&rdquo;)，内部实际调用的是一个native方法 forName0(className, true, ClassLoader.getClassLoader(caller), caller)，true表示<strong>类是否需要初始化</strong>，
+默认是需要初始化的，也就是这种方法会执行这个类的static方法块。</p>
+<p>3、通过这个类的实例对象的getClass()方法获取，显然这个方法首先需要一个当前类的对象。</p>
+<p>4、通过类加载器xxxClassLoader.loadClass(&ldquo;cn.javaguide.TargetObject&rdquo;)，<strong>通过类加载器获取Class对象不会进行初始化</strong>，意味着不进行包括初始化等一些列步骤，静态块和静态对象不会得到执行。</p>
+<h3 id="动态代理">动态代理</h3>
+<p>　　基于反射可以在运行时创建接口的动态实现，这就是动态代理（核心在于在运行时创建接口的动态实现，而非编译时）。动态代理最常用的实现方式分别是JDK动态代理和CGLIB动态代理，对于JDK动态代理来说，
+调用newProxyInstance()方法就可以创建动态代理，这个方法有三个参数：</p>
+<pre><code>InvocationHandler handler = new MyInvocationHandler();
+MyInterface proxy = (MyInterface) Proxy.newProxyInstance(
+                            MyInterface.class.getClassLoader(),
+                            new Class[] { MyInterface.class },
+                            handler);
+</code></pre><p>　　第一个参数是一个类加载器，用于加载动态代理类；第二个参数是需要实现的接口数组；第三个参数是一个InvocationHandler对象，将代理上的所有方法调用都转发到InvocationHandler对象上，上面的代码执行完成以后，
+proxy就包含了MyInterface接口的动态实现，对代理的所有调用都将由到实现了InvocationHandler接口的handler对象来处理。</p>
+<p>　　对动态代理的所有方法调用都转发到实现接口的InvocationHandler对象。 InvocationHandler接口只有一个方法invoke</p>
+<pre><code>public interface InvocationHandler{
+  Object invoke(Object proxy, Method method, Object[] args)
+         throws Throwable;
+}
+</code></pre><p>　　Object proxy：实现接口的动态代理对象，通常不需要；</p>
+<p>　　Method method：表示在动态代理实现的接口上调用的方法，通过Method对象，可以获取到方法名，参数类型，返回类型等信息。</p>
+<p>　　Object[] args：方法的参数值，注意：如果接口中的参数是int、long等基本数据时，这里的args必须使用Integer, Long等包装类型。</p>
+<p>　　<strong>上面的JDK 动态代理有一个最致命的问题是其只能代理实现了接口的类</strong>。 它的第二个参数是接口数组，如果一个类没有实现某一个接口（比如它就是个简单的类，不需要太多复杂的抽象封装），那么就不能对这个类进行动态代理，
+这里就需要使用到 CGLIB 动态代理机制。</p>
+<p>　　CGLIB（Code Generation Library）是一个基于ASM的字节码生成库，它允许我们在运行时对字节码进行修改和动态生成。CGLIB通过继承方式实现代理，一些知名的开源框架中都使用到了CGLIB，比如Spring中的AOP模块，
+如果目标对象实现了接口，就默认采用JDK动态代理；否则采用CGLIB动态代理。</p>
+<h1 id="集合">集合</h1>
+<h3 id="hashmap">HashMap</h3>
+<p>　　HashMap中没有capacity的概念，只有size和threshold，尤其需要注意 this.threshold = tableSizeFor(initialCapacity);这个方法。</p>
+<p>　　HashMap可以存储null的key和value，但是null作为键只能有一个，null作为值可以有多个；HashTable不允许有null的键和值。</p>
+<p>　　JDK 1.8以后HashMap在解决hash冲突时，当链表长度大于默认阈值（8）时，会将链表转换为红黑树（不过转换前会先判断数组桶的长度，如果小于64，
+会首先进行扩容，而不是转换为红黑树）。HashMap的长度（数组长度）总是2的幂（方便计算槽位，不用求余，(n - 1) &amp; hash”。（n 代表数组长度））。</p>
+<p>　　TreeMap 和 HashMap 都继承自AbstractMap ，但是需要注意的是TreeMap它还实现了NavigableMap接口和SortedMap 接口：</p>
+<ul>
+<li>
+<p>1、实现NavigableMap接口让TreeMap有了对集合内元素的搜索的能力；</p>
+</li>
+<li>
+<p>2、实现SortedMao接口让TreeMap可以对集合中的元素按照键排序，默认按照key的升序排序，也可以自定义比较器。而HashMap是按照键的hashcode值来
+存储数据的；LinkedHashMap是按照插入顺序的；而TreeMap是按照键排序的。</p>
+</li>
+</ul>
+<p>　　在JDK1.8以前，多线程使用HashMap可能会产生循环链表问题，主要是在于并发的rehash造成的，即使后面解决了这个问题，多线程下使用HashMap还是
+可能会有其他问题，不能使用。</p>
+<p>　　JDK1.8中，HashMap添加一个元素的流程，即put过程：</p>
+<ul>
+<li>
+<p>（1）、首先判断数组table是否为空或者长度是否为0，如果是则先调用resize进行扩容，第一次put时会发生这种情况，因为HashMap初始化后，并没有
+初始化相应的数组；</p>
+</li>
+<li>
+<p>（2）、根据hash计算数组的下标，index是hash计算出来的数组下标，如果对应位置有值而且这个key存在，那么就直接覆盖然后返回。流程结束。</p>
+</li>
+<li>
+<p>（3）、如果对应的位置没有值，直接插入即可，即table[index] = newNode(hash, key, value, null); 然后<strong>size++，并且判断自增后
+的size是否大于扩容阈值threshold，如果大于则进行扩容。</strong></p>
+</li>
+<li>
+<p>（4）、如果对应的位置有值，但是key并不存在，证明我们要把这个数据通过拉链法来解决冲突了。那么需要判断table[index]是否为树节点，也就是第一个
+节点的类型，如果是树节点，那么将新节点插入到红黑树中。然后<strong>size++，并且判断自增后的size是否大于扩容阈值threshold，如果大于则进行扩容。</strong></p>
+</li>
+<li>
+<p>（5）、接上面那一步，如果table[index]不是树节点，证明此时这个位置还是一个链表，那么将新节点插入链表（通过遍历放入尾部，<strong>尾插法</strong>
+），然后判断当前链表
+长度是否大于8，如果小于8，则无须进行转换（红黑树），然后size++，判断是否需要进行扩容；如果大于8，则调用treeifyBin()方法转换为红黑树。</p>
+</li>
+<li>
+<p>（6）、在treeifyBin()方法内部，还判断了数组的长度即 (n = tab.length) &lt; MIN_TREEIFY_CAPACITY，如果小于64，那么是不会转化为红黑树的，
+会进行扩容resize然后就返回了，如果大于64才进行转换。同样，后续如果由于删除或者其他原因调整了大小，当红黑树的节点小于或等于 6 个以后，又会恢复
+为链表形态。事实上，<strong>不是元素小于6的时候一定会变成链表，只有resize的时候才会根据UNTREEIFY_THRESHOLD 进行转换</strong>。</p>
+</li>
+</ul>
+<p>　　如果 hashCode 分布良好，也就是 hash 计算的结果离散好的话，那么红黑树这种形式是很少会被用到的，因为各个值都均匀分布，很少出现链表很长的情况。
+在理想情况下，链表长度符合泊松分布，各个长度的命中概率依次递减，当长度为 8 的时候，概率仅为 0.00000006。这是一个小于千万分之一的概率，通常我们
+的 Map 里面是不会存储这么多的数据的，所以通常情况下，并不会发生从链表向红黑树的转换。
+　　
+　　但是，HashMap 决定某一个元素落到哪一个桶里，是和这个对象的 hashCode 有关的，JDK 并不能阻止我们用户实现自己的哈希算法，如果我们故意把哈希
+算法变得不均匀，比如重写hashCode 计算出来的值始终为 1，那么就很容易导致 HashMap 里的链表变得很长。</p>
+<p>　　<strong>在1.7及以前，put操作是不太一样的</strong>。主要在于：如果定位到的数组位置没有元素 就直接插入（没有判断是否扩容操作）；如果定位到的数组位置有
+元素，遍历以这个元素为头结点的链表，依次和插入的key比较，如果key相同就直接覆盖，不同就采用<strong>头插法</strong>插入元素（即放入链表的头节点）。</p>
+<h3 id="hashset">HashSet</h3>
+<p>　　HashSet底层就是基于HashMap实现的，代码并不是很多。当把一个对象加入到HashSet时，会计算其hashcode，以此来判断这个对象加入的位置。这里
+需要注意的是，我们往往说HashSet是无序的，这里的无序指的是遍历顺序和加入顺序是无关的，但是其内部元素存储还是有序的（按照对象的hashcode）。
+如果没有相同的hashcode，则认为对象没有重复出现，如果有相同的hashcode，再次调用equals方法，来判断对象是否真的相同，相同就不会加入成功了。</p>
+<p>　　类的hashcode方法，只有在hash表相关的数据结构中会使用到。</p>
+<p>　　对于引用类型来说，==比较的是两个引用是否指向同一个对象地址；而equals如果该类没有重写（override），则还是对比的地址是否相等（因为
+Object类的equals方法就是直接使用的==，），所以一般都会重写equals方法，来自定义判断两个对象是否相等的逻辑。</p>
+<h3 id="concurrenthashmap">ConcurrentHashMap</h3>
+<p>　　JDK1.7的ConcurrentHashMap底层还是使用的分段数组+链表来实现的，1.8以后和HashMap一样，也升级到可能的红黑树了。为了实现线程安全，在1.7
+的时候，ConcurrentHashMap（分段锁）对整个桶数组进行了分割分段（Segment），每一把锁只锁定容器中的一部分数据，多线程访问容器里不同段的数据，
+就不会存在竞争了，这一点也就是常说的优于HashTable的地方。<strong>但是在1.8以后已经摒弃了段的概念</strong>， 而是<strong>直接用 Node 数组+链表/红黑树</strong> 的数
+据结构来实现，并发控制使用 synchronized 和 CAS 来操作。</p>
+<p>　　synchronized 只锁定当前链表或红黑二叉树的首节点，这样只要 hash 不冲突，就不会产生并发，效率又提升 N 倍。</p>
+<p>　　首先通过hash找到对应的链表后，查看是否是第一个object，如果是，直接用cas原则插入，无需加锁，如果不是链表第一个object，则直接用链表的第一
+个object加锁，这里加的锁是synchronized，虽然效率不如reentrantlock，但是节约了空间，这里会一直用第一个object为锁，直到重新计算map大小，
+比如扩容或者操作了第一个object为止。</p>
+<p>　　为什么在Java8中该分段锁已被弃用呢？主要还是加入多个分段锁浪费内存空间；而且put操作放入同一个段的概率并不高。</p>
+<p>　　关于ConcurrentHashMap，可以再多看几遍文章。</p>
+<h3 id="linkedlist">LinkedList</h3>
+<p>　　LinkedList是一个实现了List接口和Deque接口的<strong>双端链表</strong>, 它底层是链表结构，也就是可以比较高效地支持插入和删除元素（不过你要是指定插入
+index，那还是会先从头节点访问到这个位置，也就是O(n)的时间复杂度）；也实现了Deque接口，因此具有队列的性质，即支持addFirst、addLast等方法。
+它的源码还是比较简单的，也容易看懂。</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://monkback.github.io/tags/java%E5%9F%BA%E7%A1%80/">Java基础</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/java/hashmap/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">学习HashMap</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/mysql/mysql-45/">
+            <span class="next-text nav-default">Mysql 45讲读书笔记</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

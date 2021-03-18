@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/work/paxos/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="对paxos的一些理解" />
 <meta property="og:description" content="由于最近需要在组内做一个分享，而且Spring那块我还没搞完，就打算选paxos的一些问题来梳理理解一下，这也就是技术分享的最大好处，需要你" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/work/paxos/" />
-<meta property="article:published_time" content="2019-10-14T10:38:40+08:00" />
-<meta property="article:modified_time" content="2019-10-14T10:38:40+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/work/paxos/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-10-14T10:38:40&#43;08:00" />
+<meta property="article:modified_time" content="2019-10-14T10:38:40&#43;08:00" />
+
 <meta itemprop="name" content="对paxos的一些理解">
-<meta itemprop="description" content="由于最近需要在组内做一个分享，而且Spring那块我还没搞完，就打算选paxos的一些问题来梳理理解一下，这也就是技术分享的最大好处，需要你">
-
-
-<meta itemprop="datePublished" content="2019-10-14T10:38:40&#43;08:00" />
+<meta itemprop="description" content="由于最近需要在组内做一个分享，而且Spring那块我还没搞完，就打算选paxos的一些问题来梳理理解一下，这也就是技术分享的最大好处，需要你"><meta itemprop="datePublished" content="2019-10-14T10:38:40&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-14T10:38:40&#43;08:00" />
-<meta itemprop="wordCount" content="5767">
-
-
-
-<meta itemprop="keywords" content="分布式系统,工作," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="5839">
+<meta itemprop="keywords" content="分布式系统,工作," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="对paxos的一些理解"/>
 <meta name="twitter:description" content="由于最近需要在组内做一个分享，而且Spring那块我还没搞完，就打算选paxos的一些问题来梳理理解一下，这也就是技术分享的最大好处，需要你"/>
 
@@ -243,189 +237,147 @@
     <div class="post-content">
       <p>由于最近需要在组内做一个分享，而且Spring那块我还没搞完，就打算选paxos的一些问题来梳理理解一下，这也就是技术分享的最大好处，需要你去好好准备。下面是分享的内容文字版。这篇文章的内容大部分参考
 自知行学社的视频(B站可以搜索分布式系统与Paxos算法视频课程)。</p>
-
 <p><strong>paxos究竟在解决什么问题？</strong>
 paxos用来确定一个不可变变量的取值，取值可以是任意的二进制，一旦确定后将不可更改，并且能被再次获取到。</p>
-
 <p><strong>paxos如何在分布式存储系统中应用的？</strong></p>
-
 <p>我们需要转换一下切入点，也许我们需要paxos确定的值，并不一定是我们真正看到的数据。</p>
-
 <ul>
 <li>数据本身通过多副本进行存储</li>
 <li>需要保证多个副本的更新操作序列[op1, op2, &hellip; opn]是相同的，不变的</li>
 <li>用paxos一次来确定不可变变量opi的取值，每次确定完opi之后，就让各个数据副本执行opi</li>
 </ul>
-
 <p>我们观察大部分存储系统，如LevelDB，都是以AppendLog的形式，确定一个操作系列，而后需要恢复存储的时候
 都可以通过这个操作系列来恢复，而这个操作系列，正是确定之后就永远不会被修改的。因此这就是paxos在分布式存储系统中的应用。ocean base是基于paxos协议来保证一致性的，微信也实现了一个。</p>
-
 <p>**paxos希望解决的一致性问题</p>
-
 <p>现在我们需要设计一个系统，来存储名为var的一个变量。系统内部有多个acceptor组成，负责存储和管理var变量；系统外部有多个proposer机器任意并发的调用系统API，向系统提交不同的var的取值(任意
 二进制数据)。这个系统需要保证var取值满足下面的一致性：</p>
-
 <ul>
 <li>如果var的取值还没有确定，则var的取值为null</li>
 <li>一旦var的取值被确定，则不可以更改，且可以一直获取到这个值</li>
 </ul>
-
 <p>系统需要满足的容错特性：</p>
-
 <ul>
 <li>可以容忍任意数量的proposer机器故障</li>
 <li>可以容忍半数以下的acceptor机器故障</li>
 </ul>
-
 <p>视频里面提到，确定一个不可变变量的难点在于：</p>
-
 <ul>
 <li>管理多个proposer机器的并发执行</li>
 <li>保证var变量不可变性</li>
 <li>容忍两种机器的故障</li>
 </ul>
-
 <p>为此，视频里采用了一种循序渐进的方式引入paxos。为此，我们来看设计这个系统的方案一</p>
-
 <p><strong>方案一</strong></p>
-
 <ul>
 <li>先考虑系统内部只有一个acceptor，通过类似互斥锁的机制来管理proposer的并发执行</li>
 <li>proposer首先向acceptor申请互斥访问权，获得访问权后再请求acceptor接受自己的取值</li>
 <li>acceptor会向proposer发放互斥访问权，哪个proposer申请到互斥访问权，就接受这个proposer的取值</li>
 <li>让proposer按照获取互斥访问权的顺序来依次访问acceptor，一旦acceptor接受了某个proposer的取值，则认为var变量的取值已经确定，其他proposer不能再进行更改</li>
 </ul>
-
 <p>acceptor的实现：</p>
-
 <ul>
 <li>内部保存变量var和一个互斥锁lock</li>
 <li>prepare(): 加互斥锁，给予var变量的互斥访问权，并返回var当前的取值</li>
 <li>release(): 释放互斥锁，收回var变量的互斥访问权</li>
 <li>accept(var, V): 如果已经加锁，并且var此时的取值为null，则设置var的值为V，并释放锁</li>
 </ul>
-
 <p>proposer通过两个阶段来实现：</p>
-
 <ul>
 <li>第一阶段：通过Accept::prepare()接口获取互斥访问权，以及var当前的取值。如果不能，则返回error表示互斥锁已经发给了其他的proposer</li>
 <li>第二阶段：根据第一阶段获取到的var值：如果值为null，则通过Accept::accept(var, V)提交自己的取值V；如果不为null，则表示var已经有了确定值，通过Accept::release()释放访问权</li>
 </ul>
-
 <p><strong>我们现在不考虑任何性能问题，思考一下就发现，但是方案一并不能满足刚刚提到的一致性和容错性里的一条，即如果一个proposer申请到了锁之后，在释放锁之前出现了故障，则会导致死锁。我个人的思考是，
 在这里给锁加一个过期时间可不可行？</strong>。如何解决这种死锁问题呢？</p>
-
 <p><strong>方案二  引入抢占式访问权</strong></p>
-
 <ul>
 <li>acceptor可以让某个proposer获取到的访问权失效，不再接受它的访问</li>
 <li>可以将访问权发放给其他proposer：proposer向acceptor申请访问权的时候需要指定一个编号 epoch，epoch越大表示越新，还是只有获取到访问权的proposer才能向acceptor提交取值</li>
 <li>acceptor采用喜新厌旧的原则：一旦接收到更大的epoch的申请，马上让旧的epoch的访问权失效，不再接受这些proposer提交的取值，然后给新的epoch访问权，只接受新的epoch提交的取值</li>
-<li>新的epoch可以抢占旧的epoch的访问权，让旧的epoch的访问权失效，为了保证数据的一致性，不同epoch的proposer之间采用&rdquo;后者认同前者&rdquo;的原则：在旧的epoch无法形成确定的取值的时候，新的epoch才会
+<li>新的epoch可以抢占旧的epoch的访问权，让旧的epoch的访问权失效，为了保证数据的一致性，不同epoch的proposer之间采用&quot;后者认同前者&quot;的原则：在旧的epoch无法形成确定的取值的时候，新的epoch才会
 提交自己的取值；而一旦旧的epoch形成了确定的取值，新的epoch肯定会获取到此值，并且认同这个值，不会进行破坏。这儿有一个思考，什么叫认同？怎么认同的。</li>
 </ul>
-
 <p>acceptor的实现：</p>
-
 <ul>
-<li><p>acceptor保存的状态：</p>
-
+<li>
+<p>acceptor保存的状态：</p>
 <ul>
-<li>当前var的取值以及这个值是哪一个epoch提交的<accepted_epoch, accepted_value></li>
+<li>当前var的取值以及这个值是哪一个epoch提交的&lt;accepted_epoch, accepted_value&gt;</li>
 <li>最新发放的访问权的epoch (latest_prepared_epoch)</li>
-</ul></li>
-
-<li><p>Accept::prepare(epoch)：</p>
-
+</ul>
+</li>
+<li>
+<p>Accept::prepare(epoch)：</p>
 <ul>
 <li>只接受比latest_prepared_epoch大的epoch，并给予访问权</li>
 <li>本地记录latest_prepared_epoch = epoch，并返回当前var的值</li>
-</ul></li>
-
-<li><p>Accept::accept(var, prepared_epoch, V)：</p>
-
+</ul>
+</li>
+<li>
+<p>Accept::accept(var, prepared_epoch, V)：</p>
 <ul>
 <li>验证prepared_epoch == latest_prepared_epoch，如果不相等则返回错误，表示访问权已经被更大的epoch拿到</li>
-<li>设置<accepted_epoch, accepted_value> = <prepared_epoch, V></li>
-</ul></li>
+<li>设置&lt;accepted_epoch, accepted_value&gt; = &lt;prepared_epoch, V&gt;</li>
 </ul>
-
+</li>
+</ul>
 <p>proposer的两阶段实现：</p>
-
 <ul>
 <li>第一阶段：简单选取当前时间戳为epoch，通过prepare(epoch)接口获取epoch的访问权以及var变量的取值。如果不能，则返回error，表示互斥锁已经发给了更大epoch</li>
-<li>第二阶段：如果获取到了访问权，采用&rdquo;后者认同前者&rdquo;的原则执行：如果上一阶段获取的var值为null，则肯定旧的epoch不能形成旧的取值，通过accept(var, prepared_epoch, V)提交数据V，成功后返回
-<ok, V>，如果失败则返回error(意味着访问权被更大的epoch抢占到，或者acceptor故障)；如果上一阶段获取的var值不为空，则这个值已经是确定的，不能再进行修改，返回<ok, accepted_value></li>
+<li>第二阶段：如果获取到了访问权，采用&quot;后者认同前者&quot;的原则执行：如果上一阶段获取的var值为null，则肯定旧的epoch不能形成旧的取值，通过accept(var, prepared_epoch, V)提交数据V，成功后返回
+&lt;ok, V&gt;，如果失败则返回error(意味着访问权被更大的epoch抢占到，或者acceptor故障)；如果上一阶段获取的var值不为空，则这个值已经是确定的，不能再进行修改，返回&lt;ok, accepted_value&gt;</li>
 </ul>
-
 <p><strong>基于抢占式访问权的核心思想：</strong></p>
-
 <ul>
 <li>让proposer将按照epoch递增的顺序抢占式的依次运行，后者会认同前者</li>
 <li>可以避免proposer机器故障带来的死锁问题，并且仍可以保证var取值的一致性</li>
 <li>仍需要引入<strong>多acceptor</strong>： 单机模块Acceptor故障容易导致整个系统宕机，无法提供服务</li>
 </ul>
-
 <p><strong>paxos—引入多个acceptor的方案二</strong></p>
-
-<p>paxos在方案二的基础上引入多个acceptor，解决了单点问题，acceptor的实现保持不变，仍然采用&rdquo;喜新厌旧&rdquo;的原则。paxos采用少数服从多数的思路，一旦某个epoch的取值被半数以上的acceptor接受，
+<p>paxos在方案二的基础上引入多个acceptor，解决了单点问题，acceptor的实现保持不变，仍然采用&quot;喜新厌旧&quot;的原则。paxos采用少数服从多数的思路，一旦某个epoch的取值被半数以上的acceptor接受，
 则认为此值被确定，不再变化。</p>
-
 <p>proposer的两阶段实现：</p>
-
 <ul>
-<li>第一阶段：选定一个epoch，获取epoch访问权和对应的var取值，获取半数以上的acceptor的访问权和对应的一组var取值。</li>
-
-<li><p>第二阶段：仍然采用&rdquo;后者认同前者&rdquo;的原则执行：</p>
-
+<li>
+<p>第一阶段：选定一个epoch，获取epoch访问权和对应的var取值，获取半数以上的acceptor的访问权和对应的一组var取值。</p>
+</li>
+<li>
+<p>第二阶段：仍然采用&quot;后者认同前者&quot;的原则执行：</p>
 <ul>
 <li>如果获取的var值都为空，则旧的epoch无法形成确定性取值，此时向epoch对应的所有acceptor(我认为是获取到了访问权的acceptor，不是系统的所有acceptor；此处微信文章认为不一定要向所有应答了
 的acceptor，只要是多数派就可以，也就是漏掉几个满足多数也没有关系)提交取值accept(var, prepared_epoch, V)，
-如果收到半数(所有acceptor)以上的成功，则返回<ok, V>，否则返回error，表示被新的epoch抢占或者acceptor出现了故障。</li>
-<li>如果var的取值存在，认同最大的accepted_epoch对应的取值f，如果f出现了半数以上，则说明f已经是确定性取值，直接返回<ok, f>；否则向epoch对应的所有acceptor提交取值accept(var, epoch, f)</li>
-</ul></li>
+如果收到半数(所有acceptor)以上的成功，则返回&lt;ok, V&gt;，否则返回error，表示被新的epoch抢占或者acceptor出现了故障。</li>
+<li>如果var的取值存在，认同最大的accepted_epoch对应的取值f，如果f出现了半数以上，则说明f已经是确定性取值，直接返回&lt;ok, f&gt;；否则向epoch对应的所有acceptor提交取值accept(var, epoch, f)</li>
 </ul>
-
+</li>
+</ul>
 <p><strong>注意</strong></p>
-
 <p>这里讲了一下paxos的实现方案，按照上述推导，其实任意情况都能保证数据的一致性。但是常说的leader和learner并不是paxos保证一致性的必要角色，它们是用来提升性能的。</p>
-
 <p><strong>分析</strong>
 假设在一个系统中有两个 proposer三个acceptor，暂时不提learner，该系统发生了如下时间线的事情：</p>
-
 <pre><code>1、proposer1 拿到了3个acceptor对 prepare 请求的确认回复，开始向3个acceptor发送accept请求
 2、proposer1 的accpet 请求顺利到达acceptor1，acceptor1 accept 了 value1
 3、因为延时等问题proposer1发出的accept请求没能及时到达acceptor2与acceptor3
 4、proposer2 更新了acceptor2与acceptor3的 prepare number
 5、proposer2 向三个acceptor都发送accept请求，acceptor2与acceptor3 accept了value2，acceptor1则拒绝了value2
 </code></pre>
-
 <p>也就是说，在上面的例子中value真正被chosen是在acceptor2与acceptor3 accept 了value2 那一刻，而不是 acceptor1 accept 了 value1 那一刻。</p>
-
 <p>Q1：有人要问了，那acceptor1 accept了 value1，acceptor2与acceptor3 accept 了value2 ，那岂不是没有实现状态一致吗？出现这个问题除了之前说的，混淆了accept与chosen以外，也和网络上
 很多关于Paxos 算法的文章省略了对learner的讨论有关系。
 A1：首先我们应该明确，一个value是否被chosen与acceptor是无关的，acceptor在accept一个value之后，它的使命就完成了，至于这个value最后是否能够被chosen不是它考虑的问题。</p>
-
 <p>Q2：有人又要问了，那acceptor怎么知道自己accept的value 有没有被chosen呢？答案是：其实它没有知道的必要，如果它想知道的话，通过learner。
 A2：如果acceptor想知道哪个value被chosen的话，可以通过询问learner（learner可以有一个也可以有多个），如果此时已经有value被chosen了，learner可以告诉该acceptor被chosen的value2，
 然后该acceptor记录下被chosen的value（如果它有必要记录的话）</p>
-
 <p>其实我们在上面的例子中，如果开上帝视角的话，在acceptor2与acceptor3 accept 了value2 的那一刻，value2的值已经被chosen了，但是此时learner节点们还不知道，所有就需要learner去
 learn哪个value被chosen了（To learn that a value has been chosen）</p>
-
 <p>关于learner 如何learn 到哪个value被chosen，在 Paxos make simple 的论文中有讨论，也比较简单（其实就是通过消息去询问或者被告知是否有一个value被大多数（超过一半）acceptor accept）。</p>
-
 <p>basic paxos是由client发起的同步过程，<strong>在两阶段返回前，client不能得到成功的返回</strong>。</p>
-
 <p>第一阶段a（发送prepare），proposer向acceptor提出一个协议，这里的协议可以理解为client发送过来期望多节点一起保存的一致性内容，举例：一句日志，某个配置等
 第一阶段b（计算协议vn），根据半数以上acceptor的返回，选择 max{va,vb,vc} = vn，这里的vx理解为这个acceptor已知的最大协议号，acceptor一旦返回了vx后，则表明：
 acceptor在接下来的prepare请求中，会返回的vx自增1
 acceptor不会accept任何小于vx的协议请求，只会accept大于vx的协议请求
 第二阶段a（发送决议好的vn），把vn发送给acceptor
 第二阶段b，在半数acceptor返回了成功后，再返回client成功通过协议</p>
-
 <p>引用wiki上的流程图：</p>
-
 <pre><code>Client   Proposer      Acceptor     Learner
    |         |          |  |  |       |  |
    X--------&gt;|          |  |  |       |  |  Request
@@ -436,7 +388,6 @@ acceptor不会accept任何小于vx的协议请求，只会accept大于vx的协�
    |&lt;---------------------------------X--X  Response
    |         |          |  |  |       |  |
 </code></pre>
-
 <p>刚才我讲了，Paxos还过于理论，无法直接用到复制状态机中，总的来说，有以下几个原因
 Paxos只能确定一个值，无法用做Log的连续复制
 由于有多个Proposer，可能会出现活锁，如我在上面举的例子中，Server2的一共提了两次Propose才最终让提案通过，极端情况下，次数可能会更多
@@ -552,7 +503,7 @@ Paxos到目前已经有了很多的补充和变种，实际上，之后我要讨
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

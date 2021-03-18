@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Leetcode on Records</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Leetcode on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 17 Sep 2020 20:10:26 +0800</lastBuildDate>
-    
-	<atom:link href="https://monkback.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 17 Sep 2020 20:10:26 +0800</lastBuildDate><atom:link href="https://monkback.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Leetcode-字典树</title>
       <link>https://monkback.github.io/post/algorithm/leetcode/leetcode-trie/</link>
@@ -44,7 +40,7 @@
       <pubDate>Mon, 10 Aug 2020 15:24:03 +0800</pubDate>
       
       <guid>https://monkback.github.io/post/algorithm/leetcode/leetcode-stack/</guid>
-      <description>这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &amp;lsquo;(&amp;lsquo;，&amp;rsquo;</description>
+      <description>这篇文章是LeetCode上栈相关的题目，只涉及思路和方法，没有完整代码。 20、给定一个只包括 &amp;lsquo;(&#39;，&#39;)&#39;，&#39;{&#39;，&#39;}&#39;，&#39;</description>
     </item>
     
     <item>

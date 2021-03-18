@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/spring/spring4read1/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="Spring 4.x 阅读笔记(二)" />
 <meta property="og:description" content="第四章 IOC Inverse Of Control：某一接口具体实现类的选择控制权从 调用类 中移除，转交给第三方，即Spring容器(利用Bean配置来控制) 这其实是" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/spring/spring4read1/" />
-<meta property="article:published_time" content="2019-09-22T17:04:23+08:00" />
-<meta property="article:modified_time" content="2019-09-22T17:04:23+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/spring/spring4read1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-09-22T17:04:23&#43;08:00" />
+<meta property="article:modified_time" content="2019-09-22T17:04:23&#43;08:00" />
+
 <meta itemprop="name" content="Spring 4.x 阅读笔记(二)">
-<meta itemprop="description" content="第四章 IOC Inverse Of Control：某一接口具体实现类的选择控制权从 调用类 中移除，转交给第三方，即Spring容器(利用Bean配置来控制) 这其实是">
-
-
-<meta itemprop="datePublished" content="2019-09-22T17:04:23&#43;08:00" />
+<meta itemprop="description" content="第四章 IOC Inverse Of Control：某一接口具体实现类的选择控制权从 调用类 中移除，转交给第三方，即Spring容器(利用Bean配置来控制) 这其实是"><meta itemprop="datePublished" content="2019-09-22T17:04:23&#43;08:00" />
 <meta itemprop="dateModified" content="2019-09-22T17:04:23&#43;08:00" />
-<meta itemprop="wordCount" content="7550">
-
-
-
-<meta itemprop="keywords" content="Spring," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="7548">
+<meta itemprop="keywords" content="Spring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Spring 4.x 阅读笔记(二)"/>
 <meta name="twitter:description" content="第四章 IOC Inverse Of Control：某一接口具体实现类的选择控制权从 调用类 中移除，转交给第三方，即Spring容器(利用Bean配置来控制) 这其实是"/>
 
@@ -242,49 +236,36 @@
     
     <div class="post-content">
       <p><strong>第四章 IOC</strong></p>
-
-<p><big>Inverse Of Control</big>：某一接口具体实现类的选择控制权从 调用类 中移除，转交给第三方，即Spring容器(利用Bean配置来控制)
+<p><!-- raw HTML omitted -->Inverse Of Control<!-- raw HTML omitted -->：某一接口具体实现类的选择控制权从 调用类 中移除，转交给第三方，即Spring容器(利用Bean配置来控制)
 这其实是一种设计模式。</p>
-
-<p><big>Dependency Injection</big>：觉得控制反转不太好理解，Martin Fowler提出了DI，调用类 对 某一接口实现类的依赖关系 由第三方注入，
+<p><!-- raw HTML omitted -->Dependency Injection<!-- raw HTML omitted -->：觉得控制反转不太好理解，Martin Fowler提出了DI，调用类 对 某一接口实现类的依赖关系 由第三方注入，
 以减少了直接依赖的耦合。</p>
-
 <p>从注入方法来看，IOC主要可以划分为以下三种类型，其中Spring支持的是前面两种:</p>
-
 <ul>
 <li>构造函数注入</li>
 <li>属性注入</li>
 <li>接口注入</li>
 </ul>
-
 <p>Spring就是这样一个第三方容器，它通过配置文件或注解来描述类与类之间的依赖关系，自动完成类的初始化和依赖注入工作。
 之所以能够通过配置来完成类的初始化和依赖注入工作，Spring依赖的核心技术是反射，其中值得我们深入学习的就是类加载器的工作机制了，</p>
-
 <ul>
 <li>类加载器：基于类的字节码文件构造出类在JVM内部表示对象的组件</li>
 </ul>
-
 <p>类的装载工作就是由ClassLoader及其子类负责，在运行时查找和装入Class字节码文件。JVM在运行时会产生3个ClassLoader：
 根装载器、扩展类装载器(ExtClassLoader)和应用类装载器(AppClassLoader)。其中，只有根装载器不是ClassLoader的子类，它是c++写的，在Java中无法访问到，
 根装载器负责装载JRE的核心类库；ExtClassLoader负责装载JRE扩展目录ext中的jar类包；AppClassLoader负责装载classpath路径下
 的类包。它们存在父子层级关系，并且 默认情况下使用AppClassLoader装载应用程序的类。</p>
-
 <p>JVM装载类时使用<strong>全盘负责委托机制</strong>。全盘负责指的是当一个ClassLoader装载一个类时，除非显示的使用另一个ClassLoader，
 该类所依赖以及引用的类也是由这个ClassLoader装载；委托机制指的是先委托父装载器寻找目标类，只有找不到的情况下才从自己的类路径中
 寻找并装载目标类。此处引发一道面试题:</p>
-
 <ul>
 <li>你能不能自己写一个String类来替换JDK提供的String类？</li>
 </ul>
-
 <p>除了JVM默认的3个ClassLoader以外，我们还可以编写自己的第三方类加载器。类文件被 装载并解析后 ，在JVM内将拥有一个对应的
 Class类描述对象，该类的实例都拥有指向这个类描述对象的引用，而类描述对象又拥有指向关联ClassLoader的引用。</p>
-
-<p><strong><big>资源访问接口</big></strong></p>
-
+<p><strong><!-- raw HTML omitted -->资源访问接口<!-- raw HTML omitted --></strong></p>
 <p>Spring设计了一个Resource接口，这个接口拥有多种不同资源类型的实现类，并且，这些类可以在脱离Spring框架的情况下使用，
 比通过JDK访问资源的API更加强大和好用，如下：</p>
-
 <ul>
 <li>WritableResource接口：可写资源接口，有两个实现类 FileSystemResource和PathResource</li>
 <li>ByteArrayResource：二进制数组表示的资源，ByteArray可以在代码中获取</li>
@@ -295,25 +276,19 @@ Class类描述对象，该类的实例都拥有指向这个类描述对象的引
 <li>UrlResource：URL封装了java.net.URL</li>
 <li>PathResource：Spring4.0提供的读取资源文件的新类，这个更加全面和强大，整合了URL、File等</li>
 </ul>
-
-<p><strong><big><big>BeanFactory和ApplicationContext</big></big></strong></p>
-
+<p><strong><!-- raw HTML omitted --><!-- raw HTML omitted -->BeanFactory和ApplicationContext<!-- raw HTML omitted --><!-- raw HTML omitted --></strong></p>
 <p>这是Spring框架最核心的两个接口，我们知道，Spring通过配置文件 描述Bean 以及Bean之间的依赖关系，利用反射 实例化Bean 并建立Bean
 之间的依赖关系。IOC容器还提供了了Bean实例缓存、生命周期管理(常见面试题)、资源装载、Bean实例代理等高级服务。</p>
-
 <ul>
 <li>BeanFactory使得管理不同类型的Java对象成为可能，一般称其为IOC容器；它是Spring框架的基础设施，面向Spring本身。</li>
 <li>ApplicationContext(应用上下文)建立在BeanFactory上，提供更多面向使用Spring框架的开发者的功能；几乎所有的应用场合都
 可以直接使用ApplicationContext而非底层的BeanFactory。</li>
 </ul>
-
-<p><strong><big>BeanFactory</big></strong></p>
-
+<p><strong><!-- raw HTML omitted -->BeanFactory<!-- raw HTML omitted --></strong></p>
 <p>BeanFactory是类的通用工厂，它可以创建并管理各种类的对象，并称这些Java 对象为Bean。Spring为BeanFactory提供了多种实现，
 最常用的是XmlBeanFactory，但是在Spring3.2中被废弃，建议使用XmlBeanDefinitionReader、DefaultListableBeanFactory
 替代，可以看源码中这些类的继承体系。BeanFactory接口最主要的方法就是getBean(String beanName)，该方法从容器中返回特定名称的Bean。
 BeanFactory的功能通过其他接口不断扩展，如下：</p>
-
 <ul>
 <li><strong>ListableBeanFactory：</strong> 该接口定义了访问容器中Bean基本信息的若干方法，如查看Bean的个数、获取某一类型Bean的配置名、
 查看容器中是否包含某一Bean等</li>
@@ -321,19 +296,15 @@ BeanFactory的功能通过其他接口不断扩展，如下：</p>
 <li><strong>ConfigurableBeanFactory：</strong> 这个接口很重要，增强了IOC容器的可定制性。定义了比如设置类装载器、属性编辑器等方法</li>
 <li><strong>AutowireCapableBeanFactory：</strong> 定义了将容器中的Bean按某种规则(比如按名字、按类型匹配等)进行自动装配的方法</li>
 <li><strong>SingletonBeanRegistry：</strong> 定义了允许在 运行期间 向容器注册 单实例Bean 的方法</li>
-<li><strong>BeanDefinitionRegistry：</strong> Spring配置文件中的每一个<Bean>节点元素在Spring容器中都通过了一个 BeanDefinition对象
+<li><strong>BeanDefinitionRegistry：</strong> Spring配置文件中的每一个<!-- raw HTML omitted -->节点元素在Spring容器中都通过了一个 BeanDefinition对象
 表示，它描述了Bean的配置信息。该接口提供了向容器手工注册BeanDefinition对象的方法</li>
 </ul>
-
 <p>初始化BeanFactory，下面使用Spring配置文件为Car类提供配置信息，然后通过BeanFactory装载配置文件，启动Spring IOC容器，beans.xml配置文件信息如下</p>
-
 <pre><code>&lt;bean id=&quot;car&quot; class=&quot;com.smart.Car&quot;
          p:brand=&quot;红旗CA72&quot;
          p:maxSpeed=&quot;200&quot;/&gt;
 </code></pre>
-
 <p>下面通过XmlBeanDefinitionReader、DefaultListableBeanFactory实现类来启动Spring IOC容器，代码如下</p>
-
 <pre><code>@Test
 public void getBean() throws IOException {
 
@@ -349,20 +320,15 @@ public void getBean() throws IOException {
     car.introduce();
 }
 </code></pre>
-
 <p>XmlBeanDefinitionReader通过Resource装载Spring配置信息并启动IOC容器，然后就可以通过getBean方法获取Bean了。此处值得注意的是：
 通过BeanFactory启动IOC容器时，<strong>并不会初始化</strong>配置文件中定义的Bean，初始化动作发生在第一次调用的时候。对于单实例(Singleton)的
 Bean来说，BeanFactory会缓存Bean实例，在后续使用getBean来获取时，直接从IOC容器的缓存中获取Bean实例。这个缓存器是在
 DefaultSingletonBeanRegistry类中提供的。</p>
-
-<p><strong><big>ApplicationContext</big></strong></p>
-
+<p><strong><!-- raw HTML omitted -->ApplicationContext<!-- raw HTML omitted --></strong></p>
 <p>ApplicationContext由BeanFactory派生而来，提供了更多面向实际应用的功能。ApplicationContext的实现类主要是ClassPathXmlApplicationContext
 和FileSystemXmlApplicationContext，前者默认从类路径下加载配置文件，后者默认从文件系统中加载配置文件。</p>
-
 <p>ApplicationContext继承了HierarchicalBeanFactory和ListableBeanFactory(这两个接口又是继承自BeanFactory)，在此基础上，
 还通过其他的接口扩展了BeanFactory的功能。如下：</p>
-
 <ul>
 <li><strong>ApplicationEventPublisher：</strong> 让容器拥有发布应用上下文事件的 功能，包括容器启动事件、关闭事件等。实现了ApplicationListener
 事件监听接口的Bean可以接受到容器事件，并对事件进行响应处理。</li>
@@ -371,26 +337,22 @@ DefaultSingletonBeanRegistry类中提供的。</p>
 <li><strong>ConfigurableApplicationContext：</strong> 扩展了ApplicationContext，新增了两个主要的方法，refresh()和close(),
 让ApplicationContext具有启动、刷新和关闭应用上下文的能力。</li>
 </ul>
-
 <p>获取ApplicationContext的代码相比BeanFactory要简单许多，之前是通过XML配置文件的方式；Spring也支持基于 类注解 的配置方式，一个标注了@Configuration注解的POJO即可
 提供Spring所需的Bean配置信息。这也是SpringBoot常用的方式</p>
-
 <pre><code>@Configuration
 public class Beans {
 
-    @Bean(name = &quot;car&quot;)
-    public Car buildCar() {
+	@Bean(name = &quot;car&quot;)
+	public Car buildCar() {
         Car car = new Car();
         car.setBrand(&quot;红旗CA72&quot;);
         car.setMaxSpeed(200);
         return car;
-    }
+	}
 }
 </code></pre>
-
 <p>和基于XML文件的配置方式相比，类注解配置方式更容易让开发者控制Bean的初始化过程，且更加灵活。Spring为基于类注解的配置提供了专门的ApplicationContext实现类：
 AnnotationConfigApplicationContext，下面是一个使用AnnotationConfigApplicationContext来启动Spring容器的实例</p>
-
 <pre><code>@Test
 public void getBean() {
 
@@ -399,10 +361,8 @@ public void getBean() {
     car.introduce();
 }
 </code></pre>
-
 <p>具体可以参考这篇文章 <a href="http://mcace.me/spring-core/2018/07/14/spring-java-config.html" title="Spring">使用JavaConfig形式配置Spring框架</a>
 前面说到ApplicationContext的实现类之一ClassPathXmlApplicationContext，如果我们不是用基于类注解的方式来获取Bean，我们仍然可以使用XML配置文件的方式来获取，代码如下</p>
-
 <pre><code>@Test
 public void getBean() {
 
@@ -411,122 +371,99 @@ public void getBean() {
     car.introduce();
 }
 </code></pre>
-
 <p>上面的代码相对于BeanFactory的就要简单许多了，无须手动去处理资源类。
 在获取ApplicationContext实例后，就可以像BeanFactory一样通过getBean()方法来获取Bean了。它们的区别在于：</p>
-
 <ul>
 <li>BeanFactory在初始化容器时，并未实例化Bean，直到第一次访问某个Bean时才实例化目标Bean</li>
 <li>ApplicationContext在初始化应用上下文时就实例化所有 单实例 的Bean，因此初始化时间更长一点</li>
 </ul>
-
-<p><strong><big>WebApplicationContext</big></strong></p>
-
+<p><strong><!-- raw HTML omitted -->WebApplicationContext<!-- raw HTML omitted --></strong></p>
 <p>WebApplicationContext是专门为web应用准备的，它允许从相对于web根目录的路径中装载配置文件并完成初始化工作。可以从WebApplicationContext中获取ServletContext对象引用，整个web应用
 上下文对象将作为属性放置到ServletContext中，以便web应用环境可以访问 Spring上下文。</p>
-
 <p>在非web应用环境下，Bean只有singleton和prototype两种作用域，但是在web应用中，WebApplicationContext为Bean添加了三个新的作用域：request、session和global session。
 WebApplicationContext扩展了ApplicationContext，它定义了一个常量ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE，在上下文启动的时候，WebApplicationContext实例就以此为键放置在
 ServletContext的属性列表中，可以通过下面的代码从web容器中获取WebApplicationContext：</p>
-
 <pre><code>WebApplicationContext wc = (WebApplicationContext) servletcontext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)
 </code></pre>
-
 <p>ConfigurableWebApplicationContext扩展了WebApplicationContext，它允许通过配置的方式实例化WebApplicationContext，同时定义了两个重要的方法：</p>
-
 <ul>
 <li>setServletContext(ServletContext sc)：为Spring设置web应用上下文，以便二者互相获取</li>
 <li>setConfigLocations(String[] configLocations)：设置Spring配置文件地址</li>
 </ul>
-
 <p>WebApplicationContext的初始化方式和BeanFactory、ApplicationContext有所区别，因为WebApplicationContext需要ServletContext实例，也就是，需要一个web容器(例如Tomcat)的前提
 下才能完成启动工作。可以 在web.xml中配置自启动的Servlet或自定义web容器监听器(ServletContextListener)，二选一即可。自启动的Servlet实例如下：一般在InitServlet中做一些初始化工作，
 如初始化数据库连接等</p>
-
 <p>attention:所有版本的web容器都支持定义自启动的servlet，但是只有servlet2.3及以上版本的web容器才支持web容器监听器。</p>
-
 <pre><code>&lt;servlet&gt;
-    &lt;servlet-name&gt;initServlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.monkback.servlet.InitServlet&lt;/servlet-class&gt;
-    &lt;load-on-startup&gt;3&lt;/load-on-startup&gt;
+	&lt;servlet-name&gt;initServlet&lt;/servlet-name&gt;
+	&lt;servlet-class&gt;com.monkback.servlet.InitServlet&lt;/servlet-class&gt;
+	&lt;load-on-startup&gt;3&lt;/load-on-startup&gt;
 &lt;/servlet&gt;
 &lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;initServlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;*.*&lt;/url-pattern&gt;
+	&lt;servlet-name&gt;initServlet&lt;/servlet-name&gt;
+	&lt;url-pattern&gt;*.*&lt;/url-pattern&gt;
 &lt;/servlet-mapping&gt;
 </code></pre>
-
 <p>Spring分别提供了用于启动WebApplicationContext（Spring容器）的Servlet和web容器监听器：二者内部都实现了启动WebApplicationContext实例的逻
 辑，可以自由选择之一并在web.xml中配置即可，我们一般使用的都是contextLoaderListener（因为都用高本版web容器了），并配置好初始化Spring容器的配置文件路径</p>
-
 <ul>
-<li><p>org.springframework.web.context.ContextLoaderListener</p>
-
-<pre><code>    &lt;!-- 指定配置文件--&gt;
-    &lt;context-param&gt;
-        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
-        &lt;param-value&gt;
-            /WEB-INF/smart-dao.xml,/WEB-INF/smart-service.xml
-        &lt;/param-value&gt;
-    &lt;/context-param&gt;
-
-    &lt;!-- ContextLoaderListener监听器将根据上面配置使用contextConfigLocation
-         指定的配置类启动Spring容器--&gt;
-    &lt;listener&gt;
-        &lt;listener-class&gt;
-            org.springframework.web.context.ContextLoaderListener
-        &lt;/listener-class&gt;
-    &lt;/listener&gt;
-</code></pre></li>
-
-<li><p>org.springframework.web.context.ContextLoaderServlet</p>
-
-<pre><code>    &lt;!-- 指定配置文件--&gt;
-    &lt;context-param&gt;
-        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
-        &lt;param-value&gt;
-            /WEB-INF/smart-dao.xml,/WEB-INF/smart-service.xml
-        &lt;/param-value&gt;
-    &lt;/context-param&gt;
-
-    &lt;!-- 声明自启动的servlet--&gt;
-    &lt;servlet&gt;
-        &lt;servlet-name&gt;springContextLoaderServlet&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;org.springframework.web.context.ContextLoaderServlet&lt;/servlet-class&gt;
-        &lt;!-- 启动顺序--&gt;
-        &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-    &lt;/servlet&gt;
+<li>
+<p>org.springframework.web.context.ContextLoaderListener</p>
+<pre><code>      &lt;!-- 指定配置文件--&gt;
+      &lt;context-param&gt;
+          &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+          &lt;param-value&gt;
+              /WEB-INF/smart-dao.xml,/WEB-INF/smart-service.xml
+          &lt;/param-value&gt;
+      &lt;/context-param&gt;
+    
+      &lt;!-- ContextLoaderListener监听器将根据上面配置使用contextConfigLocation
+           指定的配置类启动Spring容器--&gt;
+      &lt;listener&gt;
+          &lt;listener-class&gt;
+              org.springframework.web.context.ContextLoaderListener
+          &lt;/listener-class&gt;
+      &lt;/listener&gt;
 </code></pre>
-
-<p>上面的两种方式默认都还是使用XML配置文件的方式来加载。<strong>如果要基于Java注解类的方式</strong>，则需要在context-param中指定contextClass上下文参数，就会使用参数指定的WebApplicationContext
-的实现类AnnotationConfigWebApplicationContext来初始化容器。<strong>contextConfigLocation参数默认指定的是XmlWebApplicationContext来启动容器</strong>。</p></li>
+</li>
+<li>
+<p>org.springframework.web.context.ContextLoaderServlet</p>
+<pre><code>      &lt;!-- 指定配置文件--&gt;
+      &lt;context-param&gt;
+          &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+          &lt;param-value&gt;
+              /WEB-INF/smart-dao.xml,/WEB-INF/smart-service.xml
+          &lt;/param-value&gt;
+      &lt;/context-param&gt;
+    
+      &lt;!-- 声明自启动的servlet--&gt;
+      &lt;servlet&gt;
+          &lt;servlet-name&gt;springContextLoaderServlet&lt;/servlet-name&gt;
+          &lt;servlet-class&gt;org.springframework.web.context.ContextLoaderServlet&lt;/servlet-class&gt;
+          &lt;!-- 启动顺序--&gt;
+          &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+      &lt;/servlet&gt;
+</code></pre>
+</li>
 </ul>
-
-<p><strong><big>BeanFactory中Bean的生命周期</big></strong></p>
-
+<p>上面的两种方式默认都还是使用XML配置文件的方式来加载。<strong>如果要基于Java注解类的方式</strong>，则需要在context-param中指定contextClass上下文参数，就会使用参数指定的WebApplicationContext
+的实现类AnnotationConfigWebApplicationContext来初始化容器。<strong>contextConfigLocation参数默认指定的是XmlWebApplicationContext来启动容器</strong>。</p>
+<p><strong><!-- raw HTML omitted -->BeanFactory中Bean的生命周期<!-- raw HTML omitted --></strong></p>
 <p>Bean的生命周期从Spring容器实例化Bean开始，到销毁为止。其中经历了几个关键点，每个关键点都涉及到特定的方法调用，这些方法大致可以划分为以下4类：</p>
-
-<p>一、Bean自身的方法：如调用Bean构造函数实例化Bean、调用setter设置Bean的属性值 以及 通过<bean>的init-method和destroy-method所指定的方法</p>
-
+<p>一、Bean自身的方法：如调用Bean构造函数实例化Bean、调用setter设置Bean的属性值 以及 通过<!-- raw HTML omitted -->的init-method和destroy-method所指定的方法</p>
 <p>二、Bean级生命周期接口方法：如BeanNameAware、BeanFactoryAware、InitializingBean、DisposableBean，这些接口由Bean类直接实现。每一个接口都有自己的一个方法(需要被Bean类实现)。</p>
-
-<p>三、容器级生命周期接口方法：InstantiationAwareBeanPostProcessor、BeanPostProcessor这两个接口，一般它们的实现类被称为&rdquo;后处理器&rdquo;。Bean本身一般不实现这两个接口，它们独立于Bean，
+<p>三、容器级生命周期接口方法：InstantiationAwareBeanPostProcessor、BeanPostProcessor这两个接口，一般它们的实现类被称为&quot;后处理器&quot;。Bean本身一般不实现这两个接口，它们独立于Bean，
 实现类以容器附加装置的形式注册到Spring容器中，并通过接口反射为Spring容器扫描识别( &lt;context:component-scan base-package=&ldquo;xxx&rdquo;&gt; )。当Spring容器创建任何Bean时，这些后处理器
 都会发生作用，所以这些后处理器的影响是全局性的。当然，我们也可以合理的编写后处理器，让其仅对感兴趣的Bean进行加工处理(而不是所有Bean)。</p>
-
 <p>四、工厂后处理器接口方法：包括AspectJWeavingEnabler、CustomAutowireConfigurer、ConfigurationClassPostProcessor等接口。工厂后处理器也是容器级的，在应用上下文装配配置文件后
 立即调用。</p>
-
 <p>此处应该配合书中关于Car类实例，来配合代码一起阅读，可以更好理解Bean的生命周期，此处<strong>我并没有完全理解，等待补充</strong>。可以配合该文章
 <a href="https://dpb-bobokaoya-sm.blog.csdn.net/article/details/88143169" title="Spring">Bean的生命周期详解</a></p>
-
-<p><strong><big>ApplicationContext中Bean的生命周期</big></strong></p>
-
+<p><strong><!-- raw HTML omitted -->ApplicationContext中Bean的生命周期<!-- raw HTML omitted --></strong></p>
 <p>Bean在应用上下文中的生命周期和在BeanFactory中的类似。不同在于，如果Bean实现了ApplicationContextAware接口，则会增加一个接口调用方法setApplicationContext()的步骤。ApplicationContext
 和BeanFactory的还有一个不同之处在于，前者会利用反射机制自动识别出配置文件中定义的BeanPostProcessor、InstantiationAwareBeanPostProcessor和BeanFactoryPostProcessor，并
 自动将它们注册到应用上下文中；而后者需要手动在代码中使用addBeanPostProcessor()方法进行注册。所以我们在应用开发中普遍使用ApplicationContext。在ApplicationContext中，只需在配置
 文件中通过bean定义工厂后处理器和Bean后处理器，它们就会按照预期方式执行。</p>
-
 <p>ApplicationContext在启动的时候，将首先为配置文件中的每个&lt;bean&gt;生成一个BeanDefinition对象，BeanDefinition是&lt;bean&gt;在Spring容器中的内部表示。当配置文件中的所有&lt;bean&gt;都
 被解析成BeanDefinition时，ApplicationContext将调用工厂后处理器的方法，因此，我们有机会在代码里调整Bean的配置信息。关于
 Spring后处理器，可以阅读本文<a href="https://www.cnblogs.com/zzq6032010/p/10466378.html" title="Spring">Spring的后处理器-BeanPostProcessor跟BeanFactoryPostProcessors</a></p>
@@ -635,7 +572,7 @@ Spring后处理器，可以阅读本文<a href="https://www.cnblogs.com/zzq60320
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

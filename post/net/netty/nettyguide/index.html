@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/net/netty/nettyguide/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="Netty权威指南读书笔记" />
 <meta property="og:description" content="2020-6-4，开始重读李林峰的《netty权威指南》 一、IO模型 Linux内核将所有的外部设备都看作一个文件，对一个文件的读写操作会调用" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/net/netty/nettyguide/" />
-<meta property="article:published_time" content="2020-06-04T14:03:53+08:00" />
-<meta property="article:modified_time" content="2020-06-04T14:03:53+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/net/netty/nettyguide/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-06-04T14:03:53&#43;08:00" />
+<meta property="article:modified_time" content="2020-06-04T14:03:53&#43;08:00" />
+
 <meta itemprop="name" content="Netty权威指南读书笔记">
-<meta itemprop="description" content="2020-6-4，开始重读李林峰的《netty权威指南》 一、IO模型 Linux内核将所有的外部设备都看作一个文件，对一个文件的读写操作会调用">
-
-
-<meta itemprop="datePublished" content="2020-06-04T14:03:53&#43;08:00" />
+<meta itemprop="description" content="2020-6-4，开始重读李林峰的《netty权威指南》 一、IO模型 Linux内核将所有的外部设备都看作一个文件，对一个文件的读写操作会调用"><meta itemprop="datePublished" content="2020-06-04T14:03:53&#43;08:00" />
 <meta itemprop="dateModified" content="2020-06-04T14:03:53&#43;08:00" />
-<meta itemprop="wordCount" content="10860">
-
-
-
-<meta itemprop="keywords" content="netty," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="10856">
+<meta itemprop="keywords" content="netty," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Netty权威指南读书笔记"/>
 <meta name="twitter:description" content="2020-6-4，开始重读李林峰的《netty权威指南》 一、IO模型 Linux内核将所有的外部设备都看作一个文件，对一个文件的读写操作会调用"/>
 
@@ -242,145 +236,128 @@
     
     <div class="post-content">
       <p><strong>2020-6-4，开始重读李林峰的《netty权威指南》</strong></p>
-
 <p>　　<strong>一、IO模型</strong></p>
-
 <p>　　Linux内核将所有的外部设备都看作一个文件，对一个文件的读写操作会调用内核提供的系统调用命令，返回的是一个fd，文件描述符。
 对一个socket的读写也是返回的相应的描述符，叫做socketfd，socket描述符，是一个数字，指向内核中的一个结构体（包括文件路径、
 数据区等一些信息）。</p>
-
 <p>　　开篇提到了UNIX的5种IO模型：</p>
-
 <ul>
-<li><p>1） 阻塞IO模型：在进程空间发起一次recvfrom操作，会经历两个过程，第一是系统会将数据包从磁盘/外部设备/网络拷贝至内核缓冲区
-，第二才是将内核缓冲区中的数据拷贝至用户空间（也就是用户进程），这两个过程会一直阻塞。</p></li>
-
-<li><p>2） 非阻塞IO模型：上述过程的第一步是非阻塞的，意味着如果内核缓冲区没有数据的话，是直接返回一个EWOULDBLOCK错误的；第二步
-是阻塞的，需要一直等待数据从内核缓冲区拷贝至用户进程。一般情况下，都是使用非阻塞IO模型轮询内核缓冲区，看里面有没有数据。</p></li>
-
-<li><p>3） IO复用模型：Linux提供的select、poll、epoll等系统调用，本质上是将<strong>多个IO的阻塞复用到一个对select系统调用的
+<li>
+<p>1） 阻塞IO模型：在进程空间发起一次recvfrom操作，会经历两个过程，第一是系统会将数据包从磁盘/外部设备/网络拷贝至内核缓冲区
+，第二才是将内核缓冲区中的数据拷贝至用户空间（也就是用户进程），这两个过程会一直阻塞。</p>
+</li>
+<li>
+<p>2） 非阻塞IO模型：上述过程的第一步是非阻塞的，意味着如果内核缓冲区没有数据的话，是直接返回一个EWOULDBLOCK错误的；第二步
+是阻塞的，需要一直等待数据从内核缓冲区拷贝至用户进程。一般情况下，都是使用非阻塞IO模型轮询内核缓冲区，看里面有没有数据。</p>
+</li>
+<li>
+<p>3） IO复用模型：Linux提供的select、poll、epoll等系统调用，本质上是将<strong>多个IO的阻塞复用到一个对select系统调用的
 阻塞上</strong>，进程将一个或者多个fd传给select系统调用，阻塞在select上，这样一次select操作就可以帮我们查询到多个fd是否处于
 就绪状态。其中，select、poll是顺序扫描fd是否就绪，且支持的fd数量是有限的，所以性能上受到了一些制约。epoll系统调用使用了
-<strong>基于事件驱动方式代替顺序扫描</strong>，性能更高。</p></li>
-
-<li><p>4） 信号驱动IO模型：先开启信号驱动IO功能，并通过系统调用sigaction执行一个信号处理函数（这个系统调用是非阻塞的），当数据
-准备就绪时，为这个进程产生一个SIGIO信号，通过信号回调的方式通知应用程序可以来读取数据了。</p></li>
-
-<li><p>5） 异步IO：这是真正意义上的异步，直接让内核帮我们完成上面的两个步骤，内核在整个操作完成以后，通知应用程序。注意这个和信号
-驱动IO是不一样的，信号驱动IO由内核通知我们<strong>什么时候可以开始一个IO操作</strong>；异步IO模型由内核通知我们<strong>IO操作已经完成</strong>。</p></li>
+<strong>基于事件驱动方式代替顺序扫描</strong>，性能更高。</p>
+</li>
+<li>
+<p>4） 信号驱动IO模型：先开启信号驱动IO功能，并通过系统调用sigaction执行一个信号处理函数（这个系统调用是非阻塞的），当数据
+准备就绪时，为这个进程产生一个SIGIO信号，通过信号回调的方式通知应用程序可以来读取数据了。</p>
+</li>
+<li>
+<p>5） 异步IO：这是真正意义上的异步，直接让内核帮我们完成上面的两个步骤，内核在整个操作完成以后，通知应用程序。注意这个和信号
+驱动IO是不一样的，信号驱动IO由内核通知我们<strong>什么时候可以开始一个IO操作</strong>；异步IO模型由内核通知我们<strong>IO操作已经完成</strong>。</p>
+</li>
 </ul>
-
 <p>　　前面提到了select有很多缺点，epoll做的改进主要有下面几个：</p>
-
 <ul>
-<li><p>1） 支持一个进程打开的socket描述符（fd）不受限制，当然，它受限于操作系统的最大文件句柄数，一般是2097152个，通常情况下
-这个值和系统内存关系较大。</p></li>
-
-<li><p>2） IO效率不会随着fd数目的增加而线性下降：传统的select每次调用的时候都会扫描注册在这个select上的全部的socket集合，
-但是在任意一个时刻，只有少量的socket是&rdquo;活跃的&rdquo;，这里活跃应该指的就是socket就绪，为此你的select系统调用，扫描全部的
+<li>
+<p>1） 支持一个进程打开的socket描述符（fd）不受限制，当然，它受限于操作系统的最大文件句柄数，一般是2097152个，通常情况下
+这个值和系统内存关系较大。</p>
+</li>
+<li>
+<p>2） IO效率不会随着fd数目的增加而线性下降：传统的select每次调用的时候都会扫描注册在这个select上的全部的socket集合，
+但是在任意一个时刻，只有少量的socket是&quot;活跃的&quot;，这里活跃应该指的就是socket就绪，为此你的select系统调用，扫描全部的
 socket是没有意义的，且会导致效率的下降。epoll<strong>就不存在这个问题</strong>，它只会对活跃的socket进行操作，这是因为在内核实现
 中epoll是根据每个fd上面的callback函数实现的，只有活跃的socket才会调用这个callback函数，其他idle状态的socket则不会。
-事实上，如果所有的socket都处于活跃状态，epoll并不比select效率高太多。</p></li>
+事实上，如果所有的socket都处于活跃状态，epoll并不比select效率高太多。</p>
+</li>
 </ul>
-
 <p>　　这里我复制另外的一个解释，场景：有100万个客户端同时与一个服务器进程保持着TCP连接。而每一时刻，通常只有几百上千个TCP连接是活跃的。
 在select/poll时代，服务器进程每次都把这100万个连接告诉操作系统(从用户态复制句柄数据结构到内核态)，让操作系统内核去查询这些套接字上是否有事件发生，轮询完后，再将句柄数据复制到用户态，
 让服务器应用程序轮询处理已发生的网络事件，这一过程资源消耗较大，因此，select/poll一般只能处理几千的并发连接。</p>
-
 <ul>
-<li><p>3） 使用mmap：无论是哪一种系统调用，内核都需要把FD消息通知给用户空间，这里就涉及到数据从内核复制到用户空间，epoll通过
-内核和用户空间mmap同一块内存来实现的，以尽可能的避免数据拷贝传输。</p></li>
-
-<li><p>4） epoll的API更加简单：包括创建一个epoll描述符，为每一个fd添加监听事件，阻塞等待监听的事件发生，关闭epoll描述符。
-这里需要注意的是，为了克服select的一些缺点，只是Linux选择了epoll这种实现方式，在freeBSD下有Kqueue等另外的实现方案。</p></li>
+<li>
+<p>3） 使用mmap：无论是哪一种系统调用，内核都需要把FD消息通知给用户空间，这里就涉及到数据从内核复制到用户空间，epoll通过
+内核和用户空间mmap同一块内存来实现的，以尽可能的避免数据拷贝传输。</p>
+</li>
+<li>
+<p>4） epoll的API更加简单：包括创建一个epoll描述符，为每一个fd添加监听事件，阻塞等待监听的事件发生，关闭epoll描述符。
+这里需要注意的是，为了克服select的一些缺点，只是Linux选择了epoll这种实现方式，在freeBSD下有Kqueue等另外的实现方案。</p>
+</li>
 </ul>
-
 <p>　　<strong>二、JAVA NIO</strong></p>
-
 <p>　　在传统的BIO编程模型中，我们常用的都是Socket和ServerSocket，通过ServerSocket的accept()方法来接受客户端发起的
 连接请求，并创建Socket实例，完成这一步操作后，相当于完成了TCP的三次握手，
 读写数据都是直接读写Socket的inputstream和outputstream。NIO中为了解决这个阻塞的问题，提出了通道的概念，与两个
 Socket相对应的就是SocketChannel和ServerSocketChannel，当然这两种通道都支持阻塞和非阻塞两种模式。</p>
-
 <p>　　仅仅有通道是不够的，在NIO类库中还加入了Buffer的概念，在面向流的IO的BIO中，读写数据都是直接针对stream对象的；NIO中
 读写数据都是通过通道读写到了buffer中，最常用的就是ByteBuffer。而且，流是单向的，一个流必须是InputStream或者
 OutputStream的子类，但是channel是双向的，<strong>它可以比流更好的映射底层操作系统的API</strong>，因为底层操作系统的通道就是全双工
 的，同时支持读写操作。</p>
-
 <p>　　这里面也简单写了一个关于异步IO的demo，可以好好看一下，虽然netty中并不使用异步IO的模式，感觉异步IO的编程模型本质上
 是在写各种各样的回调方法。</p>
-
 <p>　　<strong>三、netty的初步开发</strong></p>
-
 <p>　　NioEventLoopGroup是一个线程组，它包含了一组NIO线程，专门用于网络事件的处理，实际上它们就是Reactor线程组。服务端
 我们一般创建两个，一个专门用于服务端接受客户端的连接，另一个用于SocketChannel的读写。</p>
-
 <p>　　这里你需要理解netty内部一些组件的细则，比如ByteBuf和Java 中的ByteBuffer的区别是什么，Bootstrap类干了什么，
 pipeline和各类Handler之间的关系等。</p>
-
 <p>　　<strong>四、TCP的粘包和拆包</strong></p>
-
 <p>　　TCP是一个流协议，所谓流，就是一串没有界限的数据。TCP底层并不了解上层业务的具体含义，它收到的都是一串二进制，会根据TCP缓冲区的实际情况进行包的划分，所以在上层业务中，一个完整的包可能会被
 TCP拆分成多个包进行发送，也有可能把多个小的包封装为一个大的数据包发送。这就是粘包与拆包，它发生的原因主要有以下三个：</p>
-
 <ul>
 <li>1） 应用程序write的字节数大于套接字发送缓冲区的大小</li>
 <li>2） 进行MSS大小的TCP分段</li>
 <li>3） 以太网帧的payload大于MTU进行IP分片</li>
 </ul>
-
 <p>　　由于底层的TCP协议无法改变，只能从上层应用层的角度来设计相关协议解决这个问题，主要有以下几种解决方案：</p>
-
 <ul>
 <li>1、消息定长，比如约定每个报文的大小是固定长度字节，解码的时候，必须读这么多个字节才将其转换为消息；</li>
 <li>2、在包尾部增加某种固定分隔符，比如FTP协议使用回车换行符进行分割，<strong>回车换行符就是一种特殊的分隔符</strong>；</li>
 <li>3、将消息分为消息头和消息体，一般消息头中包含消息总长度的字段，这样多个消息体也可以处理。</li>
 </ul>
-
 <p>　　粘包和拆包的现象还是比较容易模拟出来的，在这本书的附属代码里有，既有客户端发往服务端的数据粘包，也有服务端返回给客户端的数据粘包现象。
 最简单的，可以利用netty自带的LineBasedFrameDecoder和StringDecoder这两个解码器，会自动将消息先按照行分割，然后转为String，
 你再自己的channelRead()方法中，读到的message便可以直接转为String了。需要做的就是将上面的解码器添加到pipeline中即可。</p>
-
 <p>　　LineBasedFrameDecoder的工作原理：它依次遍历ByteBuf中的可读字节，（注意netty提供的这个类和Java NIO中原生的ByteBuffer类
-的不同，ByteBuf同时包含读写指针，指向可读的位置和可写的位置，使用起来更加直接），判断是否遇到了&rdquo;\n&rdquo; 或者 &ldquo;\r\n&rdquo;，如果有，就以此
+的不同，ByteBuf同时包含读写指针，指向可读的位置和可写的位置，使用起来更加直接），判断是否遇到了&quot;\n&quot; 或者 &ldquo;\r\n&rdquo;，如果有，就以此
 位置为结束位置，从可读位置到此位置的字节就组成了一行，以换行符为结束标志的解码器，支持以<strong>携带结束符或者不携带结束符</strong>两种解码方式，
 同时支持配置单行的最大长度，表示如果读了这么长的字节以后还没遇到换行符，就会抛出异常，同时忽略之前读取到的异常字节流。</p>
-
 <p>　　StringDecoder就是将接收到的对象转为String，配合前面的解码器，就是按行进行切割，然后转为String。</p>
-
 <p>　　<strong>五、粘包和拆包之分隔符和定长解码器的使用</strong></p>
-
 <p>　　DelimiterBasedFrameDecoder：支持以某种固定分隔符来分隔消息，其实本质上和LineBasedFrameDecoder一样，没有太多需要特殊
 说明的。</p>
-
 <p>　　FixedLengthFrameDecoder：按照构造函数中设定的固定长度来解码，需要做的就是将上面的解码器添加到pipeline中即可。</p>
-
 <p>　　<strong>六、编解码技术</strong></p>
-
 <p>　　所谓编码，就是将Java对象编码为字节数组或者ByteBuffer对象，解码就是逆过程。也就是序列化和反序列化，序列化的主要目的也就是两个：
 一是网络传输，二是持久化存储。Java原生的序列化比较简单，只需要实现java.io.Serializable接口并生成序列化ID，这个类就可以通过
 java.io.ObjectInput和java.io.ObjectOutput来序列化和反序列化。但是我们在用RPC
 框架的时候，几乎不会使用Java原生的序列化方式进行消息的编解码和传输，主要是因为Java序列化有以下几个主要缺点：</p>
-
 <ul>
-<li><p>1） 无法跨语言：我们服务的提供方如果使用Java语言开发，那么我们发送出去的数据是用Java序列化方式编码的字节，客户端但是不一定使用
+<li>
+<p>1） 无法跨语言：我们服务的提供方如果使用Java语言开发，那么我们发送出去的数据是用Java序列化方式编码的字节，客户端但是不一定使用
 Java语言，它可能使用go、node等来调用你的服务，那么它就无法反序列化你的字节数组，所以要想实现一个跨语言调用的RPC框架，那么你的
-编解码方式必须要是语言无关的。</p></li>
-
-<li><p>2） 序列化后的字节流太大。</p></li>
-
-<li><p>3） 序列化性能太低。</p></li>
+编解码方式必须要是语言无关的。</p>
+</li>
+<li>
+<p>2） 序列化后的字节流太大。</p>
+</li>
+<li>
+<p>3） 序列化性能太低。</p>
+</li>
 </ul>
-
 <p>　　业界主流的编解码技术：1、Google的Protobuf（这个可以配合WTable中使用，将数据持久化）；2、Facebook的thrift；3、JBoss
 Marshalling。</p>
-
 <p>　　<strong>七、netty如何支持Java序列化</strong></p>
-
 <p>　　在netty中要将一个对象序列化为字节数组进行传输，或者是将字节流反序列化为Java对象，都还是比较简单的，也就是在pipeline中增加
 相应的编解码器就行，主要是ObjectDecoder和ObjectEncoder，一般情况下，我们在decode的时候，都需要指定一些ObjectDecoder的参
 数，比如如下代码：</p>
-
 <pre><code>    ch.pipeline()
         .addLast(
             new ObjectDecoder(
@@ -389,181 +366,130 @@ Marshalling。</p>
                     .weakCachingConcurrentResolver(this
                         .getClass()
                         .getClassLoader())));
-</code></pre>
-
-<p>　　第一个参数是单个对象序列化后的最大字节数组长度设置为1M，如果不设置这个，就可能出现异常字节流或者解码错位导致的内存溢出，这里和
+</code></pre><p>　　第一个参数是单个对象序列化后的最大字节数组长度设置为1M，如果不设置这个，就可能出现异常字节流或者解码错位导致的内存溢出，这里和
 我们上面用的一些固定长度或者固定分隔符的解码器一样，都需要设置一个最大长度；同时使用了<strong>weakCachingConcurrentResolver创建的
 WeakReferenceMap对类加载器进行缓存</strong>，它支持多线程并发访问，当虚拟机内存不足时，会释放缓存中的内存，防止内存泄露。</p>
-
 <p>　　<strong>八、Protobuf序列化</strong></p>
-
 <p>　　前面我们学习了Java自带序列化功能在netty中的实现，只需要将编解码器加入到pipeline中，相应的Java类实现Serializable接口即可，
 在channelRead()中收到的消息自动就被解码为相应的POJO对象了，现在来看一下Protobuf的编解码在netty中的实现，其实也很简单。</p>
-
 <p>　　attention：这一章可以学习一下protobuf文件生成类以后的相关build操作。</p>
-
 <pre><code>    ch.pipeline().addLast(
                 new ProtobufVarint32FrameDecoder());
     ch.pipeline().addLast(
                 new ProtobufDecoder(
                     SubscribeReqProto.SubscribeReq
                         .getDefaultInstance()));
-</code></pre>
-
-<p>　　
+</code></pre><p>　　
 　　如上代码，服务端添加的第一个解码器是ProtobufVarint32FrameDecoder，它主要用于半包处理；接下来添加ProtobufDecoder解码器
 ，它的参数是com.google.protobuf.MessageLite，实际上就是你需要解码的目标类是什么，这里我们都用protobuf工具将文件转换为了特定
 的类。必须要注意的是，ProtobufDecoder只负责解码，不支持读半包，因此在它之前必须要有能够处理半包的解码器，一般来说有几种选择：</p>
-
 <ul>
 <li>1） 使用netty提供的ProtobufVarint32FrameDecoder，处理半包消息；</li>
 <li>2） 继承netty提供的<strong>通用半包解码器LengthFieldBasedFrameDecoder</strong></li>
 <li>3） 继承ByteToMessageDecoder，自定义处理半包消息。</li>
 </ul>
-
 <p>　　事实上，上面我们只添加了相关的解码器，在将Java类发送出去的时候，我们还需要编码器，如下代码是使用了protobuf在netty中的默认编
 码器：</p>
-
 <pre><code>    ch.pipeline().addLast(
             new ProtobufVarint32LengthFieldPrepender());
     ch.pipeline().addLast(new ProtobufEncoder());
-</code></pre>
-
-<p>　　ProtobufVarint32LengthFieldPrepender和ProtobufEncoder都是netty中支持protobuf对象传输的默认编码器。</p>
-
+</code></pre><p>　　ProtobufVarint32LengthFieldPrepender和ProtobufEncoder都是netty中支持protobuf对象传输的默认编码器。</p>
 <p>　　<strong>十、基于netty的HTTP协议开发应用</strong></p>
-
 <p>　　HTTP是应用层协议，位于TCP之上，我们前面的工作本质上都是基于TCP协议的，数据都是转换为字节，直接通过socket来传输的，但是netty
 也支持基于HTTP协议开发应用，目前来看RPC框架都不会用这种方式，因为实在是没有必要在数据外面再包装一层HTTP相关的内容。但是web开发的
 主流协议是HTTP，所以学习了解一下基于netty进行HTTP服务端和客户端的开发也可以。</p>
-
 <p>　　基本上，使用netty开发HTTP服务端逻辑还是一样，本质上只是在于需要向pipeline中添加HTTP相关的解码编码器，比如，服务端需要先添加
 HTTP请求消息解码器HttpRequestDecoder，再添加HttpObjectAggregator解码器，作用是将多个消息转换为（聚合为）单一的
 FullHttpRequest或者FullHttpResponse。</p>
-
 <p>　　这一章的代码可以参考着看一下，但是可能实用性并不会太强了，毕竟使用netty来开发HTTP服务端和客户端，需要程序员做的事情太多了，
 各种编解码会比较繁杂，还是Spring MVC那一套比较合适。</p>
-
 <p>　　<strong>十一、基于netty的WebSocket协议开发应用</strong></p>
-
 <p>　　和HTTP一样，主要也就是在各种编解码器上有所不同，主要在于WebSocket是一个全双工的协议，相比于HTTP的半双工模式，它支持客户端和服务端建立连接后双向发送消息，不再是基于请求-响应式的了，主要用来
 代替轮询模式，本质上还是使用TCP连接传输数据。为了建立一个WebSocket连接，客户端浏览器首先要向服务端发送一个HTTP请求，表明是一个<strong>申请协议升级的HTTP请求</strong>，服务端返回响应后就表示连接建立成功了。</p>
-
 <p>　　<strong>十二、UDP协议开发应用</strong></p>
-
 <p>　　前面的我们说的所有协议底层都是基于TCP协议的，需要服务端先针对某个端口监听，然后客户端向服务端发起连接，等连接建立成功后，就可以互相传输数据了，这里是一次TCP的三次握手。但是UDP我们都说是面向无
 连接的，它在netty中和常规的基于TCP的开发所用的组件都不太一样，比如就不会用NioServerSocketChannel了，取而代之的是NioDatagramChannel。</p>
-
 <p>　　服务端创建channel的时候，是通过NioDatagramChannel来创建的，随后设置socket参数支持广播，最后设置业务处理handler。由于不存在客户端和服务端的实际连接，因此<strong>不需要为连接（ChannelPipeline）
 设置handler</strong>。</p>
-
 <p>　　<strong>十三、文件传输</strong></p>
-
 <p>　　在Java提供NIO之前，也就是我们传统的操作文件主要分为两大类：</p>
-
 <ul>
 <li>1） 基于字节流的InputStream和OutputStream</li>
 <li>2） 基于字符流的Reader和Writer</li>
 </ul>
-
 <p>　　有了NIO以后，新提供的FileChannel可以比较方便的通过channel的方式对文件进行IO操作，值得注意的是FileChannel并没有实现SelectableChannel接口，因此不能注册到selector中。FileChannel是一个
 连接到文件的通道，可以通过这个通道来读写文件，JDK1.7以前的FileChannel是同步阻塞的，JDK1.7对NIO类库进行升级，增加了<strong>异步非阻塞文件通道AsynchronousFileChannel</strong>。</p>
-
 <p>　　还需要注意的是FileChannel的打开方式和普通Channel不太一样，必须通过InputStream、OutputStream或者一个RandomAccessFile来获取。</p>
-
 <p>　　<strong>十四、私有协议开发</strong></p>
-
 <p>　　很多公司都有自己的RPC框架，搭配上zookeeper，实现服务发现，服务治理这一套内容。大量的RPC框架都采用netty作为网络通信组件，可能会自己实现一些序列化反序列化方式，约定相应的编解码协议，比如我们的
 RPC框架SCF，大体上就分为四部分内容：</p>
-
 <ul>
 <li>1） 服务端server，开发人员开发自己的业务逻辑服务</li>
 <li>2） 客户端client，调用方通过客户端调用特定的服务，客户端可以是其他平台，其他语言编写的</li>
 <li>3） Serializer：提供序列化方案，如何将你的数据序列化为二进制字节流</li>
 <li>4） Protocol：包括传输协议和数据协议，配合序列化方案一起使用</li>
 </ul>
-
 <p>　　绝大多数私有协议传输层都是基于TCP/IP，所以利用netty的NIO TCP协议栈可以比较方便的进行私有协议的定制开发。<strong>跨节点的远程服务调用</strong>，除了链路层的物理连接以外，还需要对请求和响应信息进行编码，
 在请求和响应消息本身之外，也需要携带一些其他信息，比如链路建立的握手请求及响应信息，链路检测的心跳信息等，这些所有的协议组合在一起，成为私有协议。</p>
-
 <p>　　这一部分里面，对于心跳，权限校验的设计可以认真思考一下，链路空闲时就发送心跳包，服务注册的时候也需要在服务内部和注册平台
 之间发送心跳包，来确保连接状态。</p>
-
 <p>　　再说一下，这个心跳的PING-PONG机制，在很多分布式场景下都会使用，比如Redis集群模式下，各个节点之间互相发送的心跳消息。</p>
-
 <p>　　在解码器部分，还使用到了netty自带的LengthFieldBasedFrameDecoder解码器，它支持自动的TCP粘包和拆包处理，只需要传递
 <strong>标识消息长度字段的偏移量 和 消息长度自身所占的字节数即可，使用起来还是比较方便的</strong>，当然你需要自己定义好你的消息类。</p>
-
 <p>　　<strong>十五、ByteBuf类</strong></p>
-
 <p>　　这一章开始学习一下netty相关的基础组件，首先是ByteBuf（缓冲区），在Java NIO中我们常用的是缓冲区是Buffer，这个
 <strong>抽象类</strong>还记得吗？有position、limit、capacity几个属性，通过flip方法来从写模式切换到读模式，每一种基础类型都有对应
 的缓冲区实现（Boolean除外）。从功能上ByteBuffer也能够满足NIO编程的需求了，但是netty还是自己实现了一个ByteBuf，因为
 Java NIO的ByteBuffer有一些缺陷：</p>
-
 <ul>
 <li>1） ByteBuffer的长度是固定的，一旦allocate完成后，就不能再改变了，不支持动态扩展和收缩</li>
 <li>2） 只有一个标识位置的指针position，在切换读写模式时需要手动flip、rewind或者clear，比较繁琐，容易出错</li>
 <li>3） API功能有限</li>
 </ul>
-
 <p>　　ByteBuf将读写指针拆开，读操作使用readerIndex，写操作使用writerIndex。一开始它们的值都是0，随着数据写入writerIndex开始增加，读取数据readerIndex开始增加，但是不会超过
 writerIndex。在读取之后，从0到readerIndex之间的数据就被视为discard的，调用discardReadBytes()就可以释放这部分空间，作用类似于ByteBuffer的compact()方法。readerIndex和
 writerIndex之间的数据可读，writerIndex和capacity之间的空间是可写的，这样就更加简单直观了。</p>
-
 <p>　　需要注意的是，调用一次ByteBuf的readInt()方法，readerIndex是增加4，这就取决于你实际读写类型所占的字节数。</p>
-
 <p>　　从内存分配区域的角度来看，ByteBuf主要分为两大类：</p>
-
 <ul>
 <li>（1） 堆内存字节缓冲区（HeapByteBuf）：内存的回收分配都是在JVM划分的堆上，分配和回收速度较快，当缓冲区对象不用后，可以被GC掉；缺点在于如果利用它进行socket IO的读写操作，则还需要
 多一次的内存复制，即<strong>将堆内存上对应缓冲区的数据拷贝到内核channel中</strong>，性能会略微下降。</li>
 <li>（2） 直接内存缓冲区（DirectByteBuf）：它是在堆外进行内存分配，也就是说JVM不管理这部分内存空间，是由操作系统来管理的。相对来说分配和回收速度要慢一些，但是将这个缓冲区的内容写入socket
 channel或者从socket channel中读取数据到DirectByteBuf时，少了一次内存复制，速度比堆内存快一点。如果你的数据包含在一个在堆上分配的缓冲区中，那么事实上，在通过套接字发送它之前，JVM将会在
 内部把你的缓冲区复制到一个直接缓冲区中。</li>
-<li>一般来说，经验表明，在IO通信线程读写缓冲区使用DirectByteBuf，而在后端业务消息编解码模块（handler中）使用堆内存缓冲区。</li>
+<li>
+<pre><code> 一般来说，经验表明，在IO通信线程读写缓冲区使用DirectByteBuf，而在后端业务消息编解码模块（handler中）使用堆内存缓冲区。
+</code></pre>
+</li>
 </ul>
-
 <p>　　从内存回收的角度来看，ByteBuf可以划分为基于对象池的ByteBuf和普通ByteBuf，基于对象池的ByteBuf就是可以重复利用分配好的ByteBuf对象，这一点的思路和线程池是一致的，省去了频繁创建和
 回收ByteBuf对象的开销，提升内存的使用效率，池化的思想也算是netty的核心思想之一了。</p>
-
 <p>　　AbstractByteBuf继承了ByteBuf，它内部维护了一个static的域leakDetector，所有的ByteBuf实例都共享同一个ResourceLeakDetector对象，用于检测ByteBuf是否泄漏。</p>
-
 <p>　　PooledByteBuf会比较复杂一些，它内部使用了很多自定义的数据结构来存储ByteBuf对象，来实现池化复用的功能，可以简单了解
 一下内部的几个组件，<strong>要深入理解还需要花很多功夫</strong>。</p>
-
 <ul>
 <li>（1）PoolArena：</li>
 </ul>
-
 <p>　　netty中的内存池实现类。一般来说，为了集中管理内存的释放和分配，一般框架都会通过预先申请一大块内存，
 然后通过提供一些API来管理这部分内存区域，这样后续申请内存时就不用再进行频繁的系统调用了，而是使用我们提供的这个API来管理，
 提高系统的性能，这个思想和线程池是一致的。预先申请的那一大块内存区域叫做Memory Arena。</p>
-
 <p>　　不同的框架，memory Arena的实现方式不一样，netty中PoolArena是由<strong>多个chunk组成的大块内存区域</strong>，每一个chunk
 由<strong>一个或多个Page组成</strong>，因此netty中对内存的管理主要就集中在管理组织chunk和page。</p>
-
 <ul>
 <li>（2）PoolChunk：</li>
 </ul>
-
 <p>　　Chunk主要用来组织和管理多个page的内存分配以及释放，chunk中的page被组织成一颗二叉树。对树的遍历往往采用深度优先的
 方法。</p>
-
 <ul>
 <li>（3）PoolSubpage：</li>
 </ul>
-
 <p>　　对于小于一个Page的内存，netty在Page中完成分配，每个Page会被切分成多个大小相等的多个存储块，存储块的大小由第一次
 申请的大小决定，一个Page只能用于分配第一次大小相等的内存。比如一个4字节的Page，如果第一次分配了1个字节的内存，那么这个
 Page后面都只能继续分配1字节的内存，因为这个Page的存储块大小已经确定了，就是1字节，如果想申请2字节的内存，那就必须找另一
 个Page。</p>
-
 <p>　　<strong>十六、Channel类</strong></p>
-
 <p>　　和上一章的ByteBuf类似，Java NIO中也有原生的Channel接口，并提供了SocketChannel和ServerSocketChannel，但是
 netty还是自己设计实现了一套Channel相关的接口。下面梳理几个值得注意的netty中Channel接口：</p>
-
 <ul>
 <li>（1） Channel read()，从当前channel中读取数据到第一个inbound缓冲区，如果数据读取成功，会触发<strong>ChannelHandler
 .channelRead(ChannelHandlerContext ctx, Object msg)事件</strong>，读取操作完成后，紧接着触发
@@ -580,16 +506,11 @@ channelReadComplete(ChannelHandlerContext ctx)事件，每一个业务的handler
 缓冲区的大小，TCP超时时间，是否重用地址等，这个channelMetadata就是对TCP参数提供元数据描述信息。</li>
 <li>（6） Channel parent()，父通道，accept方法产生的</li>
 </ul>
-
 <p>　　<strong>核心</strong>：网络IO操作会触发ChannelPipeline中的相关Handler的对应事件方法，netty基于事件驱动的，当channel进行
 IO操作的时候会产生相应的IO事件，然后驱动事件在ChannelPipeline中传播，有对应的ChannelHandler对事件进行拦截和处理。</p>
-
 <p>　　<strong>十七、ChannelPipeline和ChannelHandler类</strong></p>
-
 <p>　　这两个类也很重要，属于netty的核心，事件驱动的核心。需要配合着《netty 实战》一书学习，仅这本书是不太够的。</p>
-
 <p>　　<strong>十八、EventLoop和EventLoopGroup类</strong></p>
-
 <p>　　这一章主要学习的是netty的线程模型，事实上，它本质上是一个Reactor模型。关于单线程、多线程、主从模式下的多种
 Reactor模型，有很多博客。</p>
 
@@ -697,7 +618,7 @@ Reactor模型，有很多博客。</p>
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">

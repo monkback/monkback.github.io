@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
 <link rel="canonical" href="https://monkback.github.io/post/algorithm/leetcode/560-subarray-sum-equals-k/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
 
 
 
@@ -59,21 +59,15 @@
 <meta property="og:title" content="560 Subarray Sum Equals K" />
 <meta property="og:description" content="560-Subarray Sum Equals K 题目：Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: Input:nums = [1,1,1], k = 2 Output: 2 The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://monkback.github.io/post/algorithm/leetcode/560-subarray-sum-equals-k/" />
-<meta property="article:published_time" content="2019-11-01T18:12:07+08:00" />
-<meta property="article:modified_time" content="2019-11-01T18:12:07+08:00" />
+<meta property="og:url" content="https://monkback.github.io/post/algorithm/leetcode/560-subarray-sum-equals-k/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-11-01T18:12:07&#43;08:00" />
+<meta property="article:modified_time" content="2019-11-01T18:12:07&#43;08:00" />
+
 <meta itemprop="name" content="560 Subarray Sum Equals K">
-<meta itemprop="description" content="560-Subarray Sum Equals K 题目：Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: Input:nums = [1,1,1], k = 2 Output: 2 The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the">
-
-
-<meta itemprop="datePublished" content="2019-11-01T18:12:07&#43;08:00" />
+<meta itemprop="description" content="560-Subarray Sum Equals K 题目：Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: Input:nums = [1,1,1], k = 2 Output: 2 The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the"><meta itemprop="datePublished" content="2019-11-01T18:12:07&#43;08:00" />
 <meta itemprop="dateModified" content="2019-11-01T18:12:07&#43;08:00" />
 <meta itemprop="wordCount" content="630">
-
-
-
-<meta itemprop="keywords" content="Leetcode," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Leetcode," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="560 Subarray Sum Equals K"/>
 <meta name="twitter:description" content="560-Subarray Sum Equals K 题目：Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: Input:nums = [1,1,1], k = 2 Output: 2 The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the"/>
 
@@ -241,24 +235,15 @@
 
     
     <div class="post-content">
-      
-
-<h4 id="560-subarray-sum-equals-k">560-Subarray Sum Equals K</h4>
-
+      <h4 id="560-subarray-sum-equals-k">560-Subarray Sum Equals K</h4>
 <p>题目：Given an array of integers and an integer k, you need to find the total number of
 continuous subarrays whose sum equals to k.</p>
-
 <p>Example 1:</p>
-
 <p>Input:nums = [1,1,1], k = 2
-   Output: 2</p>
-
+Output: 2</p>
 <p>The length of the array is in range [1, 20,000].</p>
-
 <p>The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].</p>
-
 <p>老规矩，先来一个暴力破解的方法，遍历求累加和，判断是否为n，一看代码就能明白，如下：</p>
-
 <pre><code>public int subarraySum(int[] nums, int k) {
     int count = 0;
     for (int i = 0; i &lt; nums.length; i++) {
@@ -272,15 +257,10 @@ continuous subarrays whose sum equals to k.</p>
     return count;
 }
 </code></pre>
-
 <p>上述方法其实也能accept，执行结果如下：可以看到耗时还是比较长的</p>
-
 <p>执行耗时:112 ms,击败了27.18% 的Java用户   内存消耗:38.6 MB,击败了98.91% 的Java用户</p>
-
 <p>方法二：</p>
-
 <p>想到网上一种传统的解决这种问题的思路，利用一个累加和数组，其实思路比较简单，但是还不如暴力来得快呢</p>
-
 <pre><code>public int subarraySum(int[] nums, int k) {
     int[] sums = new int[nums.length];
     sums[0] = nums[0];
@@ -303,12 +283,9 @@ continuous subarrays whose sum equals to k.</p>
     return count;
 }
 </code></pre>
-
 <p>方法三：</p>
-
 <p>利用一个map保存当前累加和的值，和对应的count，但是在求解时还需要注意，我并没有理解透彻。可以看下代码，然后手动推导
 过程：</p>
-
 <pre><code>public int subarraySum(int[] nums, int k) {    
     int count = 0, sum = 0;
     Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
@@ -321,9 +298,7 @@ continuous subarrays whose sum equals to k.</p>
     return count;
 }
 </code></pre>
-
 <p>用map的查找功能来代替遍历数组(字符串)是一个常用的节省时间的方案，一旦需要频繁查找的时候，都可以往map上想一想。</p>
-
 <p>结果是：   执行耗时:15 ms,击败了44.44% 的Java用户    内存消耗:38.4 MB,击败了98.91% 的Java用户</p>
 
     </div>
@@ -430,7 +405,7 @@ continuous subarrays whose sum equals to k.</p>
     &copy;
     
       2017 -
-    2020
+    2021
     <span class="heart">
       
       <i class="iconfont">
