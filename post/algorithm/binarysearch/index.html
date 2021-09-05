@@ -409,7 +409,7 @@ high = middle - 1；如果arr[middle] &lt;= value，那又需要分情况讨论�
     }
 </code></pre><p>　　首先判断如果arr[middle] == value，那么直接返回。接下来就需要分情况讨论了，通过判断arr[low] 和 arr[middle]的大小关系，就能确定数组到底是前半段有序还是后半段有序了。假设arr[low] &lt;
 arr[middle]，那么意味着数组的前半段是有序的：接下来就是判断value在不在前半段区间中了，value &lt; arr[middle] &amp;&amp; value &gt;= arr[low]，这样就说明value确实在前半段区间中，改变high的值
-即可，否则就去后半段中查找。如果arr[low] &gt; arr[middle]，那就意味着数组的后半段是有序的，和尚庙一样的原理，接着划分一半的区间去查找。仔细梳理这个逻辑后，其实并不复杂。</p>
+即可，否则就去后半段中查找。如果arr[low] &gt; arr[middle]，那就意味着数组的后半段是有序的，和上面一样的原理，接着划分一半的区间去查找。仔细梳理这个逻辑后，其实并不复杂。</p>
 <p>　　<strong>六、变种六：LeetCode第4题，这个题比较复杂，求两个有序数组的中位数</strong></p>
 
     </div>

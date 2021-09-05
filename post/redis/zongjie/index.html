@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Zongjie - Records</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+
+  <meta name="description" content="《redis 设计与实现》这本书写的非常好，它先介绍了redis中使用的一些数据结构（数据结构是用来实现各种对象的）。 一种对象（比如strin" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+
+<link rel="canonical" href="https://monkback.github.io/post/redis/zongjie/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.3b89e17445140db2b240077653e323af93595d4ab5d2ef46029886eb36bf6588.css" integrity="sha256-O4nhdEUUDbKyQAd2U&#43;Mjr5NZXUq10u9GApiG6za/ZYg=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Zongjie" />
+<meta property="og:description" content="《redis 设计与实现》这本书写的非常好，它先介绍了redis中使用的一些数据结构（数据结构是用来实现各种对象的）。 一种对象（比如strin" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://monkback.github.io/post/redis/zongjie/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-04-06T10:49:41&#43;08:00" />
+<meta property="article:modified_time" content="2021-04-06T10:49:41&#43;08:00" />
+
+<meta itemprop="name" content="Zongjie">
+<meta itemprop="description" content="《redis 设计与实现》这本书写的非常好，它先介绍了redis中使用的一些数据结构（数据结构是用来实现各种对象的）。 一种对象（比如strin"><meta itemprop="datePublished" content="2021-04-06T10:49:41&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-06T10:49:41&#43;08:00" />
+<meta itemprop="wordCount" content="2302">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zongjie"/>
+<meta name="twitter:description" content="《redis 设计与实现》这本书写的非常好，它先介绍了redis中使用的一些数据结构（数据结构是用来实现各种对象的）。 一种对象（比如strin"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Records</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Records
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/post/">Blog</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://monkback.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Zongjie</h1>
+      
+      <div class="post-meta">
+        <time datetime="2021-04-06" class="post-time">
+          2021-04-06
+        </time>
+        
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>《redis 设计与实现》这本书写的非常好，它先介绍了redis中使用的一些数据结构（数据结构是用来实现各种对象的）。
+一种对象（比如string）在不同场景下，可能是由多种数据结构实现的。数据结构包括：</p>
+<ul>
+<li>
+<p>简单动态字符串（simple dynamic string， sds），用来实现string</p>
+</li>
+<li>
+<p>链表，用来实现列表（list）。当列表中包含了较多的元素，或者每一个元素都是比较长的字符串时，redis就会采用链表作为list的实现</p>
+</li>
+<li>
+<p>字典，用来实现hash。当一个hash中包含的键值对数目比较多，或者键值对中的元素都是比较长的字符串时，redis就会采用字典来
+实现hash；此外，redis的数据库也是使用字典来实现的，对数据库的增删改查操作就是在操作字典。</p>
+</li>
+<li>
+<p>跳跃表（skiplist）。它是一种有序的数据结构。用来实现zset（有序集合），如果一个有序集合包含的元素比较多，或者有
+序集合中的每个元素都是比较长的字符串时，就会采用跳表来实现。</p>
+</li>
+<li>
+<p>整数集合（intset）。用来实现集合（set），当一个集合中只包含整数值元素，并且包含的数目不多时，redis就会采用intset来
+实现集合。</p>
+</li>
+<li>
+<p>压缩列表（ziplist）。用来实现list或者hash：当一个list中只包含少量元素，并且每个元素都是较短的字符串或者小整数（对比
+链表部分），redis就会采用ziplist来实现list；当一个hash中只包含少量键值对，并且每个键值对的键和值都是较短的字符串或
+者小整数时（对比字典部分），redis就会采用ziplist来实现hash。</p>
+</li>
+</ul>
+<p>关于redis的各个对象：</p>
+<ul>
+<li>
+<p>字符串：字符串对象的编码方式可以是int（如果值是整数，且可以用long表示）、embstr（长度&lt;=32字节）、raw（大于32字节）</p>
+</li>
+<li>
+<p>列表：ziplist或者链表</p>
+</li>
+<li>
+<p>有序集合：可以用ziplist或者skiplist来实现。记住ziplist都是适用于小数据集场景即可；而对于使用skip list来实现
+有序集合的功能，本质上是通过一个zset的数据结构来实现的，它包括一个skip list和一个字典dict。跳表用来快速实现
+范围查找的功能，字典用来实现获取某一个值的score的功能。必须结合两者的特点才能同时实现这些功能。</p>
+</li>
+</ul>
+<p>redis使用引用计数来实现内存回收的。每个redisObject结构都有一个refcount属性，记录当前对象的引用计数。这个refcount还
+带有对象共享的作用。Redis只对包含整数值的字符串对象进行共享。</p>
+<p>redis的过期策略：两者相结合
+1、惰性删除策略（也就是key被访问时，从过期字典（和真正的数据字典平级）中查找key是否过期），如果是则从数据
+字典中删除。</p>
+<p>2、定期删除策略：activeExpireCycle函数，会被周期性的调用，它是随机地从过期字典中检查一部分key的过期时间，并删除其中
+过期的key。也就是类似采样的策略。随着activeExpireCycle函数的不断执行，服务器中的所有数据库都会被检查一遍，这时函数
+将current_db变量重置为0，然后再次开始新一轮的检查工作。</p>
+<p>需要注意的是：通常我们运行在主从模式下的redis服务器，如果是从服务器收到一个get的查询命令，那么从服务器会执行函数，发现
+这个key已经过期了，但是从服务器并不会删除这个key，而是继续将value返回给客户端。
+从服务器只有在接到主服务器发来的DEL命令之后，才会删除过期键。del命令是主服务器同步给从服务器的。</p>
+<p>redis的持久化：</p>
+<p>一、rdb持久化既可以手动进行，也可以根据服务器配置选项定期执行，主要是生成一个rdb文件。</p>
+<p>BGSAVE命令会派生出一个子进程，然后由子进程负责创建RDB文件，服务器进程（父进程）继续处理命令请求，而save命令会直接阻塞
+主进程。在执行BGSAVE期间，客户端发送的save命令以及BGSAVE命令都会被拒绝；如果客户端发送BGREWRITEAOF命令，那么会延迟
+到BGSAVE执行完成后再执行。因为这两个命令本质上都是由子进程在执行，不能同时执行只是性能方面的考虑。</p>
+<p>定期执行BGSAVE命令（即定期生成一个rdb文件）往往都是通过配置来实现的，这个配置的含义是：服务器在多少秒以内，对数据库执行
+了多少次修改操作，一旦符合这个条件，就执行一次rdb。</p>
+<p>这里又需要提到redis的周期性执行函数serverCron，可以理解这是一个定时任务，默认每隔100ms就执行一次，前面提到了这个函数
+的一个功能是定期去检查一部分key，看是否过期，过期就删除。这里它的第二个作用就是：检查save选项的配置是否满足条件，如果满足
+就执行BGSAVE命令。</p>
+<p>二、aof持久化</p>
+<p>Sentinel系统选举领头Sentinel的方法是对Raft算法的领头选举方法的实现</p>
+<p>redis的bitcount实现，这里相当于是计算一个二进制中1的个数，注意leetcode的计算汉明距离的题目。</p>
+<p>variable-precision SWAR算法</p>
+<p>一致性哈希算法</p>
+<p>如何保证缓存和数据库数据的一致性？</p>
+<p>redis的内存分配算法使用的是 jemalloc</p>
+<p>stream的消息队列，借鉴了很多kafka的设计思路，但是仍然没有被大规模使用。</p>
+<p>后续版本对列表数据结构进行了改造，使用 quicklist 代替了 ziplist 和 linkedlist。</p>
+<p>redis面试大全  ：
+1、https://baijiahao.baidu.com/s?id=1594341157941741587&amp;wfr=spider&amp;for=pc
+2、https://mp.weixin.qq.com/s/HEEhaVLNMGr4W06hPxWKjA</p>
+<p>索引条件下推！！！</p>
+
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/jvm/gc/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">垃圾回收器</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/java/basic-concurrency/">
+            <span class="next-text nav-default">Java基础-并发</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://monkback.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2017 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

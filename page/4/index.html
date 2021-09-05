@@ -216,6 +216,68 @@
   <header class="post-header">
     <h1 class="post-title">
       
+      <a class="post-link" href="/post/juc/object/">对象的初始化安全—论static和final</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-04-19" class="post-time">
+        2020-04-19
+      </time>
+      
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      我们知道，静态变量只会被初始化一次。事实上，一个类被JVM加载以后，该类的所有静态变量的值都是默认值(引用变量就是null ，boolean变
+    </div>
+    <div class="read-more">
+      <a href="/post/juc/object/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      <a class="post-link" href="/post/juc/singleton/">单例模式的几种实现方式</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2020-04-19" class="post-time">
+        2020-04-19
+      </time>
+      
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }
+    </div>
+    <div class="read-more">
+      <a href="/post/juc/singleton/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+  
+    <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
       <a class="post-link" href="/post/work/utf-8/">Utf 8</a>
     </h1>
     
@@ -491,68 +553,6 @@
 </article>
 
   
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/algorithm/leetcode/560-subarray-sum-equals-k/">560 Subarray Sum Equals K</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-11-01" class="post-time">
-        2019-11-01
-      </time>
-      
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      560-Subarray Sum Equals K 题目：Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k. Example 1: Input:nums = [1,1,1], k = 2 Output: 2 The length of the array is in range [1, 20,000]. The range of numbers in the array is [-1000, 1000] and the range of the
-    </div>
-    <div class="read-more">
-      <a href="/post/algorithm/leetcode/560-subarray-sum-equals-k/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
-    <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/work/completionservice/">一次关于CompletionService的使用</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-10-31" class="post-time">
-        2019-10-31
-      </time>
-      
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      背景 最近在项目里需要实现这样一个接口：从多个数据源分别查询不同的数据，再将所有的结果组装在一起，返回最终结果。本身上没有什么难点，只是这一段
-    </div>
-    <div class="read-more">
-      <a href="/post/work/completionservice/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-  
 </section>
 
 
@@ -596,6 +596,10 @@
       
       <li >
         <a href="/page/5/">5</a>
+      </li>
+      
+      <li >
+        <a href="/page/6/">6</a>
       </li>
       
     </ul>

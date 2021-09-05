@@ -6,7 +6,25 @@
     <description>Recent content in Posts on Records</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 20 Jan 2021 16:09:15 +0800</lastBuildDate><atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Apr 2021 11:27:08 +0800</lastBuildDate><atom:link href="https://monkback.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>垃圾回收器</title>
+      <link>https://monkback.github.io/post/jvm/gc/</link>
+      <pubDate>Mon, 26 Apr 2021 11:27:08 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/jvm/gc/</guid>
+      <description>1、zgc里面的着色指针以及读屏障 2、g1的过程 3、看下王勃的博客</description>
+    </item>
+    
+    <item>
+      <title>Zongjie</title>
+      <link>https://monkback.github.io/post/redis/zongjie/</link>
+      <pubDate>Tue, 06 Apr 2021 10:49:41 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/redis/zongjie/</guid>
+      <description>《redis 设计与实现》这本书写的非常好，它先介绍了redis中使用的一些数据结构（数据结构是用来实现各种对象的）。 一种对象（比如strin</description>
+    </item>
+    
     <item>
       <title>Java基础-并发</title>
       <link>https://monkback.github.io/post/java/basic-concurrency/</link>

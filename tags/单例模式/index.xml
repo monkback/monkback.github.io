@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>单例模式 on Records</title>
+    <link>https://monkback.github.io/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 单例模式 on Records</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 19 Apr 2020 13:48:54 +0800</lastBuildDate><atom:link href="https://monkback.github.io/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>单例模式的几种实现方式</title>
+      <link>https://monkback.github.io/post/juc/singleton/</link>
+      <pubDate>Sun, 19 Apr 2020 13:48:54 +0800</pubDate>
+      
+      <guid>https://monkback.github.io/post/juc/singleton/</guid>
+      <description>先看一下传统的double-check模式，代码如下： public class Singleton { private static volatile Singleton instance = null; private Singleton() {} public static Singleton getInstance() { if (instance == null) { synchronized (Singleton.class) { if (instance == null) { instance = new Singleton(); } } } return instance; } }</description>
+    </item>
+    
+  </channel>
+</rss>

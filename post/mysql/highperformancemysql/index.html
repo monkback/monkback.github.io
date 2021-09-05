@@ -66,7 +66,7 @@
 <meta itemprop="name" content="读MySQL相关书">
 <meta itemprop="description" content="总览 两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，"><meta itemprop="datePublished" content="2020-11-23T21:54:30&#43;08:00" />
 <meta itemprop="dateModified" content="2020-11-23T21:54:30&#43;08:00" />
-<meta itemprop="wordCount" content="61766">
+<meta itemprop="wordCount" content="61765">
 <meta itemprop="keywords" content="MySQL," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="读MySQL相关书"/>
 <meta name="twitter:description" content="总览 两年前就买了《高性能MySQL》这本书了，但是一直没有认真看，从今天开始阅读一遍本书，并做好笔记，这本书涵盖的是5.5版本的MySQL，"/>
@@ -1608,7 +1608,7 @@ innodb_flush_log_at_trx_commit的系统变量的值，该变量有3个可选的�
 </li>
 </ul>
 <h1 id="第二十一篇undo日志详解">第二十一篇：undo日志详解</h1>
-<p>　　前面大篇幅的redo log其实是解决了持久性问题，这一篇的undo log解决的我就是另一个问题了——<strong>原子性</strong>。事务需要保证原子性，也就是事务中的操作要么全部完成，要么什么也不做，所以为了支持回滚操作，那么
+<p>　　前面大篇幅的redo log其实是解决了持久性问题，这一篇的undo log解决的就是另一个问题了——<strong>原子性</strong>。事务需要保证原子性，也就是事务中的操作要么全部完成，要么什么也不做，所以为了支持回滚操作，那么
 必须记录下来做过改动的操作，为了回滚而记录的日志就叫做undo日志。</p>
 <h3 id="事务id">事务id</h3>
 <p>　　一个事务可以是一个只读或者读写事务，通过START TRANSACTION后面的修饰符来指定。如果在事务的执行过程中对某个表进行了增、删、改操作，那么InnoDB
